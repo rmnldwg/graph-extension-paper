@@ -1,0 +1,9 @@
+wdir: ../data
+frozen: true
+deps:
+- path: models/samples.hdf5
+  repo:
+    url: https://github.com/rmnldwg/lynference
+    rev: extended-base-v1
+outs:
+- path: extended-base-v1-samples.hdf5
