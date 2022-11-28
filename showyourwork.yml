@@ -31,10 +31,8 @@ datasets:
 
 # Custom file dependencies
 dependencies:
-  # src/scripts/my_script.py:
-  #   - src/data/dataset_for_my_script.dat
-  # src/tex/ms.tex:
-  #   - src/tex/stylesheet.tex
+  src/scripts/corner_plot_base_graph.py:
+    - src/data/extended-base-v1-samples.hdf5
 
 # Name of the `.tex` manuscript and corresponding `.pdf` article
 ms_name: ms

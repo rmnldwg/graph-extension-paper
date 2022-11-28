@@ -13,3 +13,6 @@ src/tex/figures/*
 # Miscellaneous
 __pycache__
 *.synctex.gz
+
+# Virtual environment for local use
+.venv
