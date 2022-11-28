@@ -1,6 +1,6 @@
 <p align="center">
 <a href="https://github.com/showyourwork/showyourwork">
-<img width = "450" src="https://raw.githubusercontent.com/showyourwork/.github/main/images/showyourwork.png" alt="showyourwork"/>
+<img width = "250" src="https://raw.githubusercontent.com/rmnldwg/graph-extension/main/src/static/showyourwork.png" alt="showyourwork"/>
 </a>
 <br>
 <br>
@@ -14,5 +14,7 @@
 <img src="https://img.shields.io/badge/article-pdf-blue.svg?style=flat" alt="Read the article"/>
 </a>
 </p>
+
+# Modelling Lymphatic Metastatic Progression in HNSCC: Extending the Graph
 
 An open source scientific article created using the [showyourwork](https://github.com/showyourwork/showyourwork) workflow.
