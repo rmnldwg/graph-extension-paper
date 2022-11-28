@@ -1,6 +1,6 @@
 <p align="center">
 <a href="https://github.com/showyourwork/showyourwork">
-<img width = "250" src="https://raw.githubusercontent.com/rmnldwg/graph-extension/main/src/static/showyourwork.png" alt="showyourwork"/>
+<img width = "250" src="./src/static/showyourwork.png" alt="showyourwork"/>
 </a>
 <br>
 <br>
