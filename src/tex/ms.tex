@@ -2,29 +2,48 @@
 \documentclass[twocolumn]{aastex631}
 \usepackage{showyourwork}
 
+% Glossaries
+\usepackage[acronym,toc]{glossaries}
+\newcommand*\myglsentry[1]{%
+  \protect\ifglsused{#1}{%
+    \glsentryshort{#1}%
+  }{%
+    \glsentrylong{#1}%
+  }%
+}
+\newacronym{scc}{SCC}{squamous cell carcinoma}
+\newacronym{hnscc}{HNSCC}{head and neck \myglsentry{scc}}
+\newacronym{opscc}{OPSCC}{oropharyngeal \myglsentry{scc}}
+\newacronym{ctv}{CTV}{clinical target volume}
+\newacronym{ctv-n}{CTV-N}{elective \myglsentry{ctv}}
+\newacronym{lnl}{LNL}{lymph node level}
+\newacronym{hmm}{HMM}{hidden Markov model}
+\newacronym{rv}{RV}{random variable}
+\newacronym{dag}{DAG}{directed acyclic graph}
+\newacronym{mcmc}{MCMC}{Markov chain Monte Carlo}
+\newacronym{ti}{TI}{thermodynamic integration}
+\newacronym{bic}{BIC}{Bayesian information criterion}
+
+
 % Begin!
 \begin{document}
 
 % Title
-\title{An open source scientific article}
+\title{Modelling the Lymphatic Metastatic Progression Pathways of OPSCC from Multi-Institutional Datasets}
 
 % Author list
-\author{@rmnldwg}
+\author{Roman Ludwig}
+\author{Jean-Marc Hoffmann}
+\author{Bertrand Pouymayou}
+\author{Panagiotis Balermpas}
+\author{Lauence Bauwens}
+\author{Vincent Grégoire}
+\author{Roland Giger}
+\author{Jan Unkelbach}
 
 % Abstract with filler text
 \begin{abstract}
-    Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-    Ut purus elit, vestibulum ut, placerat ac, adipiscing vitae, felis.
-    Curabitur dictum gravida mauris, consectetuer id, vulputate a, magna.
-    Donec vehicula augue eu neque, morbi tristique senectus et netus et.
-    Mauris ut leo, cras viverra metus rhoncus sem, nulla et lectus vestibulum.
-    Phasellus eu tellus sit amet tortor gravida placerat.
-    Integer sapien est, iaculis in, pretium quis, viverra ac, nunc.
-    Praesent eget sem vel leo ultrices bibendum.
-    Aenean faucibus, morbi dolor nulla, malesuada eu, pulvinar at, mollis ac.
-    Curabitur auctor semper nulla donec varius orci eget risus.
-    Duis nibh mi, congue eu, accumsan eleifend, sagittis quis, diam.
-    Duis eget orci sit amet orci dignissim rutrum.
+    The \gls{ctv-n} definition in \gls{hnscc} is currently based mostly on the prevalence of lymphatic metastases in different \glspl{lnl} based on the primary tumor location. In this work, we present an extension to a probabilistic model for lymphatic metastatic spread developed earlier that can quantify the risk for microscopic nodal involvement based on individual diagnoses. The extension is based on the same formalism of \glspl{hmm} as the original model, but in addition to the \glspl{lnl} I, II, III, and IV, it also covers the \glspl{lnl} V and VII of the ipsilateral neck. Moreover, we infer which pathways of lymphatic spread to model from clinical lymphatic progression patterns of 681 patients from three institutions. The extended model may allow for a more personalized \gls{ctv-n} definition based on a patient's individual state of disease. The \gls{hmm} uses a collection of hidden binary \glspl{rv} -- one for each \gls{lnl} -- to model a patient's state of lymphatic involvement. Clinical diagnoses and/or pathological examinations of resected \glspl{lnl} represent the observed binary \glspl{rv} corresponding to the unobservable true state of nodal disease. A \gls{dag} with parametrized edges is used to compute the transition matrix of the \gls{hmm} and consequently the (log-)likelihood of the diagnoses of 681 patients, given a set of spread parameters. Based on the defined likelihood function, \gls{mcmc} sampling is then used to infer a distribution over the model's parameters. T-category is model by assuming that, on average, patients with late T-category tumors are diagnosed at a later time compared to patients with early T-category tumors. Using \gls{ti} and the \gls{bic} we compare models based on different \glspl{dag} and demonstrate the accuracy and precision of the best-performing model. When extended to the contralateral side, this model may form the basis of future guidelines of elective \gls{ctv} definition.
 \end{abstract}
 
 % Main body with filler text
@@ -50,7 +69,12 @@ Donec aliquet, tortor sed accumsan bibendum, erat ligula aliquet magna.
 Morbi ac orci et nisl hendrerit mollis, suspendisse ut massa, cras nec ante.
 Pellentesque a nulla cum sociis natoque penatibus et magnis dis parturient.
 Aliquam tincidunt urna, nulla ullamcorper vestibulum.
-Pellentesque cursus luctus mauris \citep{Luger2021}.
+Pellentesque cursus luctus mauris \cite{luger_mapping_2021}.
+
+\section{Previous Work}
+\label{sec:previous_work}
+
+The \gls{hmm} presented in this work is based on the 
 
 \begin{figure}
     \script{corner_plot_base_graph.py}

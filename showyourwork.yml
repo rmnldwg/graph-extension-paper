@@ -77,7 +77,7 @@ stamp:
   # Horizontal position in inches from right edge of paper
   xpos: 0.50
   # Vertical position in inches from top edge of paper
-  ypos: 0.50
+  ypos: 0.25
   # Display of the repo URL in the stamp
   url:
     # Show the URL?
