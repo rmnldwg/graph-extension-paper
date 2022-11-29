@@ -31,8 +31,8 @@ datasets:
 
 # Custom file dependencies
 dependencies:
-  src/scripts/corner_plot_base_graph.py:
-    - src/data/extended-base-v1-samples.hdf5
+  src/scripts/base_graph_corner_plot.py:
+    - src/data/base_graph_samples.hdf5
 
 # Name of the `.tex` manuscript and corresponding `.pdf` article
 ms_name: ms

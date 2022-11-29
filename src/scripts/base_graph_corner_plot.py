@@ -2,6 +2,9 @@
 Render a corner plot of all 1D and 2D marginals of the sampled posterior distribution
 over the spread parameters of the base graph model.
 """
+import warnings
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 from corner import corner
 from emcee.backends import HDFBackend
@@ -15,12 +18,13 @@ class Namespace:
         self.__dict__.update(**kwargs)
 
 
-if "snakemake" not in locals():
-    snakemake = Namespace(
-        input=paths.data / "extended-base-v1-samples.hdf5",
-        thin=10,
-        output=paths.figures / "extended-base-v1-corner.png"
-    )
+# if "snakemake" not in locals():
+#     warnings.warn("Snakemake did not provide params.")
+#     snakemake = Namespace(
+#         input=paths.data / "base_graph_samples.hdf5",
+#         thin=10,
+#         output=paths.figures / Path(__file__).with_suffix(".png")
+#     )
 
 
 if __name__ == "__main__":

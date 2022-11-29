@@ -1,5 +1,11 @@
-rule extended_base_v1_samples:
+rule get_base_graph_samples:
     output:
-        "src/data/extended-base-v1-samples.hdf5"
+        "src/data/base_graph_samples.hdf5"
     shell:
-        "dvc update src/scripts/extended-base-v1-samples.hdf5.dvc"
+        "dvc update {output}.dvc"
+
+rule get_base_graph_prevalences:
+    output:
+        "src/data/base_graph_prevalences.hdf5"
+    shell:
+        "dvc update {output}.dvc"
