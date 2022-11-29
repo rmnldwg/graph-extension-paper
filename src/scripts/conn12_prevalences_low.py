@@ -6,6 +6,7 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 from lyscripts.plot.utils import Histogram, Posterior, draw, COLORS, get_size
+from tueplots import bundles
 
 import paths
 from constants import linewidth_in_cm
@@ -18,6 +19,7 @@ OUTPUT = (paths.figures / Path(__file__).name).with_suffix(".png")
 
 
 if __name__ == "__main__":
+    plt.rcParams.update(bundles.icml2022())
     fig, axes = plt.subplots(figsize=get_size(width=linewidth_in_cm))
 
     early_12_panel = [
@@ -26,12 +28,18 @@ if __name__ == "__main__":
             dataname="I/early",
             color="gray",
             hatch=r"////",
+            histtype="step",
+            linewidth=1.5,
+            alpha=1.,
         ),
         Histogram.from_hdf5(
             filename=BASE_GRAPH,
             dataname="InotII/early",
             color="gray",
             hatch=r"\\\\",
+            histtype="step",
+            linewidth=1.5,
+            alpha=1.,
         ),
         Histogram.from_hdf5(
             filename=ADD12,
@@ -46,4 +54,4 @@ if __name__ == "__main__":
     ]
 
     draw(axes, contents=early_12_panel)
-    plt.savefig(OUTPUT, dpi=400)
+    plt.savefig(OUTPUT, dpi=300)
