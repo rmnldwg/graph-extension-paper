@@ -16,3 +16,6 @@ __pycache__
 
 # Virtual environment for local use
 .venv
+
+# VS Code
+.vscode

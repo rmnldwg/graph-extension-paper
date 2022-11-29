@@ -1,11 +1,7 @@
-rule get_base_graph_samples:
+rule get_hdf5_files:
+    input:
+        "src/scripts/{filename}.hdf5.dvc"
     output:
-        "src/data/base_graph_samples.hdf5"
+        "src/data/{filename}.hdf5"
     shell:
-        "dvc update {output}.dvc"
-
-rule get_base_graph_prevalences:
-    output:
-        "src/data/base_graph_prevalences.hdf5"
-    shell:
-        "dvc update {output}.dvc"
+        "dvc update {input}"
