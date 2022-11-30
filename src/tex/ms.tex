@@ -1,11 +1,12 @@
 % Define document class
 \documentclass[twocolumn]{aastex631}
 \usepackage{showyourwork}
+\usepackage{multirow}
 
 % Glossaries
 \usepackage[acronym,toc]{glossaries}
 \newcommand*\myglsentry[1]{%
-  \protect\ifglsused{#1}{%
+  \protected\ifglsused{#1}{%
     \glsentryshort{#1}%
   }{%
     \glsentrylong{#1}%
@@ -23,6 +24,11 @@
 \newacronym{mcmc}{MCMC}{Markov chain Monte Carlo}
 \newacronym{ti}{TI}{thermodynamic integration}
 \newacronym{bic}{BIC}{Bayesian information criterion}
+\newacronym{bn}{BN}{Bayesian network}
+\newacronym{ct}{CT}{computed tomography}
+\newacronym{mri}{MRI}{magnetic resonance imaging}
+\newacronym{pet}{PET}{positron emission tomography}
+\newacronym{fna}{FNA}{fine needle aspiration}
 
 
 % Begin!
@@ -41,44 +47,72 @@
 \author{Roland Giger}
 \author{Jan Unkelbach}
 
-% Abstract with filler text
+% Abstract
 \begin{abstract}
-    The \gls{ctv-n} definition in \gls{hnscc} is currently based mostly on the prevalence of lymphatic metastases in different \glspl{lnl} based on the primary tumor location. In this work, we present an extension to a probabilistic model for lymphatic metastatic spread developed earlier that can quantify the risk for microscopic nodal involvement based on individual diagnoses. The extension is based on the same formalism of \glspl{hmm} as the original model, but in addition to the \glspl{lnl} I, II, III, and IV, it also covers the \glspl{lnl} V and VII of the ipsilateral neck. Moreover, we infer which pathways of lymphatic spread to model from clinical lymphatic progression patterns of 681 patients from three institutions. The extended model may allow for a more personalized \gls{ctv-n} definition based on a patient's individual state of disease. The \gls{hmm} uses a collection of hidden binary \glspl{rv} -- one for each \gls{lnl} -- to model a patient's state of lymphatic involvement. Clinical diagnoses and/or pathological examinations of resected \glspl{lnl} represent the observed binary \glspl{rv} corresponding to the unobservable true state of nodal disease. A \gls{dag} with parametrized edges is used to compute the transition matrix of the \gls{hmm} and consequently the (log-)likelihood of the diagnoses of 681 patients, given a set of spread parameters. Based on the defined likelihood function, \gls{mcmc} sampling is then used to infer a distribution over the model's parameters. T-category is model by assuming that, on average, patients with late T-category tumors are diagnosed at a later time compared to patients with early T-category tumors. Using \gls{ti} and the \gls{bic} we compare models based on different \glspl{dag} and demonstrate the accuracy and precision of the best-performing model. When extended to the contralateral side, this model may form the basis of future guidelines of elective \gls{ctv} definition.
+    The \gls{ctv-n}\glsunset{ctv} definition in \gls{hnscc}\glsunset{scc} is currently based mostly on the prevalence of lymphatic metastases in different \glspl{lnl} based on the primary tumor location. In this work, we present an extension to a probabilistic model for lymphatic metastatic spread developed earlier that can quantify the risk for microscopic nodal involvement based on individual diagnoses. The extension is based on the same formalism of \glspl{hmm} as the original model, but in addition to the \glspl{lnl} I, II, III, and IV, it also covers the \glspl{lnl} V and VII of the ipsilateral neck. Moreover, we infer which pathways of lymphatic spread to model from clinical lymphatic progression patterns of 681 patients from three institutions. The extended model may allow for a more personalized \gls{ctv-n} definition based on a patient's individual state of disease. The \gls{hmm} uses a collection of hidden binary \glspl{rv} -- one for each \gls{lnl} -- to model a patient's state of lymphatic involvement. Clinical diagnoses and/or pathological examinations of resected \glspl{lnl} represent the observed binary \glspl{rv} corresponding to the unobservable true state of nodal disease. A \gls{dag} with parametrized edges is used to compute the transition matrix of the \gls{hmm} and consequently the (log-)likelihood of the diagnoses of 681 patients, given a set of spread parameters. Based on the defined likelihood function, \gls{mcmc} sampling is then used to infer a distribution over the model's parameters. T-category is model by assuming that, on average, patients with late T-category tumors are diagnosed at a later time compared to patients with early T-category tumors. Using \gls{ti} and the \gls{bic} we compare models based on different \glspl{dag} and demonstrate the accuracy and precision of the best-performing model. When extended to the contralateral side, this model may form the basis of future guidelines of elective \gls{ctv} definition.
 \end{abstract}
 
-% Main body with filler text
+% Main body
 \section{Introduction}
 \label{sec:intro}
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-Ut purus elit, vestibulum ut, placerat ac, adipiscing vitae, felis.
-Curabitur dictum gravida mauris, consectetuer id, vulputate a, magna.
-Donec vehicula augue eu neque, morbi tristique senectus et netus et.
-Mauris ut leo, cras viverra metus rhoncus sem, nulla et lectus vestibulum.
-Phasellus eu tellus sit amet tortor gravida placerat.
-Integer sapien est, iaculis in, pretium quis, viverra ac, nunc.
-Praesent eget sem vel leo ultrices bibendum.
-Aenean faucibus, morbi dolor nulla, malesuada eu, pulvinar at, mollis ac.
-Curabitur auctor semper nulla donec varius orci eget risus.
-Duis nibh mi, congue eu, accumsan eleifend, sagittis quis, diam. I want to know the \the\linewidth
+When treating cancer, either with radiotherapy or via surgery, the aim is to irradiate or resect as much of the present malignancies as possible. This includes the primary tumor mass and metastases that are sufficiently large to be detected using in-vivo imaging modalities such as \gls{ct}, \gls{mri}, or \gls{pet}. But it also includes regions of possible microscopic spread, which these modalities cannot detect, to increase the patient's probability of cure \cite{poortmans_internal_2020,murthy_prostate-only_2021}. Microscopic disease can currently only be observed by a pathological examination of the tissue. Consequently, clinicians that are presented with cancer patients need to routinely assess the risk of microscopic involvement in parts of the body that appear unsuspicious.
 
-Nam dui ligula, fringilla a, euismod sodales, sollici- tudin vel, wisi.
-Morbi auctor lorem non justo, nam lacus libero, pretium at, lobortis vitae.
-Donec aliquet, tortor sed accumsan bibendum, erat ligula aliquet magna.
-Morbi ac orci et nisl hendrerit mollis, suspendisse ut massa, cras nec ante.
-Pellentesque a nulla cum sociis natoque penatibus et magnis dis parturient.
-Aliquam tincidunt urna, nulla ullamcorper vestibulum.
-Pellentesque cursus luctus mauris \cite{luger_mapping_2021}.
+Since in this work we consider \gls{hnscc}, which frequently spreads through the lymphatic system to form regional nodal metastases, 
 
 \section{Previous Work}
 \label{sec:previous_work}
 
-The \gls{hmm} presented in this work is based on the 
+We have introduced a probabilistic model for lymphatic metastatic tumor progression based on \glspl{bn} in \cite{pouymayou_bayesian_2019} and based off of this an improved model using \glspl{hmm} in \cite{ludwig_hidden_2021}. We will briefly recap the \acrlong{hmm} below.
+
+A patient's state of (hidden) lymphatic involvement at time $t$ is described as a collection of binary \glspl{rv}, one for each of the $V$ \glspl{lnl}:
+%
+\begin{equation}
+    \mathbf{X}[t] = \left( X_v[t] \right) \qquad v \in \left\{ 1,2, \ldots, V \right\}
+\end{equation}
+%
+Where each of the \glspl{lnl} can be in the state $X_v=0$ (\texttt{FALSE}), meaning \gls{lnl} $v$ is healthy, or in the state $X_v=1$ (\texttt{TRUE}), indicating the \gls{lnl} harbors metastases.
+
+The transition from one time-step to another is governed by the transition probability $P\left( \mathbf{X}[t+1]=\boldsymbol{\xi}_i \mid \mathbf{X}[t]=\boldsymbol{\xi}_j \right)$, which can conveniently be collected into a transition matrix when we enumerate all $2^V$ distinct possible states $\boldsymbol{\xi}_i$ with $i \in \left\{ 1,2, \ldots, 2^V \right\}$ of lymphatic involvement:
+%
+\begin{equation}
+    \mathbf{A} = \left( A_{ij} \right) = \left( P\left( \mathbf{X}[t+1]=\boldsymbol{\xi}_i \mid \mathbf{X}[t]=\boldsymbol{\xi}_j \right) \right)
+\end{equation}
+%
+Diagnosis and true state of a patient are formally connected via the sensitivity $s_N$ and specificity $s_P$ of the used diagnostic modality. In clinical practice, these modalities are \gls{ct}, \gls{mri}, or \gls{pet} scan, but it may also include information from biopsies after a \gls{fna} or other techniques to detect lymphatic metastases. For each \gls{lnl} $v$ the conditional probability table of $P\left( Z_v \mid X_v \right)$ looks like this:
+
+\begin{center}
+\begin{tabular}{|cc|cc|}
+    \hline
+    & & \multicolumn{2}{c|}{$X$} \\
+    & & 0 & 1 \\
+    \hline
+    \multirow{2}{*}{$Z$} & 0 & $s_p$ & $1 - s_N$ \\
+    & 1 & $1 - s_P$ & $s_N$ \\
+    \hline
+\end{tabular}
+\end{center}
+
+Consequently, the conditional probability to observe a diagnosis $\mathbf{Z}=\boldsymbol{\zeta}_\ell$, given a hidden involvement state $\mathbf{X}=\boldsymbol{\xi}_k$ is a matrix $\mathbf{B}$ made up of products of terms from the table above:
+%
+\begin{equation}
+    \mathbf{B} = \left( B_{k\ell} \right) = \prod_{v=1}^V P\left( Z_v = \zeta_{\ell v} \mid X_v[t_\text{D}] = \xi_{kv} \right)
+\end{equation}
+%
+We define the time $t=0$ to be the moment just before a patient's tumor formed, and hence $X_v[t=0]=0 \,\,\, \forall v$. However, using this definition, we cannot know how many time-steps have passed until $t_\text{D}$, when the patient was diagnosed with cancer. We can only make the assumption that a patients with an earlier T-category tumor was \emph{probably} diagnosed after fewer time-steps than a patient with a late T-category tumor. We can use this information by marginalizing over the diagnose times $t_\text{D}$ of patients in different T-categories using different prior distributions over the diagnose time. E.g., $P_\text{early}\left( t_\text{D} \right)$ for early T-category patients (T1 \& T2) and $P_\text{late}\left( t_\text{D} \right)$ for late T-category patients (T3 \& T4).
+
+The main task of of personalizing the \gls{ctv-n} definition is now to infer the probability of each of the possible states $\boldsymbol{\xi}_k$ given a diagnosis $\mathbf{Z}=\boldsymbol{\zeta}_\ell$. Using Bayes' theorem, we get
+%
+\begin{equation}
+    P\left( \mathbf{X}=\boldsymbol{\xi}_k \mid \mathbf{Z}=\boldsymbol{\zeta}_\ell \right) = \frac{P\left( \boldsymbol{\zeta}_\ell \mid \boldsymbol{\xi}_k \right) P\left( \boldsymbol{\xi}_k \right)}{\sum_{r=1}^{2^V} P\left( \boldsymbol{\zeta}_\ell \mid \boldsymbol{\xi}_r \right) P\left( \boldsymbol{\xi}_r \right) }
+\end{equation}
+%
+The model we are describing here will yield an estimate of $P\left( \boldsymbol{\xi}_k \right)$
 
 \begin{figure}
     \script{conn12_prevalences_low.py}
     \begin{centering}
-        \includegraphics[width=\linewidth]{figures/conn12_prevalences_low.png}
+        \includegraphics[width=\textwidth]{figures/conn12_prevalences_low.png}
         \caption{Testing this showyourwork thingy}
         \label{fig:conn12_prevalences_low}
     \end{centering}
