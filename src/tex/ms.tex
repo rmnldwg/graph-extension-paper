@@ -6,7 +6,7 @@
 % Glossaries
 \usepackage[acronym,toc]{glossaries}
 \newcommand*\myglsentry[1]{%
-  \protected\ifglsused{#1}{%
+  \ifglsused{#1}{%
     \glsentryshort{#1}%
   }{%
     \glsentrylong{#1}%
