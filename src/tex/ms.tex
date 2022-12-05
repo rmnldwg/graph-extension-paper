@@ -2,6 +2,8 @@
 \documentclass[twocolumn]{aastex631}
 \usepackage{showyourwork}
 \usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{cleveref}
 
 % Glossaries
 \usepackage[acronym,toc]{glossaries}
@@ -82,28 +84,34 @@ The transition from one time-step to another is governed by the transition proba
     \mathbf{A} = \left( A_{ij} \right) = \left( P\left( \mathbf{X}[t+1]=\boldsymbol{\xi}_i \mid \mathbf{X}[t]=\boldsymbol{\xi}_j \right) \right)
 \end{equation}
 %
-The term inside the brackets describes the probability to transition from the hidden state of lymphatic involvement $\boldsymbol{\xi}_j$ to the state $\boldsymbol{\xi}_i$ within between the time $t$ and $t+1$. We can use a \gls{dag} as depicted in
-
+The term $P\left( \boldsymbol{\xi}_i \mid \boldsymbol{\xi}_j \right)$ describes the probability to transition from the hidden state of lymphatic involvement $\boldsymbol{\xi}_j$ to the state $\boldsymbol{\xi}_i$ within between the time $t$ and $t+1$. Using a \gls{dag} as depicted in \cref{fig:graph_with_obs}, we can parameterize this transition probability in the following way:
+%
+\begin{equation}
+    P\left( \boldsymbol{\xi}_i \mid \boldsymbol{\xi}_j \right) = \prod_{v \leq V} Q\left( \xi_{iv} ; \xi_{jv} \right) P \left( \xi_{iv} \mid \left\{ \xi_{jr} \right\}_{r \in \operatorname{pa}(v)} \right)^{1 - \xi_{jv}}
+\end{equation}
+%
+In this equation, we have denoted \glspl{lnl} that are parents of \gls{lnl} $v$ with the symbol $r\in\operatorname{pa}(v)$. Also, $\xi_{iv}$ denotes the value that \gls{lnl} $v$ takes on when the patient is in state $\boldsymbol{\xi}_i$.
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth]{figures/graph_with_obs.png}
-    \caption{\Gls{dag} representing a possible abstraction of the lymphatic network comprising the tumor (red shaded circle) and \glspl{lnl} I through IV as hidden binary \glspl{rv} (blue outlined circles). Attached to each of these is the corresponding observed \gls{rv} (orange shaded squares). Lymphatic flow is depicted in the form of parameterized arrows (red and blue) that represent the probability of spread along the respective arc per time-step. Sensitivity and specificity connect the hidden \glspl{rv} to the diagnosis (orange arrows).}
+    \includegraphics[width=0.6\linewidth]{figures/graph_with_obs.png}
+    \caption{\Gls{dag} representing a possible abstraction of the lymphatic network comprising the tumor (red shaded circle) and \glspl{lnl} I through IV as hidden binary \glspl{rv} (blue outlined circles). Attached to each of these is the corresponding observed \gls{rv} (orange shaded squares). Lymphatic flow is depicted in the form of parameterized arrows (red and blue) that represent the probability of spread along the respective arc per time-step. Sensitivity and specificity (orange arrows) connect the hidden \glspl{rv} to the diagnosis.}
     \label{fig:graph_with_obs}
 \end{figure}
 
 Diagnosis and true state of a patient are formally connected via the sensitivity $s_N$ and specificity $s_P$ of the used diagnostic modality. In clinical practice, these modalities are \gls{ct}, \gls{mri}, or \gls{pet} scan, but it may also include information from biopsies after a \gls{fna} or other techniques to detect lymphatic metastases. For each \gls{lnl} $v$ the conditional probability table of $P\left( Z_v \mid X_v \right)$ looks like this:
 
-\begin{center}
-\begin{tabular}{|cc|cc|}
-    \hline
-    & & \multicolumn{2}{c|}{$X$} \\
-    & & 0 & 1 \\
-    \hline
-    \multirow{2}{*}{$Z$} & 0 & $s_p$ & $1 - s_N$ \\
-    & 1 & $1 - s_P$ & $s_N$ \\
-    \hline
-\end{tabular}
-\end{center}
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|cc|cc|}
+        \hline
+        & & \multicolumn{2}{c|}{$X$} \\
+        & & 0 & 1 \\
+        \hline
+        \multirow{2}{*}{$Z$} & 0 & $s_p$ & $1 - s_N$ \\
+        & 1 & $1 - s_P$ & $s_N$ \\
+        \hline
+    \end{tabular}
+\end{table}
 
 Consequently, the conditional probability to observe a diagnosis $\mathbf{Z}=\boldsymbol{\zeta}_\ell$, given a hidden involvement state $\mathbf{X}=\boldsymbol{\xi}_k$ is a matrix $\mathbf{B}$ made up of products of terms from the table above:
 %
