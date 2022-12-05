@@ -33,10 +33,8 @@ datasets:
 dependencies:
   src/scripts/base_graph_corner_plot.py:
     - src/data/base_graph_samples.hdf5
-  src/scripts/conn12_prevalences_low.py:
+  src/scripts/base_graph_prevalences.py:
     - src/data/base_graph_prevalences.hdf5
-    - src/data/add12_prevalences.hdf5
-    - src/data/add21_prevalences.hdf5
 
 # Name of the `.tex` manuscript and corresponding `.pdf` article
 ms_name: ms

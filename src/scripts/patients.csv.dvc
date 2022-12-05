@@ -1,13 +1,13 @@
+md5: b2354cfff200ea1c17d7320814e09e88
 wdir: ../data
 frozen: true
 deps:
-- path: models/samples.hdf5
+- path: data/cleaned.csv
   repo:
     url: https://github.com/rmnldwg/lynference
     rev: ed11b3ebcfa9614f50bc05a6606772fb4aee87e2
     rev_lock: ed11b3ebcfa9614f50bc05a6606772fb4aee87e2
 outs:
-- path: base_graph_samples.hdf5
-  md5: b314e1668e0650671f4b65b931871211
-  size: 38190520
-md5: 2ca65e0ed36c8d39dda5e53938a0d91c
+- md5: 5c2b261b840a237ad630c450ec0d9ae4
+  size: 155737
+  path: patients.csv
