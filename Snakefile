@@ -1,8 +1,8 @@
-rule get_hdf5_files:
+rule get_dvc_files:
     input:
-        "src/scripts/{filename}.hdf5.dvc"
+        "src/scripts/{filename}.dvc"
     output:
-        "src/data/{filename}.hdf5"
+        "src/data/{filename}"
     shell:
         "dvc update {input}"
 
