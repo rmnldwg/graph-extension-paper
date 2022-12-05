@@ -63,6 +63,9 @@ Since in this work we consider \gls{hnscc}, which frequently spreads through the
 \section{Previous Work}
 \label{sec:previous_work}
 
+\subsection*{Lymphatic Spread as Hidden Markov Model}
+\label{subsec:previous_work:spread_as_hmm}
+
 We have introduced a probabilistic model for lymphatic metastatic tumor progression based on \glspl{bn} in \cite{pouymayou_bayesian_2019} and based off of this an improved model using \glspl{hmm} in \cite{ludwig_hidden_2021}. We will briefly recap the \acrlong{hmm} below.
 
 A patient's state of (hidden) lymphatic involvement at time $t$ is described as a collection of binary \glspl{rv}, one for each of the $V$ \glspl{lnl}:
@@ -79,6 +82,15 @@ The transition from one time-step to another is governed by the transition proba
     \mathbf{A} = \left( A_{ij} \right) = \left( P\left( \mathbf{X}[t+1]=\boldsymbol{\xi}_i \mid \mathbf{X}[t]=\boldsymbol{\xi}_j \right) \right)
 \end{equation}
 %
+The term inside the brackets describes the probability to transition from the hidden state of lymphatic involvement $\boldsymbol{\xi}_j$ to the state $\boldsymbol{\xi}_i$ within between the time $t$ and $t+1$. We can use a \gls{dag} as depicted in
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/graph_with_obs.png}
+    \caption{\Gls{dag} representing a possible abstraction of the lymphatic network comprising the tumor (red shaded circle) and \glspl{lnl} I through IV as hidden binary \glspl{rv} (blue outlined circles). Attached to each of these is the corresponding observed \gls{rv} (orange shaded squares). Lymphatic flow is depicted in the form of parameterized arrows (red and blue) that represent the probability of spread along the respective arc per time-step. Sensitivity and specificity connect the hidden \glspl{rv} to the diagnosis (orange arrows).}
+    \label{fig:graph_with_obs}
+\end{figure}
+
 Diagnosis and true state of a patient are formally connected via the sensitivity $s_N$ and specificity $s_P$ of the used diagnostic modality. In clinical practice, these modalities are \gls{ct}, \gls{mri}, or \gls{pet} scan, but it may also include information from biopsies after a \gls{fna} or other techniques to detect lymphatic metastases. For each \gls{lnl} $v$ the conditional probability table of $P\left( Z_v \mid X_v \right)$ looks like this:
 
 \begin{center}
@@ -99,6 +111,12 @@ Consequently, the conditional probability to observe a diagnosis $\mathbf{Z}=\bo
     \mathbf{B} = \left( B_{k\ell} \right) = \prod_{v=1}^V P\left( Z_v = \zeta_{\ell v} \mid X_v[t_\text{D}] = \xi_{kv} \right)
 \end{equation}
 %
+If multiple diagnostic modalities $\mathcal{O} \in \{ \text{MRI}, \text{CT}, \ldots \}$ are used, one can compute an observation matrix $\mathbf{B}^\mathcal{O}$ for each of these modalities and combine them via an outer product into a joint observations matrix
+%
+\begin{equation}
+    \mathbf{B} = \mathbf{B}^\text{MRI} \otimes \mathbf{B}^\text{CT} \otimes \ldots
+\end{equation}
+%
 We define the time $t=0$ to be the moment just before a patient's tumor formed, and hence $X_v[t=0]=0 \,\,\, \forall v$. However, using this definition, we cannot know how many time-steps have passed until $t_\text{D}$, when the patient was diagnosed with cancer. We can only make the assumption that a patients with an earlier T-category tumor was \emph{probably} diagnosed after fewer time-steps than a patient with a late T-category tumor. We can use this information by marginalizing over the diagnose times $t_\text{D}$ of patients in different T-categories using different prior distributions over the diagnose time. E.g., $P_\text{early}\left( t_\text{D} \right)$ for early T-category patients (T1 \& T2) and $P_\text{late}\left( t_\text{D} \right)$ for late T-category patients (T3 \& T4).
 
 The main task of of personalizing the \gls{ctv-n} definition is now to infer the probability of each of the possible states $\boldsymbol{\xi}_k$ given a diagnosis $\mathbf{Z}=\boldsymbol{\zeta}_\ell$. Using Bayes' theorem, we get
@@ -107,16 +125,21 @@ The main task of of personalizing the \gls{ctv-n} definition is now to infer the
     P\left( \mathbf{X}=\boldsymbol{\xi}_k \mid \mathbf{Z}=\boldsymbol{\zeta}_\ell \right) = \frac{P\left( \boldsymbol{\zeta}_\ell \mid \boldsymbol{\xi}_k \right) P\left( \boldsymbol{\xi}_k \right)}{\sum_{r=1}^{2^V} P\left( \boldsymbol{\zeta}_\ell \mid \boldsymbol{\xi}_r \right) P\left( \boldsymbol{\xi}_r \right) }
 \end{equation}
 %
-The model we are describing here will yield an estimate of $P\left( \boldsymbol{\xi}_k \right)$
+The model we are describing here will yield an estimate of $P\left( \boldsymbol{\xi}_k \right)$ and in the next subsection we will briefly explain how this probability distribution can be efficiently parameterized.
 
-\begin{figure}
+\subsection*{Parameterization of the Hidden Markov Model}
+\label{subsec:previous_work:parametrization}
+
+blabla
+
+\begin{figure*}
     \script{base_graph_prevalences.py}
     \begin{centering}
         \includegraphics[width=\textwidth]{figures/base_graph_prevalences.png}
         \caption{Testing this showyourwork thingy}
         \label{fig:base_graph_prevalences}
     \end{centering}
-\end{figure}
+\end{figure*}
 
 \bibliography{bib}
 
