@@ -2,8 +2,15 @@
 \documentclass[twocolumn]{aastex631}
 \usepackage{showyourwork}
 \usepackage{multirow}
-\usepackage{hyperref}
-\usepackage{cleveref}
+
+%% References
+\usepackage[%
+    style=numeric-comp,%
+    sorting=none,%
+    maxnames=20,%
+    url=false,%
+]{biblatex}
+\addbibresource{bib.bib}
 
 % Glossaries
 \usepackage[acronym,toc]{glossaries}
@@ -32,6 +39,9 @@
 \newacronym{pet}{PET}{positron emission tomography}
 \newacronym{fna}{FNA}{fine needle aspiration}
 
+% Cross-referencing
+\usepackage{hyperref}
+\AtEndPreamble{\usepackage{cleveref}}
 
 % Begin!
 \begin{document}
@@ -58,14 +68,21 @@
 \section{Introduction}
 \label{sec:intro}
 
-When treating cancer, either with radiotherapy or via surgery, the aim is to irradiate or resect as much of the present malignancies as possible. This includes the primary tumor mass and metastases that are sufficiently large to be detected using in-vivo imaging modalities such as \gls{ct}, \gls{mri}, or \gls{pet}. But it also includes regions of possible microscopic spread, which these modalities cannot detect, to increase the patient's probability of cure \cite{poortmans_internal_2020,murthy_prostate-only_2021}. Microscopic disease can currently only be observed by a pathological examination of the tissue. Consequently, clinicians that are presented with cancer patients need to routinely assess the risk of microscopic involvement in parts of the body that appear unsuspicious.
+When treating \gls{hnscc}, either with radiotherapy or via surgery, the aim is to irradiate or resect as much of the present malignancies as possible. This includes the primary tumor mass and metastases that are sufficiently large to be detected using in-vivo imaging modalities such as \gls{ct}, \gls{mri}, or \gls{pet}. But it also includes regions of possible microscopic spread, which these modalities cannot detect, to increase the patient's probability of cure \cite{poortmans_internal_2020,murthy_prostate-only_2021}. Microscopic disease can currently only be observed by a pathological examination of the tissue. Consequently, clinicians that are presented with cancer patients need to routinely assess the risk of microscopic involvement in parts of the body that appear clinically node negative.
 
-Since in this work we consider \gls{hnscc}, which frequently spreads through the lymphatic system to form regional nodal metastases, 
+This work concerns itself with \gls{opscc}, which commonly spreads lymphatically. The only two publicly available datasets on nodal involvement patterns in \gls{opscc}, at the time of writing, show that 80\% of patients where either cN+ or -- if available -- pN+ \cite{ludwig_dataset_2022}. Since the exact number and location of lymph nodes varies from patient to patient, the nodes are grouped into anatomically defined \glspl{lnl}. These levels are then often irradiated or resected prophylactically due to the risk of harboring occult metastases despite negative findings from imaging modalities. In current clinical practice, \gls{ctv-n} definition is instead mostly based on guidelines \cite{gregoire_ct-based_2003,gregoire_delineation_2014,gregoire_delineation_2018,eisbruch_intensity-modulated_2002,biau_selection_2019,chao_determination_2002,vorwerk_guidelines_2011,ferlito_elective_2009} that are derived from the observed prevalence of involvement in an \gls{lnl} for a given tumor location.
+
+These guidelines, however, do not account for the personal risk of the patients that may depend greatly on their diagnosis. E.g., macroscopic metastases detected via \gls{pet} in the \glspl{lnl} II and III may increase the risk for occult disease in \gls{lnl} IV over the case of a patient who presents with a clinically N0 neck.
+
+A model for estimating the risk of microscopic disease, given a personal diagnosis based on \glspl{bn} was previously developed \cite{pouymayou_bayesian_2019} and subsequently adapted to make use of \glspl{hmm} to include T-category in an intuitive manner \cite{ludwig_hidden_2021}. These models were trained on a dataset of early T-category (T1 and T2) patients that could be reconstructed from \cite{sanguineti_defining_2009}. Since this publication only includes details about the involvement of the ipsilateral \glspl{lnl} I, II, III, and IV, the models were limited to these nodal levels as well.
+
+With the publication of larger and more detailed datasets \cite{ludwig_dataset_2022}, the risk estimation models may be extended as well to include the additionally reported \glspl{lnl} V and VII. This work aims to do that and at the same time demonstrate the capability 
+of the previously introduced \gls{hmm} to adapt to real patient data from a multi-centric cohort of XXX \gls{opscc} patients.
 
 \section{Previous Work}
 \label{sec:previous_work}
 
-\subsection*{Lymphatic Spread as Hidden Markov Model}
+\subsection{Lymphatic Spread as Hidden Markov Model}
 \label{subsec:previous_work:spread_as_hmm}
 
 We have introduced a probabilistic model for lymphatic metastatic tumor progression based on \glspl{bn} in \cite{pouymayou_bayesian_2019} and based off of this an improved model using \glspl{hmm} in \cite{ludwig_hidden_2021}. We will briefly recap the \acrlong{hmm} below.
@@ -87,10 +104,12 @@ The transition from one time-step to another is governed by the transition proba
 The term $P\left( \boldsymbol{\xi}_i \mid \boldsymbol{\xi}_j \right)$ describes the probability to transition from the hidden state of lymphatic involvement $\boldsymbol{\xi}_j$ to the state $\boldsymbol{\xi}_i$ within between the time $t$ and $t+1$. Using a \gls{dag} as depicted in \cref{fig:graph_with_obs}, we can parameterize this transition probability in the following way:
 %
 \begin{equation}
+    \label{eq:transition_prob}
     P\left( \boldsymbol{\xi}_i \mid \boldsymbol{\xi}_j \right) = \prod_{v \leq V} Q\left( \xi_{iv} ; \xi_{jv} \right) P \left( \xi_{iv} \mid \left\{ \xi_{jr} \right\}_{r \in \operatorname{pa}(v)} \right)^{1 - \xi_{jv}}
 \end{equation}
 %
-In this equation, we have denoted \glspl{lnl} that are parents of \gls{lnl} $v$ with the symbol $r\in\operatorname{pa}(v)$. Also, $\xi_{iv}$ denotes the value that \gls{lnl} $v$ takes on when the patient is in state $\boldsymbol{\xi}_i$.
+In this equation, we have denoted \glspl{lnl} that are parents of \gls{lnl} $v$ with the symbol $r\in\operatorname{pa}(v)$. Also, $\xi_{iv}$ denotes the value that \gls{lnl} $v$ takes on when the patient is in state $\boldsymbol{\xi}_i$. Lastly, the term $Q(a;b) \in \{ 0,1 \}$ is there only to 
+
 \begin{figure}
     \centering
     \includegraphics[width=0.6\linewidth]{figures/graph_with_obs.png}
@@ -135,10 +154,23 @@ The main task of of personalizing the \gls{ctv-n} definition is now to infer the
 %
 The model we are describing here will yield an estimate of $P\left( \boldsymbol{\xi}_k \right)$ and in the next subsection we will briefly explain how this probability distribution can be efficiently parameterized.
 
-\subsection*{Parameterization of the Hidden Markov Model}
+\subsection{Parameterization of the Hidden Markov Model}
 \label{subsec:previous_work:parametrization}
 
-blabla
+The term $P \big( X_v = \xi_{iv} \mid \left\{ X_r = \xi_{jr} \right\}_{r \in \operatorname{pa}(v)} \big)$ in \cref{eq:transition_prob} implicitly depends on how we parameterize the arcs of the underlying \gls{dag}. If we use the graph displayed in \cref{fig:graph_with_obs}), we can write down a conditional probability table for the probability of $X_3$ being healthy or metastatic, based on the state of the parent \gls{lnl} $\operatorname{pa}(3) = 2$:
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|cc|cc|}
+        \hline
+        & & \multicolumn{2}{c|}{$X_2$} \\
+        & & 0 & 1 \\
+        \hline
+        \multirow{2}{*}{$X_3$} & 0 & $1 - b_3$ & $(1 - b_3)(1 - t_{23})$ \\
+        & 1 & $b_3$ & $1 - b_3 - t_{23} + b_3 t_{23}$ \\
+        \hline
+    \end{tabular}
+\end{table}
 
 \begin{figure*}
     \script{base_graph_prevalences.py}
@@ -149,6 +181,8 @@ blabla
     \end{centering}
 \end{figure*}
 
-\bibliography{bib}
+\printbibliography[%
+    title={References},%
+]
 
 \end{document}
