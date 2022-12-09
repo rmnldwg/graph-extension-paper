@@ -3,15 +3,6 @@
 \usepackage{showyourwork}
 \usepackage{multirow}
 
-%% References
-\usepackage[%
-    style=numeric-comp,%
-    sorting=none,%
-    maxnames=20,%
-    url=false,%
-]{biblatex}
-\addbibresource{bib.bib}
-
 % Glossaries
 \usepackage[acronym,toc]{glossaries}
 \newcommand*\myglsentry[1]{%
@@ -181,8 +172,7 @@ The term $P \big( X_v = \xi_{iv} \mid \left\{ X_r = \xi_{jr} \right\}_{r \in \op
     \end{centering}
 \end{figure*}
 
-\printbibliography[%
-    title={References},%
-]
+\bibliography{bib}
+\bibliographystyle{ieeetr}
 
 \end{document}
