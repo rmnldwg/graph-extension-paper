@@ -115,6 +115,6 @@ if __name__ == "__main__":
     draw(axes[1], contents=panels["late"], xlims=(0., 85.), hist_kwargs={"nbins": 120})
     axes[1].set_ylabel("late T-cat.", fontweight="bold")
     axes[1].set_xlabel("prevalence [%]")
-    axes[1].legend(handles=axes[1].get_children()[6:10],)
+    axes[1].legend(handles=axes[1].get_children()[5:10],)
 
     plt.savefig(OUTPUT, dpi=300)
