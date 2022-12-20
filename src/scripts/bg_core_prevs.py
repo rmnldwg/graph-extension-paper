@@ -4,7 +4,6 @@ scenarios involving the LNLs II, III and IV. This is to show that the base graph
 already capable of capturing the frequency of these involvement, as well as their
 correlations.
 """
-from fileinput import filename
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -14,7 +13,7 @@ from tueplots import figsizes, fontsizes
 import paths
 
 
-INPUT = paths.data / "base_graph_prevalences.hdf5"
+INPUT = paths.data / "bg_core_prevs.hdf5"
 OUTPUT = (paths.figures / Path(__file__).name).with_suffix(".png")
 NROWS, NCOLS = 2, 1
 

@@ -31,10 +31,10 @@ datasets:
 
 # Custom file dependencies
 dependencies:
-  src/scripts/base_graph_corner_plot.py:
-    - src/data/base_graph_samples.hdf5
-  src/scripts/base_graph_prevalences.py:
-    - src/data/base_graph_prevalences.hdf5
+  src/scripts/bg_corner_plot.py:
+    - src/data/bg_samples.hdf5
+  src/scripts/bg_core_prevs.py:
+    - src/data/bg_core_prevs.hdf5
 
 # Name of the `.tex` manuscript and corresponding `.pdf` article
 ms_name: ms

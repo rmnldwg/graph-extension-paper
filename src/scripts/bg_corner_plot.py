@@ -11,7 +11,7 @@ from emcee.backends import HDFBackend
 import paths
 
 
-INPUT = paths.data / "base_graph_samples.hdf5"
+INPUT = paths.data / "bg_samples.hdf5"
 THIN = 10
 OUTPUT = (paths.figures / Path(__file__).name).with_suffix(".png")
 
