@@ -110,8 +110,8 @@ In this equation, we have denoted \glspl{lnl} that are parents of \gls{lnl} $v$ 
 
 Diagnosis and true state of a patient are formally connected via the sensitivity $s_N$ and specificity $s_P$ of the used diagnostic modality. In clinical practice, these modalities are \gls{ct}, \gls{mri}, or \gls{pet} scan, but it may also include information from biopsies after a \gls{fna} or other techniques to detect lymphatic metastases. For each \gls{lnl} $v$ the conditional probability table of $P\left( Z_v \mid X_v \right)$ looks like this:
 
-\begin{table}[h!]
-    \centering
+\noindent
+\begin{center}
     \begin{tabular}{|cc|cc|}
         \hline
         & & \multicolumn{2}{c|}{$X$} \\
@@ -121,41 +121,44 @@ Diagnosis and true state of a patient are formally connected via the sensitivity
         & 1 & $1 - s_P$ & $s_N$ \\
         \hline
     \end{tabular}
-\end{table}
+\end{center}
 
 Consequently, the conditional probability to observe a diagnosis $\mathbf{Z}=\boldsymbol{\zeta}_\ell$, given a hidden involvement state $\mathbf{X}=\boldsymbol{\xi}_k$ is a matrix $\mathbf{B}$ made up of products of terms from the table above:
 %
 \begin{equation} \label{eq:transition_matrix}
     \mathbf{B} = \left( B_{k\ell} \right) = \prod_{v=1}^V P\left( Z_v = \zeta_{\ell v} \mid X_v[t_\text{D}] = \xi_{kv} \right)
 \end{equation}
-%
-If multiple diagnostic modalities $\mathcal{O} \in \{ \text{MRI}, \text{CT}, \ldots \}$ are used, one can compute an observation matrix $\mathbf{B}^\mathcal{O}$ for each of these modalities and combine them via an outer product into a joint observations matrix
+
+If multiple diagnostic modalities $\mathcal{O} \in \{ \text{MRI}, \text{CT}, \ldots \}$ are used, one can compute an observation matrix $\mathbf{B}^\mathcal{O}$ for each of these modalities and combine them via an outer product into a joint observations matrix:
 %
 \begin{equation}
     \mathbf{B} = \mathbf{B}^\text{MRI} \otimes \mathbf{B}^\text{CT} \otimes \ldots
 \end{equation}
-%
+
 We define the time $t=0$ to be the moment just before a patient's tumor formed, and hence $X_v[t=0]=0 \,\,\, \forall v$. However, using this definition, we cannot know how many time-steps have passed until $t_\text{D}$, when the patient was diagnosed with cancer. We can only make the assumption that a patients with an earlier T-category tumor was \emph{probably} diagnosed after fewer time-steps than a patient with a late T-category tumor. We can use this information by marginalizing over the diagnose times $t_\text{D}$ of patients in different T-categories using different prior distributions over the diagnose time. E.g., $P \left( t=t_D \mid \text{early} \right)$ for early T-category patients (T1 \& T2) and $P \left( t=t_D \mid \text{late} \right)$ for late T-category patients (T3 \& T4). Throughout this work we will use binomial distributions for these probability mass functions, mainly because they have a plausible shape for this purpose and only a single parameter.
 %
 \begin{equation}
     P \left( t = t_D \mid \text{T-cat.} \right) = \operatorname{B}(t_\text{max},p_\text{T-cat.})
 \end{equation}
 %
-We will use as a latest time-step $t_\text{max} = 10$.
+Here, the parameter $p_\text{early}$ can be interpreted as the probability that the patient will be diagnosed at time-step $t+1$ given they are in time-step $t$. We will use as a latest time-step $t_\text{max} = 10$.
 
 \subsection{The Likelihood Function}
 \label{subsec:previous_work:likelihood}
 
 Using the definitions up to this point, we can compute a vector of likelihoods for every possible diagnosis:
 %
-\begin{equation}
-    \boldsymbol{\mathcal{L}} = \sum_{t=0}^{t_{max}} \left[ \boldsymbol{\pi} \cdot \mathbf{A}^t \cdot \mathbf{B} \right] \cdot P \left( t \mid \text{T-cat.} \right)
+\begin{equation} \label{eq:likelihood_vec}
+\begin{split}
+    \boldsymbol{\ell} &= \big( P\left( \mathbf{Z} = \boldsymbol{\zeta}_i \right) \big) \\
+    &= \sum_{t=0}^{t_{max}} \left[ \boldsymbol{\pi} \cdot \mathbf{A}^t \cdot \mathbf{B} \right] \cdot P \left( t \mid \text{T-cat.} \right)
+\end{split}
 \end{equation}
 %
-This likelihood implicitly depends on how we parameterize the arcs of the \gls{dag} underlying the model and the parameterization of the distribution over diagnosis times. If we use the graph displayed in \cref{fig:graph_with_obs}), we can write down a conditional probability table for the probability of \gls{lnl} $X_3$ being healthy or metastatic, based on the state of the parent \gls{lnl} $\operatorname{pa}(3) = 2$:
+This likelihood implicitly depends on how we parameterize the arcs of the \gls{dag} underlying the model and the parameterization of the distribution over diagnosis times. If we use the graph displayed in \cref{fig:graph_with_obs}, we can write down a conditional probability table for \gls{lnl} $X_3$ being healthy or metastatic, based on the state of the parent \gls{lnl} $\operatorname{pa}(3) = 2$:
 
-\begin{table}[ht!]
-    \centering
+\noindent
+\begin{center}
     \begin{tabular}{|cc|cc|}
         \hline
         & & \multicolumn{2}{c|}{$X_2$} \\
@@ -165,24 +168,31 @@ This likelihood implicitly depends on how we parameterize the arcs of the \gls{d
         & 1 & $b_3$ & $1 - b_3 - t_{23} + b_3 t_{23}$ \\
         \hline
     \end{tabular}
-\end{table}
+\end{center}
 
 Similar tables can be written for all other \glspl{lnl}. The terms in these conditional probability tables can then be used to compute the transition probability between to particular states $\boldsymbol{\xi}_i$ and $\boldsymbol{\xi}_j$ as in \cref{eq:transition_prob}. Computing this quantity for all possible transitions subsequently yields the transition matrix $\mathbf{A}$ as described in \cref{eq:transition_matrix}.
 
-Together with the parametrizations of the distributions over the diagnosis time, the parameters that make up the transition matrix $\mathbf{A}$ comprises the set of model parameters
+Together with the parametrizations of the distributions over the diagnosis time, the parameters that make up the transition matrix $\mathbf{A}$ comprises the set of model parameters:
 %
 \begin{equation}
     \boldsymbol{\theta} = \left( \left\{ b_v \right\}, \left\{ t_{vr} \right\}, p_\text{early}, p_\text{late} \right) \quad \text{with} \quad \genfrac{}{}{0pt}{2}{v\leq V}{r\in\operatorname{pa}(v)}
 \end{equation}
-%
-The main task of of personalizing the \gls{ctv-n} definition is now to infer the probability of each of the possible states $\boldsymbol{\xi}_k$ given a diagnosis $\mathbf{Z}=\boldsymbol{\zeta}_\ell$. Using Bayes' theorem, we get
+
+To infer these parameters from a dataset of $N$ \gls{hnscc} patients $\boldsymbol{\mathcal{D}} = \left( d_1, d_2, \ldots, d_N \right)$, we compute the data log-likelihood:
 %
 \begin{equation}
-    P\left( \mathbf{X}=\boldsymbol{\xi}_k \mid \mathbf{Z}=\boldsymbol{\zeta}_\ell \right) = \frac{P\left( \boldsymbol{\zeta}_\ell \mid \boldsymbol{\xi}_k \right) P\left( \boldsymbol{\xi}_k \right)}{\sum_{r=1}^{2^V} P\left( \boldsymbol{\zeta}_\ell \mid \boldsymbol{\xi}_r \right) P\left( \boldsymbol{\xi}_r \right) }
+    \log\mathcal{L} \left( \boldsymbol{\mathcal{D}} \mid \boldsymbol{\theta} \right) = \sum_{i=1}^N \log P \left( \mathbf{Z} = d_i \right)
 \end{equation}
 %
-The model we are describing here will yield an estimate of $P\left( \boldsymbol{\xi}_k \right)$ that depends on the parameters used to define the transition matrix $\mathbf{A}$ and the prior over the diagnosis time $P \left( t \mid \text{T-cat.} \right)$.
+Which effectively amounts to computing the element-wise logarithm of the likelihood vector $\boldsymbol{\ell}$ from \cref{eq:likelihood_vec} and summing up the entries that correspond to each of the patients $d_i$ for $i\leq N$. 
 
+Using this log-likelihood function one may now employ a variety of inference methods to learn the parameters of the model that best describe the observed data. After that, the main task of of personalizing the \gls{ctv-n} definition is to predict the probability of the hidden possible states $\boldsymbol{\xi}_k$ given the diagnosis $d^\star=\boldsymbol{\zeta}_\ell$ of a new patient. Using Bayes' theorem, we get
+%
+\begin{equation}
+    P\left( \mathbf{X}=\boldsymbol{\xi}_k \mid \mathbf{Z}=\boldsymbol{\zeta}_\ell \right) = \frac{P\left( \boldsymbol{\zeta}_\ell \mid \boldsymbol{\xi}_k \right) P\left( \boldsymbol{\xi}_k \mid \boldsymbol{\theta} \right)}{\sum_{r=1}^{2^V} P\left( \boldsymbol{\zeta}_\ell \mid \boldsymbol{\xi}_r \right) P\left( \boldsymbol{\xi}_r \mid \boldsymbol{\theta} \right) }
+\end{equation}
+%
+The described model along with the inferred parameters $\boldsymbol{\hat{\theta}}$ will yield an estimate (or multiple estimates) for the ``prior'' in the above equation $P\big( \boldsymbol{\xi}_k \mid \boldsymbol{\hat{\theta}} \big)$.
 
 \begin{figure*}
     \script{bg_core_prevs.py}
