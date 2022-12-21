@@ -78,32 +78,24 @@ risks: []
 # in the data.
 prevalences:
   - name: II/early
-    invert: false
-    midline_ext: null
     modality: max_llh
     pattern:
       ipsi:
         II: true
     t_stage: early
   - name: III/early
-    invert: false
-    midline_ext: null
     modality: max_llh
     pattern:
       ipsi:
         III: true
     t_stage: early
   - name: IV/early
-    invert: false
-    midline_ext: null
     modality: max_llh
     pattern:
       ipsi:
         IV: true
     t_stage: early
   - name: IInotIII/early
-    invert: false
-    midline_ext: null
     modality: max_llh
     pattern:
       ipsi:
@@ -112,32 +104,24 @@ prevalences:
     t_stage: early
 
   - name: II/late
-    invert: false
-    midline_ext: null
     modality: max_llh
     pattern:
       ipsi:
         II: true
     t_stage: late
   - name: III/late
-    invert: false
-    midline_ext: null
     modality: max_llh
     pattern:
       ipsi:
         III: true
     t_stage: late
   - name: IV/late
-    invert: false
-    midline_ext: null
     modality: max_llh
     pattern:
       ipsi:
         IV: true
     t_stage: late
   - name: IIInotIV/late
-    invert: false
-    midline_ext: null
     modality: max_llh
     pattern:
       ipsi:
@@ -145,8 +129,6 @@ prevalences:
         IV: false
     t_stage: late
   - name: IIIandIV/late
-    invert: false
-    midline_ext: null
     modality: max_llh
     pattern:
       ipsi:

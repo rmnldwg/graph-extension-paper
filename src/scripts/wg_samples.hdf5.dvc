@@ -1,4 +1,4 @@
-md5: 8c47e025575cea977b4fce8b148512f8
+md5: d09d28254d5e9357193c6b402309b39e
 wdir: ../data
 frozen: true
 deps:
@@ -10,4 +10,4 @@ deps:
 outs:
 - md5: 8cd8a44a5d58459eb47b5ccc93733a51
   size: 211994528
-  path: win_graph_samples.hdf5
+  path: wg_samples.hdf5
