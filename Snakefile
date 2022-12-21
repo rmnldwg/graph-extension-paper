@@ -15,3 +15,12 @@ rule compute_prevalences:
         "src/data/{graph}_{name}_prevs.hdf5"
     shell:
         "lyscripts predict prevalences --params {input.params} --thin 10 {input.model} {input.data} {output}"
+
+rule extract_metrics:
+    input:
+        "src/data/bg_metrics.json",
+        "src/data/wg_metrics.json",
+    output:
+        "src/tex/output/results_table.tex"
+    script:
+        "src/scripts/compile_metrics_table.py"

@@ -1,0 +1,13 @@
+md5: c9f587c7e8ea598259cd16883027e814
+wdir: ../data
+frozen: true
+deps:
+- path: metrics.json
+  repo:
+    url: https://github.com/rmnldwg/lynference
+    rev: base-graph-v1
+    rev_lock: 69de780ebecbb3fdd038ed2e40595ea24c2c9e81
+outs:
+- md5: 28d9022c6ba16a3c63188b4ef84d8edf
+  size: 160
+  path: bg_metrics.json
