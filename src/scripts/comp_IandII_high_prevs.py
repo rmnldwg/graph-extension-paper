@@ -37,13 +37,13 @@ if __name__ == "__main__":
         panels[stage] = [
             Histogram.from_hdf5(
                 filename=WIN_GRAPH_INPUT,
-                dataname=f"I/{stage}",
-                label="LNL I overall",
-                color=USZ["blue"],
+                dataname=f"II/{stage}",
+                label="LNL II overall",
+                color=USZ["red"],
             ),
             Histogram.from_hdf5(
                 filename=BASE_GRAPH_INPUT,
-                dataname=f"I/{stage}",
+                dataname=f"II/{stage}",
                 label="base graph",
                 histtype="step",
                 color="darkgray",
@@ -52,39 +52,39 @@ if __name__ == "__main__":
             ),
             Posterior.from_hdf5(
                 filename=BASE_GRAPH_INPUT,
-                dataname=f"I/{stage}",
-                color=USZ["blue"],
+                dataname=f"II/{stage}",
+                color=USZ["red"],
             ),
 
             Histogram.from_hdf5(
                 filename=WIN_GRAPH_INPUT,
-                dataname=f"InotII/{stage}",
-                label="LNL I without II",
-                color=USZ["green"],
+                dataname=f"IInotI/{stage}",
+                label="LNL II without I",
+                color=USZ["orange"],
             ),
             Histogram.from_hdf5(
                 filename=BASE_GRAPH_INPUT,
-                dataname=f"InotII/{stage}",
+                dataname=f"IInotI/{stage}",
                 label="base graph",
                 histtype="step",
                 color="darkgray",
                 linewidth=2.,
-                hatch=r"////",
+                hatch=r"\\\\",
             ),
             Posterior.from_hdf5(
                 filename=BASE_GRAPH_INPUT,
-                dataname=f"InotII/{stage}",
-                color=USZ["green"],
+                dataname=f"IInotI/{stage}",
+                color=USZ["orange"],
             ),
         ]
 
-    draw(axes[0], contents=panels["early"], xlims=(0., 15.), hist_kwargs={"nbins": 40})
-    axes[0].set_ylim(bottom=0., top=1.5)
+    draw(axes[0], contents=panels["early"], xlims=(50., 90.), hist_kwargs={"nbins": 40})
+    # axes[0].set_ylim(bottom=0., top=1.5)
     axes[0].set_ylabel("early T-cat.", fontweight="bold")
     axes[0].legend()
 
-    draw(axes[1], contents=panels["late"], xlims=(0., 15.), hist_kwargs={"nbins": 40})
-    axes[1].set_ylim(bottom=0., top=1.2)
+    draw(axes[1], contents=panels["late"], xlims=(50., 90.), hist_kwargs={"nbins": 40})
+    # axes[1].set_ylim(bottom=0., top=1.2)
     axes[1].set_ylabel("late T-cat.", fontweight="bold")
     axes[1].set_xlabel("prevalence [%]")
     axes[1].legend(handles=axes[1].get_children()[2:6:3],)
