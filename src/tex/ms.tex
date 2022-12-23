@@ -18,6 +18,7 @@
 \newacronym{ctv}{CTV}{clinical target volume}
 \newacronym{ctv-n}{CTV-N}{elective \myglsentry{ctv}}
 \newacronym{lnl}{LNL}{lymph node level}
+\newacronym{hpv}{HPV}{human papilloma virus}
 \newacronym{hmm}{HMM}{hidden Markov model}
 \newacronym{rv}{RV}{random variable}
 \newacronym{dag}{DAG}{directed acyclic graph}
@@ -29,6 +30,9 @@
 \newacronym{mri}{MRI}{magnetic resonance imaging}
 \newacronym{pet}{PET}{positron emission tomography}
 \newacronym{fna}{FNA}{fine needle aspiration}
+\newacronym{clb}{CLB}{Centre Leon Bérard}
+\newacronym{usz}{USZ}{University Hospital Zurich}
+\newacronym{isb}{ISB}{Inselspital Bern}
 
 % Cross-referencing
 \usepackage{hyperref}
@@ -180,7 +184,7 @@ Together with the parametrizations of the distributions over the diagnosis time,
 
 To infer these parameters from a dataset of $N$ \gls{hnscc} patients $\boldsymbol{\mathcal{D}} = \left( d_1, d_2, \ldots, d_N \right)$, we compute the data log-likelihood:
 %
-\begin{equation}
+\begin{equation} \label{eq:log_likelihood}
     \log\mathcal{L} \left( \boldsymbol{\mathcal{D}} \mid \boldsymbol{\theta} \right) = \sum_{i=1}^N \log P \left( \mathbf{Z} = d_i \right)
 \end{equation}
 %
@@ -194,20 +198,54 @@ Using this log-likelihood function one may now employ a variety of inference met
 %
 The described model along with the inferred parameters $\boldsymbol{\hat{\theta}}$ will yield an estimate (or multiple estimates) for the ``prior'' in the above equation $P\big( \boldsymbol{\xi}_k \mid \boldsymbol{\hat{\theta}} \big)$.
 
+\section{Methods}
+\label{sec:methods}
+
+We use \gls{mcmc} sampling to draw parameter samples $\boldsymbol{\hat{\theta}}_i$ for $i \leq S$ from the likelihood described in \cref{eq:log_likelihood}. More specifically, we use the Python implementation \texttt{emcee} \cite{foreman-mackey_emcee_2013} and two sample proposal mechanisms based on differential evolution moves \cite{ter_braak_differential_2008,nelson_run_2013} for sampling. The $S$ parameter estimates are then used to compute distributions of estimates that depend on the parameters $\boldsymbol{\theta}$.
+
+The entire methodology used in this work is publicly available in the GitHub repository \href{https://github.com/rmnldwg/lynference}{\texttt{rmnldwg/lynference}}. Tagged references to specific versions of an inference pipeline allow reproducing the inferred parameters of the models described here. Prevalence and risk predictions, as well as the figures depicting them, can be reproduced following the instructions of the GitHub repository underlying this publication \href{https://github.com/rmnldwg/graph-extension}{\texttt{rmnldwg/graph-extension}}.
+
+\section{Multicentric Dataset}
+\label{sec:data}
+
+The dataset $\boldsymbol{\mathcal{D}}$ that we used for inference is comprised of the detailed reports on lymphatic involvement patterns in \gls{opscc} patients treated at three different institutions in France and Switzerland: The \gls{clb} in Lyon (France), the \gls{isb}, and the \gls{usz} (both in Swiztzerland). We have previously published the patterns of nodal involvement for the \gls{usz} cohort \cite{ludwig_dataset_2022} and described its characteristics in detail \cite{ludwig_detailed_2022}. A large part of the \gls{clb} data underlies a publication on \gls{hpv} status in \gls{opscc} \cite{bauwens_prevalence_2021} that was kindly provided to us by Vincent Grégoire. The patient information on lymphatic metastatic involvement from the \gls{isb} cohort was sent to us by Roland Giger through a collaboration.
+
+In total, the dataset contains 681 patients newly diagnosed with \gls{opscc} that were treated with either definitive radiotherapy or neck dissection. Pathologically assessed post-operative \gls{lnl} involvement was available for 393 of patients, while for the remainder the nodal involvement was assessed based on available diagnostic modalities. If multiple modalities were used to diagnose a patient's lymphatic involvement and conflicting conclusions were drawn from this, the conflicts were resolved by inferring the most likely state (healthy or metastatic) for each \gls{lnl} separately. To do so, we used literature values for the sensitivity and specificity of the diagnostic modalities \cite{de_bondt_detection_2007,kyzas_18f-fluorodeoxyglucose_2008}, which we also tabulated below.
+
+\noindent
+\begin{center}
+    \begin{tabular}{|l|rr|}
+        \hline
+        \textbf{Modality} & \textbf{Specificity} & \textbf{Sensitivity} \\
+        \hline
+        \acrshort{ct} & 76\% & 81\% \\
+        \acrshort{pet} & 86\% & 79\% \\
+        \gls{mri} & 63\% & 81\% \\
+        \acrshort{fna} & 98\% & 80\% \\
+        Pathology & $\approx$ 100\% & $\approx$ 100\% \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\section{Results}
+\label{sec:results}
+
 \begin{figure*}
     \script{bg_core_prevs.py}
     \begin{centering}
         \includegraphics[width=\textwidth]{figures/bg_core_prevs.png}
-        \caption{Testing this showyourwork thingy}
+        \caption{Prevalence of involvement as predicted by the base graph model for different scenarios involving the most commonly metastatic \glspl{lnl} II, III and IV (shaded histograms). The model's predictions are compared to Beta posteriors over the prevalence based on the frequency of the same scenarios and a uniform prior (slid lines). The top panel shows some selected scenarios with early T-category tumors and the bottom panel with late T-category.}
         \label{fig:bg_prevalences}
     \end{centering}
 \end{figure*}
+
+For the base graph, we have plotted the predicted prevalence of involvement patterns in the investigated patient cohort for scenarios involving the most commonly metastatic \glspl{lnl} II, III and IV in \cref{fig:bg_prevalences}. This figure shows that this minimal graph is already capable of describing the most important parts of the observed data very well. The subsequent changes to the graph connections we investigated therefore focus on the improvements w.r.t. involvement patterns that include the \glspl{lnl} I, V, and VII that more rarely harbor occult disease.
 
 \begin{figure}
     \script{comp_IandII_low_prevs.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/comp_IandII_low_prevs.png}
-        \caption{This should be a one-column wide figure.}
+        \caption{Prevalence predictions of the winning extended graph (colored histograms) compared to the base graph (hatched histograms) for scenarios of nodal involvement in the levels I and II. The solid lines depict the Beta posterior over the prevalence based on a uniform prior and the number of patients matching the respective scenario in the data. The top and bottom panel show the same scenarios, but for early and late T-category respectively.}
         \label{fig:IandII_low_prevs}
     \end{centering}
 \end{figure}
@@ -216,20 +254,17 @@ The described model along with the inferred parameters $\boldsymbol{\hat{\theta}
     \script{comp_IandII_high_prevs.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/comp_IandII_high_prevs.png}
-        \caption{This should be a one-column wide figure.}
+        \caption{Histograms and Beta posteriors over the prevalence of involvement for \gls{lnl} II (with and without \gls{lnl} I being metastatic as well). The colored histograms depict the predictions of the extended graph, while the hatched ones show the same prediction for the base graph. The top panel displays the predictions and observations for early T-category patients, the bottom panel for late T-category ones.}
         \label{fig:IandII_high_prevs}
     \end{centering}
 \end{figure}
 
-\section{Results}
-\label{sec:results}
-
-\begin{table}
+\begin{table*}
     \centering
     \variable{output/results_table.tex}
-    \caption{Model comparison results from the base and the winning graph.}
+    \caption{Model comparison results from the base graph and the extended graph we chose as the ``winnning'' model. For both \glspl{dag} we show the log-evidence, computed via thermodynamic integration, the negative one half of the \gls{bic}, as well as the maximum log-likelihood that was encountered during the final \gls{mcmc} sampling round.}
     \label{table:evidence}
-\end{table}
+\end{table*}
 
 \bibliography{bib}
 
