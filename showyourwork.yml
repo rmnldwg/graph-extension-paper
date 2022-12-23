@@ -41,6 +41,15 @@ dependencies:
   src/scripts/comp_IandII_high_prevs.py:
     - src/data/bg_IandII_prevs.hdf5
     - src/data/wg_IandII_prevs.hdf5
+  src/scripts/comp_IIandVII_prevs.py:
+    - src/data/bg_IIandVII_prevs.hdf5
+    - src/data/wg_IIandVII_prevs.hdf5
+  src/scripts/comp_IIIandV_prevs.py:
+    - src/data/bg_IIIandV_prevs.hdf5
+    - src/data/wg_IIIandV_prevs.hdf5
+  src/scripts/comp_IVandV_prevs.py:
+    - src/data/bg_IVandV_prevs.hdf5
+    - src/data/wg_IVandV_prevs.hdf5
 
 # Name of the `.tex` manuscript and corresponding `.pdf` article
 ms_name: ms
