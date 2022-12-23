@@ -230,6 +230,13 @@ In total, the dataset contains 681 patients newly diagnosed with \gls{opscc} tha
 \section{Results}
 \label{sec:results}
 
+\begin{table*}
+    \centering
+    \variable{output/results_table.tex}
+    \caption{Model comparison results from the base graph and the extended graph we chose as the ``winnning'' model. For both \glspl{dag} we show the log-evidence, computed via thermodynamic integration, the negative one half of the \gls{bic}, as well as the maximum log-likelihood that was encountered during the final \gls{mcmc} sampling round.}
+    \label{table:evidence}
+\end{table*}
+
 \begin{figure*}
     \script{bg_core_prevs.py}
     \begin{centering}
@@ -285,13 +292,6 @@ For the base graph, we have plotted the predicted prevalence of involvement patt
         \label{fig:IVandV_prevs}
     \end{centering}
 \end{figure}
-
-\begin{table*}
-    \centering
-    \variable{output/results_table.tex}
-    \caption{Model comparison results from the base graph and the extended graph we chose as the ``winnning'' model. For both \glspl{dag} we show the log-evidence, computed via thermodynamic integration, the negative one half of the \gls{bic}, as well as the maximum log-likelihood that was encountered during the final \gls{mcmc} sampling round.}
-    \label{table:evidence}
-\end{table*}
 
 \bibliography{bib}
 
