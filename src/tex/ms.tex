@@ -2,6 +2,7 @@
 \documentclass[twocolumn]{aastex631}
 \usepackage{showyourwork}
 \usepackage{multirow}
+\usepackage{nicefrac}
 
 % Glossaries
 \usepackage[acronym,toc]{glossaries}
@@ -201,14 +202,135 @@ The described model along with the inferred parameters $\boldsymbol{\hat{\theta}
 \section{Methods}
 \label{sec:methods}
 
-We use \gls{mcmc} sampling to draw parameter samples $\boldsymbol{\hat{\theta}}_i$ for $i \leq S$ from the likelihood described in \cref{eq:log_likelihood}. More specifically, we use the Python implementation \texttt{emcee} \cite{foreman-mackey_emcee_2013} and two sample proposal mechanisms based on differential evolution moves \cite{ter_braak_differential_2008,nelson_run_2013} for sampling. The $S$ parameter estimates are then used to compute distributions of estimates that depend on the parameters $\boldsymbol{\theta}$.
+\subsection{Parameter Inference}
+\label{subsec:methods:inference}
 
-The entire methodology used in this work is publicly available in the GitHub repository \href{https://github.com/rmnldwg/lynference}{\texttt{rmnldwg/lynference}}. Tagged references to specific versions of an inference pipeline allow reproducing the inferred parameters of the models described here. Prevalence and risk predictions, as well as the figures depicting them, can be reproduced following the instructions of the GitHub repository underlying this publication \href{https://github.com/rmnldwg/graph-extension}{\texttt{rmnldwg/graph-extension}}.
+We use \gls{mcmc} sampling to draw parameter samples $\boldsymbol{\hat{\theta}}_i$ for $i \leq S$ from the likelihood described in \cref{eq:log_likelihood} (i.e. the unnormalized posterior distribution over the parameters $\boldsymbol{\theta}$, since we used a uniform prior in this work).
+
+More specifically, we use the Python implementation \texttt{emcee} \cite{foreman-mackey_emcee_2013} and two sample proposal mechanisms based on differential evolution moves \cite{ter_braak_differential_2008,nelson_run_2013} for sampling. Instead of proposing and then accepting or rejecting individual parameter samples one after the other (as in the classical Metropolis-Hastings algorithm), the \texttt{emcee} implementation makes use of an ensemble of $W$ so-called ``walkers''. This gives rise to $W$ parallel chains of samples that mutually influence each others proposal such that the sampling proceedure overall is \emph{affine invariant}. This means that scaling the parameter space along any dimension has no effect on the performance of the \gls{mcmc}.
+
+For the experiments in this work, we used $W = 20 \cdot k$ walkers, where $k$ is the dimensionaliry of the parameter space $\boldsymbol{\Theta}$. After an initial ``burn-in'' phase, during which all drawn samples are discarded because they are not yet independent from the initial state, we continued sampling for another 200 steps of which we discarded every 10th to be left with $S = 20 \cdot W$ samples.
+
+These $S$ parameter estimates are then used to compute expectation values of estimates that depend on the parameters $\boldsymbol{\theta}$ through an integral over the parameter space $\boldsymbol{\Theta}$:
+%
+\begin{equation}
+    \begin{aligned}
+        \mathbb{E}_p \left[ f \right] &= \int_{\boldsymbol{\Theta}} p(\boldsymbol{\theta}) f(\boldsymbol{\theta}) d\boldsymbol{\theta} \\
+        &\approx \frac{1}{S} \sum_{i=1}^S f \big( \boldsymbol{\hat{\theta}}_i \big)
+    \end{aligned}
+\end{equation}
+%
+Alternatively, the individual $\hat{f}_i = f\big( \boldsymbol{\hat{\theta}}_i \big)$ can be used to plot histograms over the distribution of $f$. We will do so in \cref{sec:results} to show distributions over prevalence predictions and risk computations.
+
+Another relevant model parameter that needs to be set for the inference process, is the maximum number of time-steps we used for the evolution of the system. We set this value to $t_\text{max} = 10$, such that $t \in \{ 0, 1, 2, \ldots, 10 \}$. The binomial ``success probability'' used to fix the shape of the early T-category's time-prior was set to $p_\text{early} = 0.3$.
+
+\subsection{Model Comparison}
+\label{subsec:methods:comparison}
+
+\begin{table*}
+    \centering
+    \begin{tabular}{ | c | c | c | }
+        \hline
+        $K_\text{1v2}$ & $\ln{K_\text{1v2}}$ & support for $\mathcal{M}_1$ \\
+        \hline
+        $< 10^0$ & $< 0$ & negative evidence (supports $\mathcal{M}_2$) \\
+        $10^0$ to $10^{\nicefrac{1}{2}}$ & 0 to 1.15 & barely worth a mention \\
+        $10^{\nicefrac{1}{2}}$ to $10^1$ & 1.15 to 2.3 & substantial \\
+        $10^1$ to $10^{\nicefrac{3}{2}}$ & 2.3 to 3.45 & strong \\
+        $10^{\nicefrac{3}{2}}$ to $10^2$ & 3.45 to 4.6 & very strong \\
+        $> 10^2$ & $> 4.6$ & decisive \\
+        \hline
+    \end{tabular}
+    \caption{Interpretation of Bayes factors and their natural logarithms in terms of their support for or against one of the two compared models as introduced by Harold Jeffreys \cite{jeffreys_theory_1998}.}
+    \label{table:bayes_factor}
+\end{table*}
+
+The aim of this work is to refine the graph structure underlying our risk model introduced in the previous section. This \gls{dag} determines the number of parameters of the model as well as how exactly the transition matrix $\mathbf{A}$ is parameterized. To compare different models that are based on different \glspl{dag}, e.g. models $\mathcal{M}_1$ and $\mathcal{M}_2$, in a Bayesian setting, we need to compute the probabilities of these models, given the data $\boldsymbol{\mathcal{D}}$:
+%
+\begin{equation}
+    P \left( \mathcal{M}_i \mid \boldsymbol{\mathcal{D}} \right) = \frac{P \left( \boldsymbol{\mathcal{D}} \mid \mathcal{M}_i \right) P \left( \mathcal{M}_i \right)}{ P \left( \boldsymbol{\mathcal{D}} \right) }
+\end{equation}
+%
+If we assume all models $\mathcal{M}_i$ for $i \in \{ 1,2 \}$ to have the same \emph{a priori} probability -- meaning in this case $P (\mathcal{M}_1) = P (\mathcal{M}_2)$ -- then we can compute the so-called \emph{Bayes factor} of the two models as the ratio of their likelihoods. The interpretation of the values for different Bayes factors is given in \cref{table:bayes_factor}. It is defined as follows:
+%
+\begin{equation}
+    K_\text{1v2} = \frac{P \left( \mathcal{M}_1 \mid \boldsymbol{\mathcal{D}} \right)}{P \left( \mathcal{M}_2 \mid \boldsymbol{\mathcal{D}} \right)} = \frac{P \left( \boldsymbol{\mathcal{D}} \mid \mathcal{M}_1 \right)}{P \left( \boldsymbol{\mathcal{D}} \mid \mathcal{M}_2 \right)}
+\end{equation}
+%
+These likelihoods are commonly called the \emph{model evidence} or \emph{marginal likelihood}. The latter because computing it involves marginalizing the data likelihood over all model parameters:
+%
+\begin{equation} \label{eq:evidence}
+    E_\mathcal{M} = P \left( \boldsymbol{\mathcal{D}} \mid \mathcal{M} \right) = \int_{\boldsymbol{\Theta}} P\left( \boldsymbol{\mathcal{D}} \mid \boldsymbol{\theta}, \mathcal{M} \right) p(\boldsymbol{\theta} \mid \mathcal{M}) d\boldsymbol{\theta}
+\end{equation}
+%
+However, this quantity is often very hard to compute or even intractable, due to the high dimensionality of the parameter space $\boldsymbol{\Theta}$. In our case, the number of dimensions ranges from $k=9$ for the \emph{base graph} to $k=11$ for the \emph{winning graph}. A brute-force integration over a unit cube with this many dimensions is inefficient and error prone, which is why we resorted to \gls{ti} for computing the (log-)evidence.
+
+Below, we will briefly outline the main concept behind this algorithm. An intuitive and extensive derivation of \gls{ti} is given by \cite{aponte_introduction_2022}.
+
+We start by taking the logarithm of the model evidence $E$ and subtract a zero from it in the form of the term $0 = \ln \int p(\boldsymbol{\theta} \mid \mathcal{M}) d\boldsymbol{\theta}$. Further, we can multiply the distribution over the parameters $\boldsymbol{\theta}$ inside this integral by $1 = P \left( \boldsymbol{\mathcal{D}} \mid \boldsymbol{\theta}, \mathcal{M} \right)^{\beta=0}$. Subsequently, we can write the logarithm of the evidence as an integral over a derivative:
+%
+\begin{equation} \label{eq:ti}
+    \begin{aligned}
+        \ln E &= \ln \int P \left( \boldsymbol{\mathcal{D}} \mid \boldsymbol{\theta}, \mathcal{M} \right)^{\beta=1} p \left( \boldsymbol{\theta} \mid \mathcal{M} \right) d\boldsymbol{\theta} - \ln E_0 \\
+        &= \int_0^1 \frac{d}{d\beta} \ln E_\beta d\beta
+    \end{aligned}
+\end{equation}
+%
+Where we have used the (unnormalized) \emph{power posterior} $p_\beta \left( \boldsymbol{\theta} \mid \boldsymbol{\mathcal{D}}, \mathcal{M} \right) = P \left( \boldsymbol{\mathcal{D}} \mid \boldsymbol{\theta}, \mathcal{M} \right)^\beta p \left( \boldsymbol{\theta} \mid \mathcal{M} \right)$ to compute the respective evidence $E_\beta = \int p_\beta \left( \boldsymbol{\theta} \mid \boldsymbol{\mathcal{D}}, \mathcal{M} \right) d\boldsymbol{\theta}$.
+
+The derivatives of the log-evidences $\ln E_\beta$ are essentially expectation values of the data log-likelihood under the power posteriors of the corresponding value for $\beta$. They can be computed using \gls{mcmc}:
+%
+\begin{equation}
+    \begin{aligned}
+        \frac{d}{d\beta} \ln E_\beta &= \int p_\beta \left( \boldsymbol{\theta} \mid \boldsymbol{\mathcal{D}}, \mathcal{M} \right) \ln P \left( \boldsymbol{\mathcal{D}} \mid \boldsymbol{\theta}, \mathcal{M} \right) d\boldsymbol{\theta} \\
+        &= \mathbb{E} \left[ \ln P \left( \boldsymbol{\mathcal{D}} \mid \boldsymbol{\theta}, \mathcal{M} \right) \right]_{ p_\beta \left( \boldsymbol{\theta} \mid \boldsymbol{\mathcal{D}}, \mathcal{M} \right) } \\
+        &\approx \frac{1}{S} \sum_{i=1}^S \ln P \left( \boldsymbol{D} \mid \hat{\boldsymbol{\theta}}_{\beta i}, \mathcal{M} \right) =: \mathcal{A}_\text{MC} \left( \beta \right)
+    \end{aligned}
+\end{equation}
+%
+The integral in \cref{eq:ti} can then be computed via a trapezoidal rule using the $\mathcal{A}_\text{MC}$ to yield a  numerical approximation of the model evidence:
+%
+\begin{equation}
+    \ln E \approx \frac{1}{2} \sum_{j=0}^{R-1} \left( \beta_{j+1} - \beta_j \right) \cdot \big( \mathcal{A}_\text{MC} (\beta_{j+1}) + \mathcal{A}_\text{MC} (\beta_j) \big)
+\end{equation}
+%
+This estimate gets better for more samples $S$ per sampling from the power posterior $p_\beta$ but more importantly it gets better for a tighter spacing of the values for $\beta$ within the interval $[0,1]$. The variable $\beta$ is also often referred to as an \emph{inverse temperature}, due to its origins in statistical physics. Often when performing \gls{ti}, the most drastic changes in the values of the $\mathcal{A}_\text{MC}$ occur at high temperatures (meaning $\beta$ very close to zero), while the changes become smaller and smaller for lower temparatures ($\beta$ towards one). It is therefore efficient to space the \emph{temperature ladder} unevenly, e.g. according to a fifth order power rule:
+%
+\begin{equation} \label{eq:power_rule}
+    \beta_j = \left( j / R \right)^5 \qquad j \in \{ 0, 1, 2, \ldots, R \}
+\end{equation}
+%
+For the \glspl{ti} that were performed in this work we used such a fifth order power rule with 64 steps, meaning that $R=63$.
+
+The process of computing the log-evidence using \gls{ti} was as follows: We randomly initialized the starting positions of the $W$ samplers in the ensemble within the $k$ dimensional unit cube $\boldsymbol{\Theta}$. Subsequently, for each $j \in \{ 0, 1, 2, \ldots, R=63 \}$ we drew samples from the corresponding power posterior with the value of $\beta_j$ set according to the power rule in \cref{eq:power_rule}. This sampling at point $j$ consisted of 1000 burn-in steps, followed by 200 steps, of which only every tenth was kept. The last position of the $W$ chains for the $j$-th $\beta$ value in the ladder was used to initialize the subsequent sampling round with $\beta_{j+1}$. Hence, after the computations are finished, we are left with $S = 20 \cdot W$ samples $\boldsymbol{\hat{\theta}}_{i,j}$ and respective log-likelihood $\hat{\ell}_{i,j}$ from each of the 64 power posteriors corresponding to the respective $\beta_j$. Subsequently, we numerically integrated the following quantity $S$ times:
+%
+\begin{equation}
+    \ln \hat{E}_i = \frac{1}{2} \sum_{j=0}^{R-1} \left( \beta_{j+1} - \beta_j \right) \cdot \left( \hat{\ell}_{i,j} + \hat{\ell}_{i,j+1} \right)
+\end{equation}
+%
+And then computed the mean and standard deviation of all the integrated $\ln \hat{E}_i$. We then used this for the log-evidence and its error.
+
+Without derivation or insight, we would like to mention that the model evidence naturally balances a model's accuracy against its complexity. The value of $\ln E$ will generally be larger (i.e., less negative) if a model fits the data better than another while being similarily complex. On the other hand, if e.g. additional parameters are introduced without sufficiently improving how well the model explains the data, the evidence will penalize the increase in complexity.
+
+An approximation to the evidence that also attempts to balance accuracy and complexity against each other is the heuristic called \gls{bic}. The negative one half of the \gls{bic} approximates the $\ln E$ via Lagrange's method \cite{bhat_derivation_2010} and yields an easy to compute estimate that may also be used to compare models, as long as its underlying assumptions are valid:
+%
+\begin{equation} \label{eq:bic}
+    - \text{BIC} / 2 = \ln{\hat{\mathcal{L}}} - \frac{k}{2} \ln{N} \approx \ln{E}
+\end{equation}
+%
+Here, $\hat{\mathcal{L}} = \max_{\boldsymbol{\theta}}{\left( \ln P \left( \boldsymbol{\mathcal{D}} \mid \boldsymbol{\theta} \right)\right)}$ is the maximum log-likelihood. The approximation is good, when the posterior distribution over the parameters $p\left( \boldsymbol{\theta} \mid \boldsymbol{\mathcal{D}} \right)$ is single-modal and falls quickly to zero from the maximum. Also, the number of datapoints $N$ needs to be much larger than the number of parameters $k$. We will see that for the models we consider here, the \gls{bic} is generally a good approximation and the conclusions drawn from comparing models using this metric can be reproduced reliably using the true model evidence computed with \gls{ti}.
+
+\subsection{Reproducibility}
+\label{subsec:methods:reproducibility}
+
+The entire methodology used in this work is publicly available in the GitHub repository \href{https://github.com/rmnldwg/lynference}{\texttt{rmnldwg/lynference}}. Tagged references to specific versions of an inference pipeline allow reproducing the inferred parameters of the models described here. Every parameter necessary to reproduce such a pipeline is specified there in designated configuration files. It also defines the sequences of computations that constitute the pipeline that are mostly calls to commands of the \href{https://pypi.org/project/lyscripts/}{\texttt{lyscripts}} we published.
+
+All figures in this work, like the risk predictions and prevalences we show histograms of, can be reproduced following the instructions of the GitHub repository underlying this publication \href{\GitHubURL}{\texttt{rmnldwg/graph-extension}}. It is based off of the \showyourwork project.
 
 \section{Multicentric Dataset}
 \label{sec:data}
 
-The dataset $\boldsymbol{\mathcal{D}}$ that we used for inference is comprised of the detailed reports on lymphatic involvement patterns in \gls{opscc} patients treated at three different institutions in France and Switzerland: The \gls{clb} in Lyon (France), the \gls{isb}, and the \gls{usz} (both in Swiztzerland). We have previously published the patterns of nodal involvement for the \gls{usz} cohort \cite{ludwig_dataset_2022} and described its characteristics in detail \cite{ludwig_detailed_2022}. A large part of the \gls{clb} data underlies a publication on \gls{hpv} status in \gls{opscc} \cite{bauwens_prevalence_2021} that was kindly provided to us by Vincent Grégoire. The patient information on lymphatic metastatic involvement from the \gls{isb} cohort was sent to us by Roland Giger through a collaboration.
+The dataset $\boldsymbol{\mathcal{D}}$ that we used for inference is comprised of the detailed reports on lymphatic involvement patterns in \gls{opscc} patients treated at three different institutions in France and Switzerland: The \gls{clb} in Lyon (France), the \gls{isb}, and the \gls{usz} (both in Switzerland). We have previously published the patterns of nodal involvement for the \gls{usz} cohort \cite{ludwig_dataset_2022} and described its characteristics in detail \cite{ludwig_detailed_2022}. A large part of the \gls{clb} data underlies a publication on \gls{hpv} status in \gls{opscc} \cite{bauwens_prevalence_2021} that was kindly provided to us by Vincent Grégoire. The patient information on lymphatic metastatic involvement from the \gls{isb} cohort was sent to us by Roland Giger through a collaboration.
 
 In total, the dataset contains 681 patients newly diagnosed with \gls{opscc} that were treated with either definitive radiotherapy or neck dissection. Pathologically assessed post-operative \gls{lnl} involvement was available for 393 of patients, while for the remainder the nodal involvement was assessed based on available diagnostic modalities. If multiple modalities were used to diagnose a patient's lymphatic involvement and conflicting conclusions were drawn from this, the conflicts were resolved by inferring the most likely state (healthy or metastatic) for each \gls{lnl} separately. To do so, we used literature values for the sensitivity and specificity of the diagnostic modalities \cite{de_bondt_detection_2007,kyzas_18f-fluorodeoxyglucose_2008}, which we also tabulated below.
 
@@ -245,6 +367,9 @@ In total, the dataset contains 681 patients newly diagnosed with \gls{opscc} tha
         \label{fig:bg_prevalences}
     \end{centering}
 \end{figure*}
+
+\subsection{Base Graph}
+\label{subsec:results:base_graph}
 
 For the base graph, we have plotted the predicted prevalence of involvement patterns in the investigated patient cohort for scenarios involving the most commonly metastatic \glspl{lnl} II, III and IV in \cref{fig:bg_prevalences}. This figure shows that this minimal graph is already capable of describing the most important parts of the observed data very well. The subsequent changes to the graph connections we investigated therefore focus on the improvements w.r.t. involvement patterns that include the \glspl{lnl} I, V, and VII that more rarely harbor occult disease.
 
