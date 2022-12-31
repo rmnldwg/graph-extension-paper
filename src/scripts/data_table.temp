@@ -1,0 +1,9 @@
+\begin{tabular}{|cccccc|r|r|}
+    \hline
+    \multicolumn{6}{|c|}{\textbf{LNL involvement} } & \multicolumn{2}{c|}{\textbf{T-category} } \\
+    I & II & III & IV & V & VII & early & late \\
+    \hline
+    {% for early, late in scenarios.early | zip(scenarios.late) %}{{ early.pattern | get_lnl("I") }} & {{ early.pattern | get_lnl("II") }} & {{ early.pattern | get_lnl("III") }} & {{ early.pattern | get_lnl("IV") }} & {{ early.pattern | get_lnl("V") }} & {{ early.pattern | get_lnl("VII") }} & {{ early | prev }} & {{ late | prev }} \\
+    {% endfor %}
+    \hline
+\end{tabular}

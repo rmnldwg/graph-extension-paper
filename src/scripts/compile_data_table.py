@@ -5,66 +5,74 @@ the paper.
 """
 import re
 
-from jinja2 import Environment, FileSystemLoader
-import requests
-from bs4 import BeautifulSoup
+from jinja2 import Environment, FileSystemLoader, exceptions
 import yaml
+from lyscripts.plot.utils import Posterior
 
 import paths
 
 
-BASE_URL = "https://lyprox.org/dashboard"
-URL_PARAMS_PATH = paths.scripts / "default_dashboard_params.yaml"
-TSTAGE_PARAMS = {
-    "early": {"t_stage__in": 1, "t_stage__in": 2},
-    "late" : {"t_stage__in": 3, "t_stage__in": 4},
-}
-SCENARIO_PARAMS = {
-    "I": {"ipsi_I": 1},
-}
 TEMPLATE_NAME = "data_table.temp"
 OUTPUT = paths.output / "data_table.tex"
+REGEX_PATTERN = r"(^[wb]g_[IV]{1,3}and[IV]{1,3})_.+\.yaml$"
 
 
-with open(URL_PARAMS_PATH, mode="r", encoding="utf-8") as url_params_file:
-    default_url_params = yaml.safe_load(url_params_file)
+scenarios = {"early": [], "late": []}
+yaml_file_paths = paths.scripts.glob("*.yaml")
+for yaml_file_path in yaml_file_paths:
+    regex_match = re.match(REGEX_PATTERN, yaml_file_path.name)
 
-for stage, stage_params in TSTAGE_PARAMS.items():
-    for scenario, scenario_params in SCENARIO_PARAMS.items():
-        url_params = default_url_params.copy()
-        url_params.update(stage_params)
-        url_params.update(scenario_params)
+    if regex_match is None:
+        continue
 
-        response = requests.get(url=BASE_URL, params=url_params, timeout=1000)
-        if not response.ok:
-            raise ConnectionError("Request failed.")
-        soup = BeautifulSoup(response.text, "html.parser")
-        button_text = soup.html.find(
-            "button",
-            class_="button is-medium is-warning is-light is-outlined"
-        ).span.text
-        number = re.match(r"[0-9]{1,3}", button_text)
+    with open(yaml_file_path, mode="r", encoding="utf-8") as yaml_file:
+        yaml_params = yaml.safe_load(yaml_file)
+
+    hdf_file_path = paths.data / f"{regex_match[1]}_prevs.hdf5"
+    for scenario in yaml_params["prevalences"]:
+        posterior = Posterior.from_hdf5(
+            filename=hdf_file_path,
+            dataname=scenario["name"],
+        )
+        scenario.update({
+            "num_success": posterior.num_success,
+            "num_total": posterior.num_total,
+        })
+        scenario["pattern"] = scenario["pattern"]["ipsi"]
+        scenarios[scenario["t_stage"]].append(scenario)
 
 
-response = requests.get(
-    url=BASE_URL,
-    params=url_params,
-)
+for early_sc, late_sc in zip(scenarios["early"], scenarios["late"]):
+    if early_sc["pattern"] != late_sc["pattern"]:
+        raise RuntimeError("Early and late scenarios don't match.")
+
+if len(scenarios["early"]) != len(scenarios["late"]):
+    raise RuntimeError("Not the same number of early and late scenarios")
+
+
+def get_lnl(value_dict, lnl):
+    try:
+        value = value_dict[lnl]
+    except KeyError:
+        return "?"
+    if value:
+        return r"{\color{red} \CIRCLE}"
+    return r"{\color{green} \CIRCLE}"
+
+def prev(value):
+    percent = int(100. * value["num_success"] / value["num_total"])
+    return f"{value['num_success']}/{value['num_total']} ({percent:d}\%)"
 
 
 environment = Environment(
     loader=FileSystemLoader(paths.scripts)
 )
+environment.filters["get_lnl"] = get_lnl
+environment.filters["prev"] = prev
+environment.filters["zip"] = zip
 table_template = environment.get_template(TEMPLATE_NAME)
-context = {}
+context = {"scenarios": scenarios}
 
 
-with open(BASE_GRAPH_INPUT, mode="r") as bg_file:
-    bg_metrics = json.load(bg_file)
-
-for key,val in bg_metrics.items():
-    context[f"bg_{key}"] = val
-
-
-with open(OUTPUT, mode="w") as table_file:
+with open(OUTPUT, mode="w", encoding="utf-8") as table_file:
     table_file.write(table_template.render(**context))

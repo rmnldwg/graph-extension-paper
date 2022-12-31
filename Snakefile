@@ -20,7 +20,27 @@ rule extract_metrics:
     input:
         "src/data/bg_metrics.json",
         "src/data/wg_metrics.json",
+        "src/scripts/results_table.temp",
     output:
         "src/tex/output/results_table.tex"
     script:
         "src/scripts/compile_metrics_table.py"
+
+rule compile_data_table:
+    input:
+        "src/data/bg_core_prevs.hdf5",
+        "src/data/bg_IandII_prevs.hdf5",
+        "src/data/wg_IandII_prevs.hdf5",
+        "src/data/bg_IandII_prevs.hdf5",
+        "src/data/wg_IandII_prevs.hdf5",
+        "src/data/bg_IIandVII_prevs.hdf5",
+        "src/data/wg_IIandVII_prevs.hdf5",
+        "src/data/bg_IIIandV_prevs.hdf5",
+        "src/data/wg_IIIandV_prevs.hdf5",
+        "src/data/bg_IVandV_prevs.hdf5",
+        "src/data/wg_IVandV_prevs.hdf5",
+        "src/scripts/data_table.temp",
+    output:
+        "src/tex/output/data_table.tex"
+    script:
+        "src/scripts/compile_data_table.py"
