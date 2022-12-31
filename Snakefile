@@ -44,3 +44,12 @@ rule compile_data_table:
         "src/tex/output/data_table.tex"
     script:
         "src/scripts/compile_data_table.py"
+
+# rule thermo_int_plot:
+#     input:
+#         base = "src/data/bg_samples.hdf5",
+#         win = "src/data/wg_samples.hdf5"
+#     output:
+#         "src/tex/figures/thermo_int.png"
+#     shell:
+#         "lyscripts plot thermo_int {input.base} {input.win} -o {output} --labels 'base graph' 'winning graph'"
