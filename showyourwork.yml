@@ -50,7 +50,9 @@ dependencies:
   src/scripts/comp_IVandV_prevs.py:
     - src/data/bg_IVandV_prevs.hdf5
     - src/data/wg_IVandV_prevs.hdf5
-
+  src/scripts/thermo_int.py:
+    - src/data/base_accuracies.csv
+    - src/data/win_accuracies.csv
 # Name of the `.tex` manuscript and corresponding `.pdf` article
 ms_name: ms
 

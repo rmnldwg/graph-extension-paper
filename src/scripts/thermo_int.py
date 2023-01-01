@@ -18,7 +18,7 @@ ACCURACY_PATHS = {
     "win" : paths.data / "win_accuracies.csv",
 }
 OUTPUT = (paths.figures / Path(__file__).name).with_suffix(".png")
-POWER = 4
+POWER = 5
 
 
 if __name__ == "__main__":
@@ -54,13 +54,17 @@ if __name__ == "__main__":
         x="β", y=["base graph", "win graph"], ax=axes,
         color=[USZ["red"], USZ["green"]],
     )
+
     xticks = np.linspace(0., 1., 7)
     xticklabels = [f"{x**POWER:.2g}" for x in xticks]
     axes.set_xticks(xticks)
     axes.set_xticklabels(xticklabels)
     axes.set_xlim(left=0., right=1.)
+    axes.set_xlabel(r"inverse temperature $\beta$")
     axes.set_yscale("symlog",)
     axes.get_yaxis().set_major_locator(matplotlib.ticker.MultipleLocator(800))
     axes.get_yaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
     axes.ticklabel_format(axis="y", style="sci", scilimits=(2,2))
+    axes.set_ylabel(r"$\ln \mathcal{A}_{MC}(\beta)$")
+
     fig.savefig(OUTPUT, dpi=400)
