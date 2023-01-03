@@ -5,7 +5,7 @@ the paper.
 """
 import re
 
-from jinja2 import Environment, FileSystemLoader, exceptions
+from jinja2 import Environment, FileSystemLoader
 import yaml
 from lyscripts.plot.utils import Posterior
 
@@ -39,6 +39,10 @@ for yaml_file_path in yaml_file_paths:
             "num_total": posterior.num_total,
         })
         scenario["pattern"] = scenario["pattern"]["ipsi"]
+        
+        if scenario in scenarios[scenario["t_stage"]]:
+            continue
+
         scenarios[scenario["t_stage"]].append(scenario)
 
 
@@ -61,7 +65,7 @@ def get_lnl(value_dict, lnl):
 
 def prev(value):
     percent = int(100. * value["num_success"] / value["num_total"])
-    return f"{value['num_success']}/{value['num_total']} ({percent:d}\%)"
+    return f"{percent:d}\%"
 
 
 environment = Environment(
