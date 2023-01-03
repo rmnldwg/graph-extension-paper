@@ -65,12 +65,12 @@
 \section{Introduction}
 \label{sec:intro}
 
-\begin{table*}
+\begin{table}
     \centering
     \variable{output/data_table.tex}
     \caption{Prevalence of involvement patterns in the multi-centric dataset. An involvement pattern is characterized by the state of the six \glspl{lnl}: A red dot means the \gls{lnl} was reported to be metastatic, a green dot means it was determined to be healthy and a question mark means that the prevalence was marginalized over the state of this \gls{lnl}.}
     \label{table:data_prevalence}
-\end{table*}
+\end{table}
 
 When treating \gls{hnscc}, either with radiotherapy or via surgery, the aim is to irradiate or resect as much of the present malignancies as possible. This includes the primary tumor mass and metastases that are sufficiently large to be detected using in-vivo imaging modalities such as \gls{ct}, \gls{mri}, or \gls{pet}. But it also includes regions of possible microscopic spread, which these modalities cannot detect, to increase the patient's probability of cure \cite{poortmans_internal_2020,murthy_prostate-only_2021}. Microscopic disease can currently only be observed by a pathological examination of the tissue. Consequently, clinicians that are presented with cancer patients need to routinely assess the risk of microscopic involvement in parts of the body that appear clinically node negative.
 
@@ -368,12 +368,12 @@ In total, the dataset contains 681 patients newly diagnosed with \gls{opscc} tha
 \section{Results}
 \label{sec:results}
 
-\begin{table*}
+\begin{table}
     \centering
     \variable{output/results_table.tex}
     \caption{Model comparison results from the base graph and the extended graph we chose as the ``winnning'' model. For both \glspl{dag} we show the log-evidence, computed via thermodynamic integration, the negative one half of the \gls{bic}, as well as the maximum log-likelihood that was encountered during the final \gls{mcmc} sampling round.}
     \label{table:evidence}
-\end{table*}
+\end{table}
 
 \begin{figure*}
     \script{bg_core_prevs.py}
