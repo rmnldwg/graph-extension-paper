@@ -102,6 +102,20 @@ prevalences:
         II: true
         III: false
     t_stage: early
+  - name: IIInotIV/early
+    modality: max_llh
+    pattern:
+      ipsi:
+        III: true
+        IV: false
+    t_stage: early
+  - name: IIIandIV/early
+    modality: max_llh
+    pattern:
+      ipsi:
+        III: true
+        IV: true
+    t_stage: early
 
   - name: II/late
     modality: max_llh
@@ -120,6 +134,13 @@ prevalences:
     pattern:
       ipsi:
         IV: true
+    t_stage: late
+  - name: IInotIII/late
+    modality: max_llh
+    pattern:
+      ipsi:
+        II: true
+        III: false
     t_stage: late
   - name: IIInotIV/late
     modality: max_llh

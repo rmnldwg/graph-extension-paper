@@ -14,7 +14,7 @@ import paths
 
 TEMPLATE_NAME = "data_table.temp"
 OUTPUT = paths.output / "data_table.tex"
-REGEX_PATTERN = r"(^[wb]g_[IV]{1,3}and[IV]{1,3})_.+\.yaml$"
+REGEX_PATTERN = r"(^[wb]g_([IV]{1,3}and[IV]{1,3}|core))_.+\.yaml$"
 
 
 scenarios = {"early": [], "late": []}
