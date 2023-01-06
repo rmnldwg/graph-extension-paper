@@ -332,11 +332,18 @@ Here, $\hat{\mathcal{L}} = \max_{\boldsymbol{\theta}}{\left( \ln P \left( \bolds
 \subsection{Investigating Spread Graphs}
 \label{subsec:methods:graphs}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/extended_graph.png}
+    \caption{Extended \gls{dag} representing different possible spread graphs underlying the \gls{hmm}. As in \cref{fig:graph_with_obs}, red arcs are parametrized with probabilities of spread from the tumor (red circle) to the \glspl{lnl} (blue circles). These red arcs, together with the blue arcs fron \gls{lnl} to \gls{lnl}, make up the \emph{base graph}. One after the other, each of the green arcs was added to the base graph. Subsequently, the performance of the resulting models in terms of its \gls{bic} was compared to the base graph to asssess whether the additional edge should be kept in the \emph{winning graph} or not.}
+    \label{fig:extended_graph}
+\end{figure}
+
 The \gls{dag} shown in \cref{fig:graph_with_obs} includes the \glspl{lnl} I, II, III, and IV since previous models \cite{pouymayou_bayesian_2019,ludwig_hidden_2021} had to rely on a reconstructed dataset of \gls{opscc} patients that contained only information on these four levels \cite{sanguineti_defining_2009}. Now, with datasets available that almost always report the \glspl{lnl} I, II, III, IV, V, and VII, we may add more \glspl{rv} to extend the graph and investigate how these \glspl{rv} should be connected among each other.
 
 First, we notice that the direct arcs from tumor to each of the \glspl{lnl} must be present, since every \gls{lnl} appears metastatic in isolation at least once. For example, some patients presented with metastases in \gls{lnl} I, while the other levels appeared healthy. If no spread was allowed from the tumor to $X_1$ (i.e., $b_i = 0$), the likelihood of observing this patient would be zero.
 
-We have more freedom in choosing how to connect the \glspl{lnl} to each other.
+We have more freedom in choosing how to connect the \glspl{lnl} to each other. To investigate which connections to add we start by establishing a baseline from a model using a minimal \emph{base graph}. It contains only the connections from \gls{lnl} II to III and an arc from \gls{lnl} III to IV, as motivated by the \emph{main lymphatic pathway} \cite{lengele_anatomical_2007}. In contrast to the \gls{dag} used in \cite{pouymayou_bayesian_2019,ludwig_hidden_2021}, we decided not to include the edge from level I to II into the base graph, since \gls{lnl} I is rarely involved and inferring $t_{12}$ is therefore difficult. Rather, we wanted to use the model comparison methodology outlined in \cref{subsec:methods:comparison} to see if the arc from \gls{lnl} I to II can be motivated from our data of if the arc should be flipped and go from \gls{lnl} II to I.
 
 \subsection{Reproducibility}
 \label{subsec:methods:reproducibility}
@@ -348,12 +355,6 @@ All figures in this work, like the risk predictions and prevalences we show hist
 \section{Multicentric Dataset}
 \label{sec:data}
 
-\begin{figure}
-    \centering
-    \includegraphics{figures/extended_graph.png}
-    \caption{Extended \gls{dag} representing different possible spread graphs underlying the \gls{hmm}. As in \cref{fig:graph_with_obs}, red arcs are parametrized with probabilities of spread from the tumor (red circle) to the \glspl{lnl} (blue circles). These red arcs, together with the blue arcs fron \gls{lnl} to \gls{lnl}, make up the \emph{base graph}. One after the other, each of the green arcs was added to the base graph. Subsequently, the performance of the resulting models in terms of its \gls{bic} was compared to the base graph to asssess whether the additional edge should be kept in the \emph{winning graph} or not.}
-    \label{fig:extended_graph}
-\end{figure}
 
 \begin{table}
     \centering
