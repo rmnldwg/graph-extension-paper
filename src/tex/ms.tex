@@ -65,20 +65,13 @@
 \section{Introduction}
 \label{sec:intro}
 
-\begin{table}
-    \centering
-    \variable{output/data_table.tex}
-    \caption{Prevalence of involvement patterns in the multi-centric dataset. An involvement pattern is characterized by the state of the six \glspl{lnl}: A red dot means the \gls{lnl} was reported to be metastatic, a green dot means it was determined to be healthy and a question mark means that the prevalence was marginalized over the state of this \gls{lnl}.}
-    \label{table:data_prevalence}
-\end{table}
-
 When treating \gls{hnscc}, either with radiotherapy or via surgery, the aim is to irradiate or resect as much of the present malignancies as possible. This includes the primary tumor mass and metastases that are sufficiently large to be detected using in-vivo imaging modalities such as \gls{ct}, \gls{mri}, or \gls{pet}. But it also includes regions of possible microscopic spread, which these modalities cannot detect, to increase the patient's probability of cure \cite{poortmans_internal_2020,murthy_prostate-only_2021}. Microscopic disease can currently only be observed by a pathological examination of the tissue. Consequently, clinicians that are presented with cancer patients need to routinely assess the risk of microscopic involvement in parts of the body that appear clinically node negative.
 
-This work concerns itself with \gls{opscc}, which commonly spreads lymphatically. The only two publicly available datasets on nodal involvement patterns in \gls{opscc}, at the time of writing, show that 80\% of patients where either cN+ or -- if available -- pN+ \cite{ludwig_dataset_2022}. Since the exact number and location of lymph nodes varies from patient to patient, the nodes are grouped into anatomically defined \glspl{lnl}. These levels are then often irradiated or resected prophylactically due to the risk of harboring occult metastases despite negative findings from imaging modalities. In current clinical practice, \gls{ctv-n} definition is instead mostly based on guidelines \cite{gregoire_ct-based_2003,gregoire_delineation_2014,gregoire_delineation_2018,eisbruch_intensity-modulated_2002,biau_selection_2019,chao_determination_2002,vorwerk_guidelines_2011,ferlito_elective_2009} that are derived from the observed prevalence of involvement in an \gls{lnl} for a given tumor location.
+This work concerns itself with \gls{opscc}, which commonly spreads lymphatically. The only two publicly available datasets on nodal involvement patterns in \gls{opscc}, at the time of writing, show that 80\% of patients where either cN+ or -- if available -- pN+ \cite{ludwig_dataset_2022}. Since the exact number and location of lymph nodes varies from patient to patient, the nodes are grouped into anatomically defined \glspl{lnl}. These levels are then often irradiated or resected prophylactically due to the risk of harboring occult metastases despite negative findings from imaging modalities. In current clinical practice, \gls{ctv-n} definition is mostly based on guidelines \cite{gregoire_ct-based_2003,gregoire_delineation_2014,gregoire_delineation_2018,eisbruch_intensity-modulated_2002,biau_selection_2019,chao_determination_2002,vorwerk_guidelines_2011,ferlito_elective_2009} that are derived from the observed prevalence of involvement in an \gls{lnl} for a given tumor location.
 
 These guidelines, however, do not account for the personal risk of the patients that may depend greatly on their diagnosis. E.g., macroscopic metastases detected via \gls{pet} in the \glspl{lnl} II and III may increase the risk for occult disease in \gls{lnl} IV over the case of a patient who presents with a clinically N0 neck.
 
-A model for estimating the risk of microscopic disease, given a personal diagnosis based on \glspl{bn} was previously developed \cite{pouymayou_bayesian_2019} and subsequently adapted to make use of \glspl{hmm} to include T-category in an intuitive manner \cite{ludwig_hidden_2021}. These models were trained on a dataset of early T-category (T1 and T2) patients that could be reconstructed from \cite{sanguineti_defining_2009}. Since this publication only includes details about the involvement of the ipsilateral \glspl{lnl} I, II, III, and IV, the models were limited to these nodal levels as well.
+A model for estimating the risk of microscopic disease, given a personal diagnosis based on \glspl{bn} was previously developed \cite{pouymayou_bayesian_2019}. It was subsequently formulated as a \glspl{hmm} to include T-category in an intuitive manner \cite{ludwig_hidden_2021}. These models were trained on a dataset of early T-category (T1 and T2) patients that could be reconstructed from \cite{sanguineti_defining_2009}. Since this publication only includes details about the involvement of the ipsilateral \glspl{lnl} I, II, III, and IV, the models were limited to these nodal levels as well.
 
 With the publication of larger and more detailed datasets \cite{ludwig_dataset_2022}, the risk estimation models may be extended as well to include the additionally reported \glspl{lnl} V and VII. This work aims to do that and at the same time demonstrate the capability 
 of the previously introduced \gls{hmm} to adapt to real patient data from a multi-centric cohort of XXX \gls{opscc} patients.
@@ -239,17 +232,17 @@ Another relevant model parameter that needs to be set for the inference process,
     \script{thermo_int.py}
     \centering
     \includegraphics[width=\linewidth]{figures/thermo_int.png}
-    \caption{Placeholder}
+    \caption{The expected log-accuracy under the power posterior plotted against the value of the inverse temperature $\beta$. These values were computed during a \gls{ti} run for the base graph model (red line), as well as the winning graph model (green line). Note that the scaling of the x-axis is chosen such that the 64 points on the temperature ladder appear evenly spaced. This is to stress how the log-accuracy develops in the range from $\beta=0$ to around $\beta=0.1$. The area under these two curves yields an approximation of the log-evidence of the respective model. In this plot one can see that due to the simplicity of the base graph model its accuracy increases earlier and faster that the winning graph model's. However, already around $\beta=0.1$ the model based on the winning graph outperforms the base graph model. Ultimately, the winning graph's log-evidence is better than the base graph model's by a value of around 3 (see \cref{table:evidence}).}
     \label{fig:thermo_int}
 \end{figure}
 
-\begin{table*}
+\begin{table}
     \centering
     \begin{tabular}{ | c | c | c | }
         \hline
         $K_\text{1v2}$ & $\ln{K_\text{1v2}}$ & support for $\mathcal{M}_1$ \\
         \hline
-        $< 10^0$ & $< 0$ & negative evidence (supports $\mathcal{M}_2$) \\
+        $< 10^0$ & $< 0$ & negative (supports $\mathcal{M}_2$) \\
         $10^0$ to $10^{\nicefrac{1}{2}}$ & 0 to 1.15 & barely worth a mention \\
         $10^{\nicefrac{1}{2}}$ to $10^1$ & 1.15 to 2.3 & substantial \\
         $10^1$ to $10^{\nicefrac{3}{2}}$ & 2.3 to 3.45 & strong \\
@@ -259,7 +252,7 @@ Another relevant model parameter that needs to be set for the inference process,
     \end{tabular}
     \caption{Interpretation of Bayes factors and their natural logarithms in terms of their support for or against one of the two compared models as introduced by Harold Jeffreys \cite{jeffreys_theory_1998}.}
     \label{table:bayes_factor}
-\end{table*}
+\end{table}
 
 The aim of this work is to refine the graph structure underlying our risk model introduced in the previous section. This \gls{dag} determines the number of parameters of the model as well as how exactly the transition matrix $\mathbf{A}$ is parameterized. To compare different models that are based on different \glspl{dag}, e.g. models $\mathcal{M}_1$ and $\mathcal{M}_2$, in a Bayesian setting, we need to compute the probabilities of these models, given the data $\boldsymbol{\mathcal{D}}$:
 %
@@ -336,6 +329,15 @@ An approximation to the evidence that also attempts to balance accuracy and comp
 %
 Here, $\hat{\mathcal{L}} = \max_{\boldsymbol{\theta}}{\left( \ln P \left( \boldsymbol{\mathcal{D}} \mid \boldsymbol{\theta} \right)\right)}$ is the maximum log-likelihood. The approximation is good, when the posterior distribution over the parameters $p\left( \boldsymbol{\theta} \mid \boldsymbol{\mathcal{D}} \right)$ is single-modal and falls quickly to zero from the maximum. Also, the number of datapoints $N$ needs to be much larger than the number of parameters $k$. We will see that for the models we consider here, the \gls{bic} is generally a good approximation and the conclusions drawn from comparing models using this metric can be reproduced reliably using the true model evidence computed with \gls{ti}.
 
+\subsection{Investigating Spread Graphs}
+\label{subsec:methods:graphs}
+
+The \gls{dag} shown in \cref{fig:graph_with_obs} includes the \glspl{lnl} I, II, III, and IV since previous models \cite{pouymayou_bayesian_2019,ludwig_hidden_2021} had to rely on a reconstructed dataset of \gls{opscc} patients that contained only information on these four levels \cite{sanguineti_defining_2009}. Now, with datasets available that almost always report the \glspl{lnl} I, II, III, IV, V, and VII, we may add more \glspl{rv} to extend the graph and investigate how these \glspl{rv} should be connected among each other.
+
+First, we notice that the direct arcs from tumor to each of the \glspl{lnl} must be present, since every \gls{lnl} appears metastatic in isolation at least once. For example, some patients presented with metastases in \gls{lnl} I, while the other levels appeared healthy. If no spread was allowed from the tumor to $X_1$ (i.e., $b_i = 0$), the likelihood of observing this patient would be zero.
+
+We have more freedom in choosing how to connect the \glspl{lnl} to each other.
+
 \subsection{Reproducibility}
 \label{subsec:methods:reproducibility}
 
@@ -345,6 +347,20 @@ All figures in this work, like the risk predictions and prevalences we show hist
 
 \section{Multicentric Dataset}
 \label{sec:data}
+
+\begin{figure}
+    \centering
+    \includegraphics{figures/extended_graph.png}
+    \caption{Extended \gls{dag} representing different possible spread graphs underlying the \gls{hmm}. As in \cref{fig:graph_with_obs}, red arcs are parametrized with probabilities of spread from the tumor (red circle) to the \glspl{lnl} (blue circles). These red arcs, together with the blue arcs fron \gls{lnl} to \gls{lnl}, make up the \emph{base graph}. One after the other, each of the green arcs was added to the base graph. Subsequently, the performance of the resulting models in terms of its \gls{bic} was compared to the base graph to asssess whether the additional edge should be kept in the \emph{winning graph} or not.}
+    \label{fig:extended_graph}
+\end{figure}
+
+\begin{table}
+    \centering
+    \variable{output/data_table.tex}
+    \caption{Prevalence of involvement patterns in the multi-centric dataset. An involvement pattern is characterized by the state of the six \glspl{lnl}: A red dot means the \gls{lnl} was reported to be metastatic, a green dot means it was determined to be healthy and a question mark means that the prevalence was marginalized over the state of this \gls{lnl}.}
+    \label{table:data_prevalence}
+\end{table}
 
 The dataset $\boldsymbol{\mathcal{D}}$ that we used for inference is comprised of the detailed reports on lymphatic involvement patterns in \gls{opscc} patients treated at three different institutions in France and Switzerland: The \gls{clb} in Lyon (France), the \gls{isb}, and the \gls{usz} (both in Switzerland). We have previously published the patterns of nodal involvement for the \gls{usz} cohort \cite{ludwig_dataset_2022} and described its characteristics in detail \cite{ludwig_detailed_2022}. A large part of the \gls{clb} data underlies a publication on \gls{hpv} status in \gls{opscc} \cite{bauwens_prevalence_2021} that was kindly provided to us by Vincent Grégoire. The patient information on lymphatic metastatic involvement from the \gls{isb} cohort was sent to us by Roland Giger through a collaboration.
 
@@ -389,6 +405,8 @@ In total, the dataset contains 681 patients newly diagnosed with \gls{opscc} tha
 
 For the base graph, we have plotted the predicted prevalence of involvement patterns in the investigated patient cohort for scenarios involving the most commonly metastatic \glspl{lnl} II, III and IV in \cref{fig:bg_prevalences}. This figure shows that this minimal graph is already capable of describing the most important parts of the observed data very well. The subsequent changes to the graph connections we investigated therefore focus on the improvements w.r.t. involvement patterns that include the \glspl{lnl} I, V, and VII that more rarely harbor occult disease.
 
+In \cref{fig:IandII_low_prevs,fig:IandII_high_prevs,fig:IIandVII_prevs,fig:IIIandV_prevs,fig:IVandV_prevs} the base graph's predictions for involvement patterns that include the \glspl{lnl} I, V, and VII have been plotted as gray, hatched histograms alongside the corresponding prevalence in the data and the prediction by the winning graph. This allows us to compare how the winning graph improves its fit to the data in these particular scenarios around low-risk \glspl{lnl}. How frequently each of the investigated lymphatic metastatic patterns were observed in the data is additionally tabulated in \cref{table:data_prevalence}, both for early and for late T-category cases.
+
 \begin{figure}
     \script{comp_IandII_low_prevs.py}
     \begin{centering}
@@ -411,7 +429,7 @@ For the base graph, we have plotted the predicted prevalence of involvement patt
     \script{comp_IIandVII_prevs.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/comp_IIandVII_prevs.png}
-        \caption{Placeholder.}
+        \caption{Prevalences for involvement patterns where \gls{lnl} VII is involved with (red) and without (blue) \gls{lnl} II. The solid lines depict a Beta posterior over the prevalence as observed in the data. The colored histograms show these prevalences as predicted by the winning graph. The hatched histograms show the same predictions from the base graph for comparison. Since the winning graph does not include an additional arc between \glspl{lnl} II and VII, the fit w.r.t. these two \glspl{LNL} does not improve.}
         \label{fig:IIandVII_prevs}
     \end{centering}
 \end{figure}
@@ -420,7 +438,7 @@ For the base graph, we have plotted the predicted prevalence of involvement patt
     \script{comp_IIIandV_prevs.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/comp_IIIandV_prevs.png}
-        \caption{Placeholder.}
+        \caption{Observations of prevalences in the data (solid lines) compared to predictions from the base (hatched histograms) and the winning graph model (colored histograms). The investigated involvement patterns here are how often is \gls{lnl} V involved together with \gls{lnl} III (red) and how often is level V involved while \gls{lnl} III is healthy (green). For early T-category cases, the fit of both models to the data is good. For late T-category, however, the winning graph shows a better ability to split the two investigated patterns of involvement. This is presumably due to the added connection from \gls{lnl} III to V.}
         \label{fig:IIIandV_prevs}
     \end{centering}
 \end{figure}
@@ -429,7 +447,7 @@ For the base graph, we have plotted the predicted prevalence of involvement patt
     \script{comp_IVandV_prevs.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/comp_IVandV_prevs.png}
-        \caption{Placeholder.}
+        \caption{Predictions vs observations of the prevalence of two patterns of involvement: One for the case when both \gls{lnl} VI and V are metastatic (blue) and one for the case where \gls{lnl} V is involved with level IV being healthy (orange). Again, the solid lies depict the Beta posterior over the prevalence of these patterns in the data. Colored histograms show the predicted distribution over the two patterns from the winning graph model. Hatched histograms show the same predictions from the base graph model for comparison. Although no arc was added from \gls{lnl} IV to V, the winning graph slightly improves its predictions both for early (top panel) and late T-category cases (bottom panel).}
         \label{fig:IVandV_prevs}
     \end{centering}
 \end{figure}
