@@ -98,14 +98,14 @@ The transition from one time-step to another is governed by the transition proba
     \mathbf{A} = \left( A_{ij} \right) = \left( P\left( \mathbf{X}[t+1]=\boldsymbol{\xi}_i \mid \mathbf{X}[t]=\boldsymbol{\xi}_j \right) \right)
 \end{equation}
 %
-The term $P\left( \boldsymbol{\xi}_i \mid \boldsymbol{\xi}_j \right)$ describes the probability to transition from the hidden state of lymphatic involvement $\boldsymbol{\xi}_j$ to the state $\boldsymbol{\xi}_i$ within between the time $t$ and $t+1$. Using a \gls{dag} as depicted in \cref{fig:graph_with_obs}, we can parameterize this transition probability in the following way:
+The term $P\left( \boldsymbol{\xi}_i \mid \boldsymbol{\xi}_j \right)$ describes the probability to transition from the hidden state of lymphatic involvement $\boldsymbol{\xi}_j$ to the state $\boldsymbol{\xi}_i$ between the time $t$ and $t+1$. Using a \gls{dag} as depicted in \cref{fig:graph_with_obs}, we can parameterize this transition probability in the following way:
 %
 \begin{equation}
     \label{eq:transition_prob}
     P\left( \boldsymbol{\xi}_i \mid \boldsymbol{\xi}_j \right) = \prod_{v \leq V} Q\left( \xi_{iv} ; \xi_{jv} \right) P \left( \xi_{iv} \mid \left\{ \xi_{jr} \right\}_{r \in \operatorname{pa}(v)} \right)^{1 - \xi_{jv}}
 \end{equation}
 %
-In this equation, we have denoted \glspl{lnl} that are parents of \gls{lnl} $v$ with the symbol $r\in\operatorname{pa}(v)$. Also, $\xi_{iv}$ denotes the value that \gls{lnl} $v$ takes on when the patient is in state $\boldsymbol{\xi}_i$. Lastly, the term $Q(a;b) \in \{ 0,1 \}$ is there only to 
+In this equation, we have denoted \glspl{lnl} that are parents of \gls{lnl} $v$ with the symbol $r\in\operatorname{pa}(v)$. Also, $\xi_{iv}$ denotes the value that \gls{lnl} $v$ takes on when the patient is in state $\boldsymbol{\xi}_i$. Lastly, the term $Q(a;b) \in \{ 0,1 \}$ is there to prohibit self-healing. It is always one, except if \gls{lnl} $v$ is healthy in state $\xi_i$, but was metastatic in the previous state $\xi_j$. In that case the function becomes $Q(0;1) = 0$, making the transition back to healthier states impossible.
 
 \begin{figure}
     \centering
@@ -345,6 +345,10 @@ First, we notice that the direct arcs from tumor to each of the \glspl{lnl} must
 
 We have more freedom in choosing how to connect the \glspl{lnl} to each other. To investigate which connections to add we start by establishing a baseline from a model using a minimal \emph{base graph}. It contains only the connections from \gls{lnl} II to III and an arc from \gls{lnl} III to IV, as motivated by the \emph{main lymphatic pathway} \cite{lengele_anatomical_2007}. In contrast to the \gls{dag} used in \cite{pouymayou_bayesian_2019,ludwig_hidden_2021}, we decided not to include the edge from level I to II into the base graph, since \gls{lnl} I is rarely involved and inferring $t_{12}$ is therefore difficult. Rather, we wanted to use the model comparison methodology outlined in \cref{subsec:methods:comparison} to see if the arc from \gls{lnl} I to II can be motivated from our data of if the arc should be flipped and go from \gls{lnl} II to I.
 
+Anatomically, the \emph{posterior accessory pathway} that drains \gls{lnl} II through \gls{lnl} V motivates investigating and arc from $X_2$ into $X_5$ \cite{lengele_anatomical_2007}. And, although no lymphatic pathway is described that directly drains \gls{lnl} III or IV into level V, due to their proximity to each other, we will also investigate additional arcs from \gls{lnl} III and IV into level V.
+
+Lastly, we also compared how the model's performance improves with an added connection from the most commonly involved level II to one of the most rarely metastatic \glspl{lnl} VII.
+
 \subsection{Reproducibility}
 \label{subsec:methods:reproducibility}
 
@@ -406,7 +410,7 @@ In total, the dataset contains 681 patients newly diagnosed with \gls{opscc} tha
 
 For the base graph, we have plotted the predicted prevalence of involvement patterns in the investigated patient cohort for scenarios involving the most commonly metastatic \glspl{lnl} II, III and IV in \cref{fig:bg_prevalences}. This figure shows that this minimal graph is already capable of describing the most important parts of the observed data very well. The subsequent changes to the graph connections we investigated therefore focus on the improvements w.r.t. involvement patterns that include the \glspl{lnl} I, V, and VII that more rarely harbor occult disease.
 
-In \cref{fig:IandII_low_prevs,fig:IandII_high_prevs,fig:IIandVII_prevs,fig:IIIandV_prevs,fig:IVandV_prevs} the base graph's predictions for involvement patterns that include the \glspl{lnl} I, V, and VII have been plotted as gray, hatched histograms alongside the corresponding prevalence in the data and the prediction by the winning graph. This allows us to compare how the winning graph improves its fit to the data in these particular scenarios around low-risk \glspl{lnl}. How frequently each of the investigated lymphatic metastatic patterns were observed in the data is additionally tabulated in \cref{table:data_prevalence}, both for early and for late T-category cases.
+In \cref{fig:IandII_low_prevs,fig:IandII_high_prevs,fig:IIandVII_prevs,fig:IIIandV_prevs,fig:IVandV_prevs} the base graph's predictions for involvement patterns that include the \glspl{lnl} I, V, and VII have been plotted as gray, hatched histograms alongside the corresponding prevalence in the data and the prediction by the winning graph. Every scenario is show for early and late T-category. This allows us to compare how the winning graph improves its fit to the data in these particular scenarios around low-risk \glspl{lnl}. How frequently each of the investigated lymphatic metastatic patterns were observed in the data is additionally tabulated in \cref{table:data_prevalence}, again both for early and for late T-category cases.
 
 \begin{figure}
     \script{comp_IandII_low_prevs.py}
