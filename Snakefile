@@ -45,11 +45,10 @@ rule compile_data_table:
     script:
         "src/scripts/compile_data_table.py"
 
-# rule thermo_int_plot:
-#     input:
-#         base = "src/data/bg_samples.hdf5",
-#         win = "src/data/wg_samples.hdf5"
-#     output:
-#         "src/tex/figures/thermo_int.png"
-#     shell:
-#         "lyscripts plot thermo_int {input.base} {input.win} -o {output} --labels 'base graph' 'winning graph'"
+rule get_num_patients:
+    input:
+        "src/data/patients.csv",
+    output:
+        "src/tex/output/num_patients.txt",
+    script:
+        "src/scripts/get_num_patients.py"
