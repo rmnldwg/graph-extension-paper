@@ -2,11 +2,11 @@ dependencies:
   - python==3.10
   - pip
   - pip:
-      - matplotlib==3.4.3
-      - dvc==2.35.2
-      - emcee==3.1.3
+      - matplotlib==3.7.1
+      - dvc==2.46.0
+      - emcee==3.1.4
       - corner==2.2.1
       - lyscripts==0.6.6
-      - tueplots==0.0.5
+      - tueplots==0.0.6
       - Jinja2==3.1.2
       - beautifulsoup4==4.11.1
