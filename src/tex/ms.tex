@@ -4,6 +4,7 @@
 \usepackage{multirow}
 \usepackage{nicefrac}
 \usepackage{wasysym}
+\usepackage{amssymb}
 
 % Glossaries
 \usepackage[acronym,toc]{glossaries}
@@ -58,8 +59,9 @@
 
 % Abstract
 \begin{abstract}
-    The \gls{ctv-n}\glsunset{ctv} definition in \gls{hnscc}\glsunset{scc} is currently based mostly on the prevalence of lymphatic metastases in different \glspl{lnl} based on the primary tumor location. In this work, we present an extension to a probabilistic model for lymphatic metastatic spread developed earlier that can quantify the risk for microscopic nodal involvement based on individual diagnoses. The extension is based on the same formalism of \glspl{hmm} as the original model, but in addition to the \glspl{lnl} I, II, III, and IV, it also covers the \glspl{lnl} V and VII of the ipsilateral neck. Moreover, we infer which pathways of lymphatic spread to model from clinical lymphatic progression patterns of 681 patients from three institutions. The extended model may allow for a more personalized \gls{ctv-n} definition based on a patient's individual state of disease. The \gls{hmm} uses a collection of hidden binary \glspl{rv} -- one for each \gls{lnl} -- to model a patient's state of lymphatic involvement. Clinical diagnoses and/or pathological examinations of resected \glspl{lnl} represent the observed binary \glspl{rv} corresponding to the unobservable true state of nodal disease. A \gls{dag} with parametrized edges is used to compute the transition matrix of the \gls{hmm} and consequently the (log-)likelihood of the diagnoses of 681 patients, given a set of spread parameters. Based on the defined likelihood function, \gls{mcmc} sampling is then used to infer a distribution over the model's parameters. T-category is model by assuming that, on average, patients with late T-category tumors are diagnosed at a later time compared to patients with early T-category tumors. Using \gls{ti} and the \gls{bic} we compare models based on different \glspl{dag} and demonstrate the accuracy and precision of the best-performing model. When extended to the contralateral side, this model may form the basis of future guidelines of elective \gls{ctv} definition.
+    The \gls{ctv-n}\glsunset{ctv} in \gls{hnscc}\glsunset{scc} is currently based mostly on the prevalence of lymphatic metastases in different \glspl{lnl} for a given primary tumor location. In this work, we present an extension to a probabilistic model for lymphatic metastatic spread developed earlier that can quantify the risk for microscopic nodal involvement based on an individual patient diagnosis. The extension is based on the same formalism of \glspl{hmm} as the original model, but in addition to the \glspl{lnl} I, II, III, and IV, it also covers the \glspl{lnl} V and VII of the ipsilateral neck. Moreover, we infer which pathways of lymphatic spread to model from clinical lymphatic progression patterns of 681 patients from three institutions. The extended model may allow for a more personalized \gls{ctv-n} definition based on a patient's individual state of disease. The \gls{hmm} uses a collection of hidden binary \glspl{rv} -- one for each \gls{lnl} -- to model a patient's state of lymphatic involvement. Clinical diagnoses and/or pathological examinations of resected \glspl{lnl} represent the observed binary \glspl{rv} corresponding to the unobservable true state of nodal disease. A \gls{dag} with parametrized edges is used to compute the transition matrix of the \gls{hmm} and consequently the (log-)likelihood of the diagnoses of 681 patients, given a set of spread parameters. Based on the defined likelihood function, \gls{mcmc} sampling is then used to infer a distribution over the model's parameters. T-category is model by assuming that, on average, patients with late T-category tumors are diagnosed at a later time compared to patients with early T-category tumors. Using \gls{ti} and the \gls{bic} we compare models based on different \glspl{dag} and demonstrate the accuracy and precision of the best-performing model. When extended to the contralateral side, this model may form the basis of future guidelines of elective \gls{ctv} definition.
 \end{abstract}
+
 
 % Main body
 \section{Introduction}
@@ -73,16 +75,25 @@ These guidelines, however, do not account for the personal risk of the patients 
 
 A model for estimating the risk of microscopic disease, given a personal diagnosis based on \glspl{bn} was previously developed \cite{pouymayou_bayesian_2019}. It was subsequently formulated as a \glspl{hmm} to include T-category in an intuitive manner \cite{ludwig_hidden_2021}. These models were trained on a dataset of early T-category (T1 and T2) patients that could be reconstructed from \cite{sanguineti_defining_2009}. Since this publication only includes details about the involvement of the ipsilateral \glspl{lnl} I, II, III, and IV, the models were limited to these nodal levels as well.
 
-With the publication of larger and more detailed datasets \cite{ludwig_dataset_2022}, the risk estimation models may be extended as well to include the additionally reported \glspl{lnl} V and VII. This work aims to do that and at the same time demonstrate the capability 
-of the previously introduced \gls{hmm} to adapt to real patient data from a multi-centric cohort of \variable{output/num_patients.txt} \gls{opscc} patients.
+With the publication of larger and more detailed datasets \cite{ludwig_dataset_2022}, we are thus able to
+\begin{enumerate}
+    \item include all relevant \glspl{lnl} into the model, namely the levels I, II, III, IV, V, and VII.
+    \item train the probabilistic model based on a multi-centric dataset consisting of \variable{output/num_patients.txt} patients from %\variable{output/num_institutions.txt} institutions.
+    \item present exaples of results on personalized risk estimations performed with the trained model.
+\end{enumerate}
 
-\section{Previous Work}
-\label{sec:previous_work}
 
-\subsection{Lymphatic Spread as Hidden Markov Model}
-\label{subsec:previous_work:spread_as_hmm}
 
-We have introduced a probabilistic model for lymphatic metastatic tumor progression based on \glspl{bn} in \cite{pouymayou_bayesian_2019} and based off of this an improved model using \glspl{hmm} in \cite{ludwig_hidden_2021}. We will briefly recap the \acrlong{hmm} below.
+\section{HMM Formalism and Notation}
+\label{sec:formalism}
+
+\glsreset{bn}
+
+
+\subsection{State of the Hidden Markov Model}
+\label{subsec:formalism:state}
+
+We have introduced a probabilistic model for lymph node involvement based on \glspl{bn} in \cite{pouymayou_bayesian_2019}. The model was extended using \glspl{hmm} in \cite{ludwig_hidden_2021}. We will briefly recap the \acrlong{hmm} to introduce the notation used throughout the work.
 
 A patient's state of (hidden) lymphatic involvement at time $t$ is described as a collection of binary \glspl{rv}, one for each of the $V$ \glspl{lnl}:
 %
@@ -90,7 +101,7 @@ A patient's state of (hidden) lymphatic involvement at time $t$ is described as 
     \mathbf{X}[t] = \left( X_v[t] \right) \qquad v \in \left\{ 1,2, \ldots, V \right\}
 \end{equation}
 %
-Where each of the \glspl{lnl} can be in the state $X_v=0$ (\texttt{FALSE}), meaning \gls{lnl} $v$ is healthy, or in the state $X_v=1$ (\texttt{TRUE}), indicating the \gls{lnl} harbors metastases.
+Each the \gls{lnl} can be in the state $X_v=0$ (\texttt{FALSE}), meaning \gls{lnl} $v$ is healthy, or in the state $X_v=1$ (\texttt{TRUE}), indicating the \gls{lnl} harbors metastases. The involved state includes occult disease.
 
 The transition from one time-step to another is governed by the transition probability $P\left( \mathbf{X}[t+1]=\boldsymbol{\xi}_i \mid \mathbf{X}[t]=\boldsymbol{\xi}_j \right)$, which can conveniently be collected into a transition matrix when we enumerate all $2^V$ distinct possible states $\boldsymbol{\xi}_i$ with $i \in \left\{ 1,2, \ldots, 2^V \right\}$ of lymphatic involvement:
 %
@@ -98,22 +109,50 @@ The transition from one time-step to another is governed by the transition proba
     \mathbf{A} = \left( A_{ij} \right) = \left( P\left( \mathbf{X}[t+1]=\boldsymbol{\xi}_i \mid \mathbf{X}[t]=\boldsymbol{\xi}_j \right) \right)
 \end{equation}
 %
-The term $P\left( \boldsymbol{\xi}_i \mid \boldsymbol{\xi}_j \right)$ describes the probability to transition from the hidden state of lymphatic involvement $\boldsymbol{\xi}_j$ to the state $\boldsymbol{\xi}_i$ between the time $t$ and $t+1$. Using a \gls{dag} as depicted in \cref{fig:graph_with_obs}, we can parameterize this transition probability in the following way:
+The term $P\left( \boldsymbol{\xi}_i \mid \boldsymbol{\xi}_j \right)$ describes the probability to transition from the hidden state of lymphatic involvement $\boldsymbol{\xi}_j$ to the state $\boldsymbol{\xi}_i$ between the time $t$ and $t+1$. Using a \gls{dag} as depicted in \cref{fig:graph_with_obs}, we can formulate this transition probability in the following way:
 %
 \begin{equation}
     \label{eq:transition_prob}
     P\left( \boldsymbol{\xi}_i \mid \boldsymbol{\xi}_j \right) = \prod_{v \leq V} Q\left( \xi_{iv} ; \xi_{jv} \right) P \left( \xi_{iv} \mid \left\{ \xi_{jr} \right\}_{r \in \operatorname{pa}(v)} \right)^{1 - \xi_{jv}}
 \end{equation}
 %
-In this equation, we have denoted \glspl{lnl} that are parents of \gls{lnl} $v$ with the symbol $r\in\operatorname{pa}(v)$. Also, $\xi_{iv}$ denotes the value that \gls{lnl} $v$ takes on when the patient is in state $\boldsymbol{\xi}_i$. Lastly, the term $Q(a;b) \in \{ 0,1 \}$ is there to prohibit self-healing. It is always one, except if \gls{lnl} $v$ is healthy in state $\xi_i$, but was metastatic in the previous state $\xi_j$. In that case the function becomes $Q(0;1) = 0$, making the transition back to healthier states impossible.
+In this equation, we have denoted \glspl{lnl} that are parents of \gls{lnl} $v$ with the symbol $r\in\operatorname{pa}(v)$. Also, $\xi_{iv}$ denotes the value that \gls{lnl} $v$ takes on when the patient is in state $\boldsymbol{\xi}_i$. The term $Q(a;b) \in \{ 0,1 \}$ is there to prohibit self-healing. It is always one, except if \gls{lnl} $v$ is healthy in state $\xi_i$, but was metastatic in the previous state $\xi_j$. In that case the function becomes $Q(0;1) = 0$, making the transition back to healthier states impossible.
+
+The terms of the form $P \left( \xi_{iv} \mid \left\{ \xi_{jr} \right\}_{r \in \operatorname{pa}(v)} \right)$ implicitly depend on how we parametrize e.g. the arcs of \cref{fig:graph_with_obs}. For example, if we look at the probability of spread to the \gls{lnl} $X_3$ depending on the state of that level's parent -- which, in this case, is $\operatorname{pa}(3) = 2$ -- we can write the different combinations into a conditional probability table as below.
+
+\noindent
+\begin{center}
+    \begin{tabular}{|cc|cc|}
+        \hline
+        & & \multicolumn{2}{c|}{$X_2$} \\
+        & & 0 & 1 \\
+        \hline
+        \multirow{2}{*}{$X_3$} & 0 & $1 - b_3$ & $(1 - b_3)(1 - t_{23})$ \\
+        & 1 & $b_3$ & $1 - b_3 - t_{23} + b_3 t_{23}$ \\
+        \hline
+    \end{tabular}
+\end{center}
+
+The variable $b_3$ denotes the probability of lymphatic spread from the tumor to \gls{lnl} III during one time-step, and $t_{23}$ is the probability of spread from an involved level II further down the lymphatic chain into \gls{lnl} III. 
 
 \begin{figure}
     \centering
     \includegraphics[width=0.6\linewidth]{figures/graph_with_obs.png}
-    \caption{\Gls{dag} representing a possible abstraction of the lymphatic network comprising the tumor (red shaded circle) and \glspl{lnl} I through IV as hidden binary \glspl{rv} (blue outlined circles). Attached to each of these is the corresponding observed \gls{rv} (orange shaded squares). Lymphatic flow is depicted in the form of parameterized arrows (red and blue) that represent the probability of spread along the respective arc per time-step. Sensitivity and specificity (orange arrows) connect the hidden \glspl{rv} to the diagnosis.}
+    \caption{\Gls{dag} representing a possible abstraction of the lymphatic network comprising the tumor (red shaded circle) and \glspl{lnl} II through IV as hidden binary \glspl{rv} (blue outlined circles). Attached to each of these is the corresponding observed \gls{rv} (orange shaded squares). Lymphatic flow is depicted in the form of parametrized arrows (red and blue) that represent the probability of spread along the respective arc per time-step. Sensitivity and specificity (orange arrows) connect the hidden \glspl{rv} to the diagnosis.}
     \label{fig:graph_with_obs}
 \end{figure}
 
+
+\subsection{Diagnostic Observation}
+\label{subsec:formalism:diagnosis}
+
+We also need to introduce a separate collection of \glspl{rv} that describe the diagnostic observation of a patient's involvement. In analogy to the hidden true state $\mathbf{X}[t]$ at time $t$, we write this diagnosis as
+%
+\begin{equation}
+    \mathbf{Z} = \left( Z_v \right) \qquad v \in \left\{ 1,2, \ldots, V \right\}
+\end{equation}
+%
+We do not need to differentiate between different times $t$ here, since a patient is ever only diagnosed once, after which treatment usually starts timely.
 Diagnosis and true state of a patient are formally connected via the sensitivity $s_N$ and specificity $s_P$ of the used diagnostic modality. In clinical practice, these modalities are \gls{ct}, \gls{mri}, or \gls{pet} scan, but it may also include information from biopsies after a \gls{fna} or other techniques to detect lymphatic metastases. For each \gls{lnl} $v$ the conditional probability table of $P\left( Z_v \mid X_v \right)$ looks like this:
 
 \noindent
@@ -135,50 +174,30 @@ Consequently, the conditional probability to observe a diagnosis $\mathbf{Z}=\bo
     \mathbf{B} = \left( B_{k\ell} \right) = \prod_{v=1}^V P\left( Z_v = \zeta_{\ell v} \mid X_v[t_\text{D}] = \xi_{kv} \right)
 \end{equation}
 
-If multiple diagnostic modalities $\mathcal{O} \in \{ \text{MRI}, \text{CT}, \ldots \}$ are used, one can compute an observation matrix $\mathbf{B}^\mathcal{O}$ for each of these modalities and combine them via an outer product into a joint observations matrix:
-%
-\begin{equation}
-    \mathbf{B} = \mathbf{B}^\text{MRI} \otimes \mathbf{B}^\text{CT} \otimes \ldots
-\end{equation}
-
 We define the time $t=0$ to be the moment just before a patient's tumor formed, and hence $X_v[t=0]=0 \,\,\, \forall v$. However, using this definition, we cannot know how many time-steps have passed until $t_\text{D}$, when the patient was diagnosed with cancer. We can only make the assumption that a patients with an earlier T-category tumor was \emph{probably} diagnosed after fewer time-steps than a patient with a late T-category tumor. We can use this information by marginalizing over the diagnose times $t_\text{D}$ of patients in different T-categories using different prior distributions over the diagnose time. E.g., $P \left( t=t_D \mid \text{early} \right)$ for early T-category patients (T1 \& T2) and $P \left( t=t_D \mid \text{late} \right)$ for late T-category patients (T3 \& T4). Throughout this work we will use binomial distributions for these probability mass functions, mainly because they have a plausible shape for this purpose and only a single parameter.
 %
-\begin{equation}
-    P \left( t = t_D \mid \text{T-cat.} \right) = \operatorname{B}(t_\text{max},p_\text{T-cat.})
+\begin{equation} \label{eq:time_dist}
+    P \left( t = t_D \mid \text{T}x \right) = \operatorname{\mathfrak{B}}(t_\text{max},p_{\text{T}x})
 \end{equation}
 %
-Here, the parameter $p_\text{early}$ can be interpreted as the probability that the patient will be diagnosed at time-step $t+1$ given they are in time-step $t$. We will use as a latest time-step $t_\text{max} = 10$.
+Here, the parameter $p_{\text{T}x}$ can be interpreted as the probability that the patient with a tumor of T-category $x$ will be diagnosed at time-step $t+1$ given they are in time-step $t$. We will use as the latest time-step $t_\text{max} = 10$, which will therefore give us a distribution over the diagnosis time that has its mean at $\mathbb{E}[t_D] = 10 \cdot p_{\text{T}x}$.
+
 
 \subsection{The Likelihood Function}
-\label{subsec:previous_work:likelihood}
+\label{subsec:formalism:likelihood}
 
 Using the definitions up to this point, we can compute a vector of likelihoods for every possible diagnosis:
 %
 \begin{equation} \label{eq:likelihood_vec}
 \begin{split}
     \boldsymbol{\ell} &= \big( P\left( \mathbf{Z} = \boldsymbol{\zeta}_i \right) \big) \\
-    &= \sum_{t=0}^{t_{max}} \left[ \boldsymbol{\pi} \cdot \mathbf{A}^t \cdot \mathbf{B} \right] \cdot P \left( t \mid \text{T-cat.} \right)
+    &= \sum_{t=0}^{t_{max}} \left[ \boldsymbol{\pi} \cdot \mathbf{A}^t \cdot \mathbf{B} \right] \cdot P \left( t \mid \text{T} \right)
 \end{split}
 \end{equation}
 %
-This likelihood implicitly depends on how we parameterize the arcs of the \gls{dag} underlying the model and the parameterization of the distribution over diagnosis times. If we use the graph displayed in \cref{fig:graph_with_obs}, we can write down a conditional probability table for \gls{lnl} $X_3$ being healthy or metastatic, based on the state of the parent \gls{lnl} $\operatorname{pa}(3) = 2$:
+This likelihood implicitly depends on how we parameterize the arcs of the \gls{dag} underlying the model -- see \cref{eq:transition_prob} -- and the parameterization of the distribution over diagnosis times -- e.g., as in \cref{eq:time_dist}. 
 
-\noindent
-\begin{center}
-    \begin{tabular}{|cc|cc|}
-        \hline
-        & & \multicolumn{2}{c|}{$X_2$} \\
-        & & 0 & 1 \\
-        \hline
-        \multirow{2}{*}{$X_3$} & 0 & $1 - b_3$ & $(1 - b_3)(1 - t_{23})$ \\
-        & 1 & $b_3$ & $1 - b_3 - t_{23} + b_3 t_{23}$ \\
-        \hline
-    \end{tabular}
-\end{center}
-
-Similar tables can be written for all other \glspl{lnl}. The terms in these conditional probability tables can then be used to compute the transition probability between to particular states $\boldsymbol{\xi}_i$ and $\boldsymbol{\xi}_j$ as in \cref{eq:transition_prob}. Computing this quantity for all possible transitions subsequently yields the transition matrix $\mathbf{A}$ as described in \cref{eq:transition_matrix}.
-
-Together with the parametrizations of the distributions over the diagnosis time, the parameters that make up the transition matrix $\mathbf{A}$ comprises the set of model parameters:
+Together with the parametrizations of the distributions over the diagnosis time, the parameters $b_v$ and $t_{vr}$ that make up the transition matrix $\mathbf{A}$ comprises the set of model parameters:
 %
 \begin{equation}
     \boldsymbol{\theta} = \left( \left\{ b_v \right\}, \left\{ t_{vr} \right\}, p_\text{early}, p_\text{late} \right) \quad \text{with} \quad \genfrac{}{}{0pt}{2}{v\leq V}{r\in\operatorname{pa}(v)}
@@ -192,25 +211,17 @@ To infer these parameters from a dataset of $N$ \gls{hnscc} patients $\boldsymbo
 %
 Which effectively amounts to computing the element-wise logarithm of the likelihood vector $\boldsymbol{\ell}$ from \cref{eq:likelihood_vec} and summing up the entries that correspond to each of the patients $d_i$ for $i\leq N$. 
 
-Using this log-likelihood function one may now employ a variety of inference methods to learn the parameters of the model that best describe the observed data. After that, the main task of of personalizing the \gls{ctv-n} definition is to predict the probability of the hidden possible states $\boldsymbol{\xi}_k$ given the diagnosis $d^\star=\boldsymbol{\zeta}_\ell$ of a new patient. Using Bayes' theorem, we get
-%
-\begin{equation}
-    P\left( \mathbf{X}=\boldsymbol{\xi}_k \mid \mathbf{Z}=\boldsymbol{\zeta}_\ell \right) = \frac{P\left( \boldsymbol{\zeta}_\ell \mid \boldsymbol{\xi}_k \right) P\left( \boldsymbol{\xi}_k \mid \boldsymbol{\theta} \right)}{\sum_{r=1}^{2^V} P\left( \boldsymbol{\zeta}_\ell \mid \boldsymbol{\xi}_r \right) P\left( \boldsymbol{\xi}_r \mid \boldsymbol{\theta} \right) }
-\end{equation}
-%
-The described model along with the inferred parameters $\boldsymbol{\hat{\theta}}$ will yield an estimate (or multiple estimates) for the ``prior'' in the above equation $P\big( \boldsymbol{\xi}_k \mid \boldsymbol{\hat{\theta}} \big)$.
+Using this log-likelihood function one may now employ a variety of inference methods to learn the parameters of the model that best describe the observed data.
 
-\section{Methods}
-\label{sec:methods}
 
 \subsection{Parameter Inference}
-\label{subsec:methods:inference}
+\label{subsec:formalism:inference}
 
 We use \gls{mcmc} sampling to draw parameter samples $\boldsymbol{\hat{\theta}}_i$ for $i \leq S$ from the likelihood described in \cref{eq:log_likelihood} (i.e. the unnormalized posterior distribution over the parameters $\boldsymbol{\theta}$, since we used a uniform prior in this work).
 
 More specifically, we use the Python implementation \texttt{emcee} \cite{foreman-mackey_emcee_2013} and two sample proposal mechanisms based on differential evolution moves \cite{ter_braak_differential_2008,nelson_run_2013} for sampling. Instead of proposing and then accepting or rejecting individual parameter samples one after the other (as in the classical Metropolis-Hastings algorithm), the \texttt{emcee} implementation makes use of an ensemble of $W$ so-called ``walkers''. This gives rise to $W$ parallel chains of samples that mutually influence each others proposal such that the sampling proceedure overall is \emph{affine invariant}. This means that scaling the parameter space along any dimension has no effect on the performance of the \gls{mcmc}.
 
-For the experiments in this work, we used $W = 20 \cdot k$ walkers, where $k$ is the dimensionaliry of the parameter space $\boldsymbol{\Theta}$. After an initial ``burn-in'' phase, during which all drawn samples are discarded because they are not yet independent from the initial state, we continued sampling for another 200 steps of which we discarded every 10th to be left with $S = 20 \cdot W$ samples.
+For the experiments in this work, we used $W = 20 \cdot k$ walkers, where $k$ is the dimensionality of the parameter space $\boldsymbol{\Theta}$. After an initial ``burn-in'' phase, during which all drawn samples are discarded because they are not yet independent of the initial state, we continued sampling for another 200 steps of which we discarded every 10th to be left with $S = 20 \cdot W$ samples.
 
 These $S$ parameter estimates are then used to compute expectation values of estimates that depend on the parameters $\boldsymbol{\theta}$ through an integral over the parameter space $\boldsymbol{\Theta}$:
 %
@@ -225,8 +236,47 @@ Alternatively, the individual $\hat{f}_i = f\big( \boldsymbol{\hat{\theta}}_i \b
 
 Another relevant model parameter that needs to be set for the inference process, is the maximum number of time-steps we used for the evolution of the system. We set this value to $t_\text{max} = 10$, such that $t \in \{ 0, 1, 2, \ldots, 10 \}$. The binomial ``success probability'' used to fix the shape of the early T-category's time-prior was set to $p_\text{early} = 0.3$.
 
+
+\subsection{Risk estimation}
+\label{subsec:formalism:risk}
+
+Now, the main task of personalizing the \gls{ctv-n} definition is to predict the probability of the hidden possible states $\boldsymbol{\xi}_k$ given the diagnosis $d^\star=\boldsymbol{\zeta}_\ell$ of a new patient. Using Bayes' theorem, we get
+%
+\begin{equation}
+    P\left( \mathbf{X}=\boldsymbol{\xi}_k \mid \mathbf{Z}=\boldsymbol{\zeta}_\ell \right) = \frac{P\left( \boldsymbol{\zeta}_\ell \mid \boldsymbol{\xi}_k \right) P\left( \boldsymbol{\xi}_k \mid \boldsymbol{\theta} \right)}{\sum_{r=1}^{2^V} P\left( \boldsymbol{\zeta}_\ell \mid \boldsymbol{\xi}_r \right) P\left( \boldsymbol{\xi}_r \mid \boldsymbol{\theta} \right) }
+\end{equation}
+%
+The described model along with the inferred parameters $\boldsymbol{\hat{\theta}}$ will yield an estimate (or multiple estimates) for the ``prior'' in the above equation $P\big( \boldsymbol{\xi}_k \mid \boldsymbol{\hat{\theta}} \big)$.
+
+
+
+\section{Complete Model of Ipsilateral Spread in OPSCC}
+\label{sec:complete_model}
+
+
+\subsection{Investigating Spread Graphs}
+\label{subsec:complete_model:graphs}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/extended_graph.png}
+    \caption{Extended \gls{dag} representing different possible spread graphs underlying the \gls{hmm}. As in \cref{fig:graph_with_obs}, red arcs are parametrized with probabilities of spread from the tumor (red circle) to the \glspl{lnl} (blue circles). These red arcs, together with the blue arcs fron \gls{lnl} to \gls{lnl}, make up the \emph{base graph}. One after the other, each of the green arcs was added to the base graph. Subsequently, the performance of the resulting models in terms of its \gls{bic} was compared to the base graph to asssess whether the additional edge should be kept in the \emph{winning graph} or not.}
+    \label{fig:extended_graph}
+\end{figure}
+
+The \gls{dag} shown in \cref{fig:graph_with_obs} includes the \glspl{lnl} II, III, and IV since previous models \cite{pouymayou_bayesian_2019,ludwig_hidden_2021} had to rely on a reconstructed dataset of \gls{opscc} patients that contained only information on \gls{lnl} I and these three levels \cite{sanguineti_defining_2009}. Now, with datasets available that almost always report the \glspl{lnl} I, II, III, IV, V, and VII, we may add more \glspl{rv} to extend the graph and investigate how these \glspl{rv} should be connected among each other.
+
+First, we notice that the direct arcs from tumor to each of the \glspl{lnl} must be present, since every \gls{lnl} appears metastatic in isolation at least once. For example, some patients presented with metastases in \gls{lnl} I, while the other levels appeared healthy. If no spread was allowed from the tumor to $X_1$ (i.e., $b_i = 0$), the likelihood of observing this patient would be zero.
+
+We have more freedom in choosing how to connect the \glspl{lnl} to each other. To investigate which connections to add we start by establishing a baseline from a model using a minimal \emph{base graph}. It contains only the connections from \gls{lnl} II to III and an arc from \gls{lnl} III to IV, as motivated by the \emph{main lymphatic pathway} \cite{lengele_anatomical_2007}. In contrast to the \gls{dag} used in \cite{pouymayou_bayesian_2019,ludwig_hidden_2021}, we decided not to include the edge from level I to II into the base graph, since \gls{lnl} I is rarely involved and inferring $t_{12}$ is therefore difficult. Rather, we wanted to use the model comparison methodology outlined in \cref{subsec:complete_model:comparison} to see if the arc from \gls{lnl} I to II can be motivated from our data or if the arc should be flipped and go from \gls{lnl} II to I.
+
+Anatomically, the \emph{posterior accessory pathway} that drains \gls{lnl} II through \gls{lnl} V motivates investigating and arc from $X_2$ into $X_5$ \cite{lengele_anatomical_2007}. And, although no lymphatic pathway is described that directly drains \gls{lnl} III or IV into level V, due to their proximity to each other, we will also investigate additional arcs from \gls{lnl} III and IV into level V.
+
+Lastly, we also compared how the model's performance improves with an added connection from the most commonly involved level II to one of the most rarely metastatic \glspl{lnl} VII.
+
+
 \subsection{Model Comparison}
-\label{subsec:methods:comparison}
+\label{subsec:complete_model:comparison}
 
 \begin{figure}
     \script{thermo_int.py}
@@ -272,7 +322,7 @@ These likelihoods are commonly called the \emph{model evidence} or \emph{margina
     E_\mathcal{M} = P \left( \boldsymbol{\mathcal{D}} \mid \mathcal{M} \right) = \int_{\boldsymbol{\Theta}} P\left( \boldsymbol{\mathcal{D}} \mid \boldsymbol{\theta}, \mathcal{M} \right) p(\boldsymbol{\theta} \mid \mathcal{M}) d\boldsymbol{\theta}
 \end{equation}
 %
-However, this quantity is often very hard to compute or even intractable, due to the high dimensionality of the parameter space $\boldsymbol{\Theta}$. In our case, the number of dimensions ranges from $k=9$ for the \emph{base graph} to $k=11$ for the \emph{winning graph}. A brute-force integration over a unit cube with this many dimensions is inefficient and error prone, which is why we resorted to \gls{ti} for computing the (log-)evidence.
+However, this quantity is often very hard to compute or even intractable, due to the high dimensionality of the parameter space $\boldsymbol{\Theta}$. In our case, the number of dimensions ranges from $k=9$ for the \emph{base graph} to $k=11$ for the \emph{winning graph}. A brute-force integration over a unit cube with this many dimensions is inefficient and error-prone, which is why we resorted to \gls{ti} for computing the (log-)evidence.
 
 Below, we will briefly outline the main concept behind this algorithm. An intuitive and extensive derivation of \gls{ti} is given by \cite{aponte_introduction_2022}.
 
@@ -303,7 +353,7 @@ The integral in \cref{eq:ti} can then be computed via a trapezoidal rule using t
     \ln E \approx \frac{1}{2} \sum_{j=0}^{R-1} \left( \beta_{j+1} - \beta_j \right) \cdot \big( \mathcal{A}_\text{MC} (\beta_{j+1}) + \mathcal{A}_\text{MC} (\beta_j) \big)
 \end{equation}
 %
-This estimate gets better for more samples $S$ per sampling from the power posterior $p_\beta$ but more importantly it gets better for a tighter spacing of the values for $\beta$ within the interval $[0,1]$. The variable $\beta$ is also often referred to as an \emph{inverse temperature}, due to its origins in statistical physics. Often when performing \gls{ti}, the most drastic changes in the values of the $\mathcal{A}_\text{MC}$ occur at high temperatures (meaning $\beta$ very close to zero), while the changes become smaller and smaller for lower temparatures ($\beta$ towards one). It is therefore efficient to space the \emph{temperature ladder} unevenly, e.g. according to a fifth order power rule:
+This estimate gets better for more samples $S$ per sampling from the power posterior $p_\beta$ but more importantly it gets better for a tighter spacing of the values for $\beta$ within the interval $[0,1]$. The variable $\beta$ is also often referred to as an \emph{inverse temperature}, due to its origins in statistical physics. Often when performing \gls{ti}, the most drastic changes in the values of the $\mathcal{A}_\text{MC}$ occur at high temperatures (meaning $\beta$ very close to zero), while the changes become smaller and smaller for lower temperatures ($\beta$ towards one). It is therefore efficient to space the \emph{temperature ladder} unevenly, e.g. according to a fifth order power rule:
 %
 \begin{equation} \label{eq:power_rule}
     \beta_j = \left( j / R \right)^5 \qquad j \in \{ 0, 1, 2, \ldots, R \}
@@ -329,36 +379,18 @@ An approximation to the evidence that also attempts to balance accuracy and comp
 %
 Here, $\hat{\mathcal{L}} = \max_{\boldsymbol{\theta}}{\left( \ln P \left( \boldsymbol{\mathcal{D}} \mid \boldsymbol{\theta} \right)\right)}$ is the maximum log-likelihood. The approximation is good, when the posterior distribution over the parameters $p\left( \boldsymbol{\theta} \mid \boldsymbol{\mathcal{D}} \right)$ is single-modal and falls quickly to zero from the maximum. Also, the number of datapoints $N$ needs to be much larger than the number of parameters $k$. We will see that for the models we consider here, the \gls{bic} is generally a good approximation and the conclusions drawn from comparing models using this metric can be reproduced reliably using the true model evidence computed with \gls{ti}.
 
-\subsection{Investigating Spread Graphs}
-\label{subsec:methods:graphs}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.6\linewidth]{figures/extended_graph.png}
-    \caption{Extended \gls{dag} representing different possible spread graphs underlying the \gls{hmm}. As in \cref{fig:graph_with_obs}, red arcs are parametrized with probabilities of spread from the tumor (red circle) to the \glspl{lnl} (blue circles). These red arcs, together with the blue arcs fron \gls{lnl} to \gls{lnl}, make up the \emph{base graph}. One after the other, each of the green arcs was added to the base graph. Subsequently, the performance of the resulting models in terms of its \gls{bic} was compared to the base graph to asssess whether the additional edge should be kept in the \emph{winning graph} or not.}
-    \label{fig:extended_graph}
-\end{figure}
-
-The \gls{dag} shown in \cref{fig:graph_with_obs} includes the \glspl{lnl} I, II, III, and IV since previous models \cite{pouymayou_bayesian_2019,ludwig_hidden_2021} had to rely on a reconstructed dataset of \gls{opscc} patients that contained only information on these four levels \cite{sanguineti_defining_2009}. Now, with datasets available that almost always report the \glspl{lnl} I, II, III, IV, V, and VII, we may add more \glspl{rv} to extend the graph and investigate how these \glspl{rv} should be connected among each other.
-
-First, we notice that the direct arcs from tumor to each of the \glspl{lnl} must be present, since every \gls{lnl} appears metastatic in isolation at least once. For example, some patients presented with metastases in \gls{lnl} I, while the other levels appeared healthy. If no spread was allowed from the tumor to $X_1$ (i.e., $b_i = 0$), the likelihood of observing this patient would be zero.
-
-We have more freedom in choosing how to connect the \glspl{lnl} to each other. To investigate which connections to add we start by establishing a baseline from a model using a minimal \emph{base graph}. It contains only the connections from \gls{lnl} II to III and an arc from \gls{lnl} III to IV, as motivated by the \emph{main lymphatic pathway} \cite{lengele_anatomical_2007}. In contrast to the \gls{dag} used in \cite{pouymayou_bayesian_2019,ludwig_hidden_2021}, we decided not to include the edge from level I to II into the base graph, since \gls{lnl} I is rarely involved and inferring $t_{12}$ is therefore difficult. Rather, we wanted to use the model comparison methodology outlined in \cref{subsec:methods:comparison} to see if the arc from \gls{lnl} I to II can be motivated from our data of if the arc should be flipped and go from \gls{lnl} II to I.
-
-Anatomically, the \emph{posterior accessory pathway} that drains \gls{lnl} II through \gls{lnl} V motivates investigating and arc from $X_2$ into $X_5$ \cite{lengele_anatomical_2007}. And, although no lymphatic pathway is described that directly drains \gls{lnl} III or IV into level V, due to their proximity to each other, we will also investigate additional arcs from \gls{lnl} III and IV into level V.
-
-Lastly, we also compared how the model's performance improves with an added connection from the most commonly involved level II to one of the most rarely metastatic \glspl{lnl} VII.
 
 \subsection{Reproducibility}
-\label{subsec:methods:reproducibility}
+\label{subsec:complete_model:reproducibility}
 
 The entire methodology used in this work is publicly available in the GitHub repository \href{https://github.com/rmnldwg/lynference}{\texttt{rmnldwg/lynference}}. Tagged references to specific versions of an inference pipeline allow reproducing the inferred parameters of the models described here. Every parameter necessary to reproduce such a pipeline is specified there in designated configuration files. It also defines the sequences of computations that constitute the pipeline that are mostly calls to commands of the \href{https://pypi.org/project/lyscripts/}{\texttt{lyscripts}} we published.
 
 All figures in this work, like the risk predictions and prevalences we show histograms of, can be reproduced following the instructions of the GitHub repository underlying this publication \href{\GitHubURL}{\texttt{rmnldwg/graph-extension}}. It is based off of the \showyourwork project.
 
+
+
 \section{Multicentric Dataset}
 \label{sec:data}
-
 
 \begin{table}
     \centering
@@ -386,6 +418,8 @@ In total, the dataset contains 681 patients newly diagnosed with \gls{opscc} tha
     \end{tabular}
 \end{center}
 
+
+
 \section{Results}
 \label{sec:results}
 
@@ -405,8 +439,9 @@ In total, the dataset contains 681 patients newly diagnosed with \gls{opscc} tha
     \end{centering}
 \end{figure*}
 
-\subsection{Base Graph}
-\label{subsec:results:base_graph}
+
+\subsection{Involvement of Levels II, III, and IV}
+\label{subsec:results:lnls_II_III_IV}
 
 For the base graph, we have plotted the predicted prevalence of involvement patterns in the investigated patient cohort for scenarios involving the most commonly metastatic \glspl{lnl} II, III and IV in \cref{fig:bg_prevalences}. This figure shows that this minimal graph is already capable of describing the most important parts of the observed data very well. The subsequent changes to the graph connections we investigated therefore focus on the improvements w.r.t. involvement patterns that include the \glspl{lnl} I, V, and VII that more rarely harbor occult disease.
 
@@ -456,6 +491,14 @@ In \cref{fig:IandII_low_prevs,fig:IandII_high_prevs,fig:IIandVII_prevs,fig:IIIan
         \label{fig:IVandV_prevs}
     \end{centering}
 \end{figure}
+
+
+\subsection{The Optimal Extended Graph}
+\label{subsec:results:optimal_graph}
+
+
+\subsection{Risk Prediction for Occult Disease}
+\label{subsec:results:risk_prediction}
 
 \bibliography{bib}
 
