@@ -78,7 +78,7 @@ A model for estimating the risk of microscopic disease, given a personal diagnos
 With the publication of larger and more detailed datasets \cite{ludwig_dataset_2022}, we are thus able to
 \begin{enumerate}
     \item include all relevant \glspl{lnl} into the model, namely the levels I, II, III, IV, V, and VII.
-    \item train the probabilistic model based on a multi-centric dataset consisting of \variable{output/num_patients.txt} patients from %\variable{output/num_institutions.txt} institutions.
+    \item train the probabilistic model based on a multi-centric dataset consisting of \variable{output/num_patients.txt} patients from four institutions.
     \item present exaples of results on personalized risk estimations performed with the trained model.
 \end{enumerate}
 
@@ -443,9 +443,23 @@ In total, the dataset contains 681 patients newly diagnosed with \gls{opscc} tha
 \subsection{Involvement of Levels II, III, and IV}
 \label{subsec:results:lnls_II_III_IV}
 
-For the base graph, we have plotted the predicted prevalence of involvement patterns in the investigated patient cohort for scenarios involving the most commonly metastatic \glspl{lnl} II, III and IV in \cref{fig:bg_prevalences}. This figure shows that this minimal graph is already capable of describing the most important parts of the observed data very well. The subsequent changes to the graph connections we investigated therefore focus on the improvements w.r.t. involvement patterns that include the \glspl{lnl} I, V, and VII that more rarely harbor occult disease.
+For the base graph, we have plotted the predicted prevalence of involvement patterns in the investigated patient cohort for scenarios involving the most commonly metastatic \glspl{lnl} II, III and IV in \cref{fig:bg_prevalences}. It shows -- for each pattern of lymphatic involvement -- two plots overlaid:
 
-In \cref{fig:IandII_low_prevs,fig:IandII_high_prevs,fig:IIandVII_prevs,fig:IIIandV_prevs,fig:IVandV_prevs} the base graph's predictions for involvement patterns that include the \glspl{lnl} I, V, and VII have been plotted as gray, hatched histograms alongside the corresponding prevalence in the data and the prediction by the winning graph. Every scenario is show for early and late T-category. This allows us to compare how the winning graph improves its fit to the data in these particular scenarios around low-risk \glspl{lnl}. How frequently each of the investigated lymphatic metastatic patterns were observed in the data is additionally tabulated in \cref{table:data_prevalence}, again both for early and for late T-category cases.
+\begin{enumerate}
+    \item The colored histograms over the base graph model's prediction for the prevalence of the respective pattern of involvement. These histograms are obtained by computing the same prevalence with different samples from the inference process, thus providing us with a measure of uncertainty for the prediction.
+    \item Colored lines, depicting the Beta posterior over the same involvement pattern's prevalence, given a uniform prior and the observed data as likelihood. The maximum of the Beta distributions always coincides with the data prevalence but we additionally gain an intuition into how statistically significant the data is. E.g., Observing 3 out of 10 patients with a particular pattern of nodal metastases is less convincing than 300 out of a cohort of 1000 patients. A Beta posterior over these prevalences reflects that in its variance.
+\end{enumerate}
+
+\Cref{fig:bg_prevalences} shows that this minimal graph is already capable of describing the most important parts of the observed data very well. Notably, the model is not only accurate in its predictions, it also correctly estimates the variance stemming from the limited amount of data. The spread between involvement prevalences of early and late T-category tumors is also represented well. This shows that expecting later diagnosis times, on average, for patients with advanced T-category tumors is able to explain more severe lymphatic involvement.
+
+
+
+\subsection{The Optimal Extended Graph}
+\label{subsec:results:optimal_graph}
+
+The changes to the graph connections we investigate in this work focus on the improvements w.r.t. involvement patterns that include the \glspl{lnl} I, V, and VII, that more rarely harbor occult disease.
+
+In \cref{fig:IandII_low_prevs,fig:IandII_high_prevs,fig:IIIandV_prevs} the base graph's estimations for prevalences of involvement patterns that include the \glspl{lnl} I, V, and VII have been plotted as gray, hatched histograms. Alongside, we show again the Beta posterior over the prevalence of the respective involvement pattern, given the data, as colored line. The prediction by the winning graph are shown as colored histograms. Every scenario is shown for early and late T-category. This allows us to compare how the winning graph improves its fit to the data in these particular scenarios around low-risk \glspl{lnl}. How frequently each of the investigated lymphatic metastatic patterns were observed in the data is additionally tabulated in \cref{table:data_prevalence}, again both for early and for late T-category cases.
 
 \begin{figure}
     \script{comp_IandII_low_prevs.py}
@@ -456,6 +470,8 @@ In \cref{fig:IandII_low_prevs,fig:IandII_high_prevs,fig:IIandVII_prevs,fig:IIIan
     \end{centering}
 \end{figure}
 
+
+
 \begin{figure}
     \script{comp_IandII_high_prevs.py}
     \begin{centering}
@@ -465,14 +481,14 @@ In \cref{fig:IandII_low_prevs,fig:IandII_high_prevs,fig:IIandVII_prevs,fig:IIIan
     \end{centering}
 \end{figure}
 
-\begin{figure}
-    \script{comp_IIandVII_prevs.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/comp_IIandVII_prevs.png}
-        \caption{Prevalences for involvement patterns where \gls{lnl} VII is involved with (red) and without (blue) \gls{lnl} II. The solid lines depict a Beta posterior over the prevalence as observed in the data. The colored histograms show these prevalences as predicted by the winning graph. The hatched histograms show the same predictions from the base graph for comparison. Since the winning graph does not include an additional arc between \glspl{lnl} II and VII, the fit w.r.t. these two \glspl{lnl} does not improve.}
-        \label{fig:IIandVII_prevs}
-    \end{centering}
-\end{figure}
+% \begin{figure}
+%     \script{comp_IIandVII_prevs.py}
+%     \begin{centering}
+%         \includegraphics[width=\linewidth]{figures/comp_IIandVII_prevs.png}
+%         \caption{Prevalences for involvement patterns where \gls{lnl} VII is involved with (red) and without (blue) \gls{lnl} II. The solid lines depict a Beta posterior over the prevalence as observed in the data. The colored histograms show these prevalences as predicted by the winning graph. The hatched histograms show the same predictions from the base graph for comparison. Since the winning graph does not include an additional arc between \glspl{lnl} II and VII, the fit w.r.t. these two \glspl{lnl} does not improve.}
+%         \label{fig:IIandVII_prevs}
+%     \end{centering}
+% \end{figure}
 
 \begin{figure}
     \script{comp_IIIandV_prevs.py}
@@ -483,18 +499,14 @@ In \cref{fig:IandII_low_prevs,fig:IandII_high_prevs,fig:IIandVII_prevs,fig:IIIan
     \end{centering}
 \end{figure}
 
-\begin{figure}
-    \script{comp_IVandV_prevs.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/comp_IVandV_prevs.png}
-        \caption{Predictions vs observations of the prevalence of two patterns of involvement: One for the case when both \gls{lnl} VI and V are metastatic (blue) and one for the case where \gls{lnl} V is involved with level IV being healthy (orange). Again, the solid lies depict the Beta posterior over the prevalence of these patterns in the data. Colored histograms show the predicted distribution over the two patterns from the winning graph model. Hatched histograms show the same predictions from the base graph model for comparison. Although no arc was added from \gls{lnl} IV to V, the winning graph slightly improves its predictions both for early (top panel) and late T-category cases (bottom panel).}
-        \label{fig:IVandV_prevs}
-    \end{centering}
-\end{figure}
-
-
-\subsection{The Optimal Extended Graph}
-\label{subsec:results:optimal_graph}
+% \begin{figure}
+%     \script{comp_IVandV_prevs.py}
+%     \begin{centering}
+%         \includegraphics[width=\linewidth]{figures/comp_IVandV_prevs.png}
+%         \caption{Predictions vs observations of the prevalence of two patterns of involvement: One for the case when both \gls{lnl} VI and V are metastatic (blue) and one for the case where \gls{lnl} V is involved with level IV being healthy (orange). Again, the solid lies depict the Beta posterior over the prevalence of these patterns in the data. Colored histograms show the predicted distribution over the two patterns from the winning graph model. Hatched histograms show the same predictions from the base graph model for comparison. Although no arc was added from \gls{lnl} IV to V, the winning graph slightly improves its predictions both for early (top panel) and late T-category cases (bottom panel).}
+%         \label{fig:IVandV_prevs}
+%     \end{centering}
+% \end{figure}
 
 
 \subsection{Risk Prediction for Occult Disease}
