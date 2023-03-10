@@ -401,10 +401,11 @@ All figures in this work, like the risk predictions and prevalences we show hist
 
 The dataset $\boldsymbol{\mathcal{D}}$ that we used for inference is comprised of the detailed reports on lymphatic involvement patterns in \gls{opscc} patients treated at three different institutions in France and Switzerland: The \gls{clb} in Lyon (France), the \gls{isb}, and the \gls{usz} (both in Switzerland). We have previously published the patterns of nodal involvement for the \gls{usz} cohort \cite{ludwig_dataset_2022} and described its characteristics in detail \cite{ludwig_detailed_2022}. A large part of the \gls{clb} data underlies a publication on \gls{hpv} status in \gls{opscc} \cite{bauwens_prevalence_2021} that was kindly provided to us by Vincent Grégoire. The patient information on lymphatic metastatic involvement from the \gls{isb} cohort was sent to us by Roland Giger through a collaboration.
 
-In total, the dataset contains 681 patients newly diagnosed with \gls{opscc} that were treated with either definitive radiotherapy or neck dissection. Pathologically assessed post-operative \gls{lnl} involvement was available for 393 of patients, while for the remainder the nodal involvement was assessed based on available diagnostic modalities. If multiple modalities were used to diagnose a patient's lymphatic involvement and conflicting conclusions were drawn from this, the conflicts were resolved by inferring the most likely state (healthy or metastatic) for each \gls{lnl} separately. To do so, we used literature values for the sensitivity and specificity of the diagnostic modalities \cite{de_bondt_detection_2007,kyzas_18f-fluorodeoxyglucose_2008}, which we also tabulated below.
+In total, the dataset contains \variable{output/num_patients.txt} patients newly diagnosed with \gls{opscc} that were treated with either definitive radiotherapy or neck dissection. Pathologically assessed post-operative \gls{lnl} involvement was available for 393 of patients, while for the remainder the nodal involvement was assessed based on available diagnostic modalities. If multiple modalities were used to diagnose a patient's lymphatic involvement and conflicting conclusions were drawn from this, the conflicts were resolved by inferring the most likely state (healthy or metastatic) for each \gls{lnl} separately. To do so, we used literature values for the sensitivity and specificity of the diagnostic modalities \cite{de_bondt_detection_2007,kyzas_18f-fluorodeoxyglucose_2008}, which we also tabulated in \cref{table:sens_spec}.
 
-\noindent
-\begin{center}
+
+\begin{table}
+\centering
     \begin{tabular}{|l|rr|}
         \hline
         \textbf{Modality} & \textbf{Specificity} & \textbf{Sensitivity} \\
@@ -416,7 +417,9 @@ In total, the dataset contains 681 patients newly diagnosed with \gls{opscc} tha
         Pathology & $\approx$ 100\% & $\approx$ 100\% \\
         \hline
     \end{tabular}
-\end{center}
+    \caption{Literature sensitivity and specificity values that we used to infer the most likely involvement for a patient when multiple diagnostic modalities reported conflicting nodal involvement \cite{de_bondt_detection_2007,kyzas_18f-fluorodeoxyglucose_2008}.}
+    \label{table:sens_spec}
+\end{table}
 
 
 
