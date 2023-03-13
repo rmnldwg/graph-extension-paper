@@ -5,6 +5,8 @@ already capable of capturing the frequency of these involvement, as well as thei
 correlations.
 """
 from pathlib import Path
+from itertools import cycle, product
+import re
 
 import matplotlib.pyplot as plt
 from lyscripts.plot.utils import Histogram, Posterior, draw, COLORS
@@ -15,105 +17,93 @@ import paths
 
 INPUT = paths.data / "bg_core_prevs.hdf5"
 OUTPUT = (paths.figures / Path(__file__).name).with_suffix(".png")
-NROWS, NCOLS = 2, 1
+NROWS, NCOLS = 6, 1
+LNLS_COMBOS = list(product(["II", "III", "IV"], ["and", "not"], ["II", "III", "IV"]))
+LNLS_COMBOS = [*LNLS_COMBOS, "II", "III", "IV"]
+
+
+def get_lnl_label(match):
+    if match[2]:
+        filler = "without" if match[2] == "not" else "and"
+        return f"LNL {match[1]} {filler} {match[3]}"
+
+    return f"LNL {match[1]} overall"
+
+
+def draw_early_late_panels(panels, lnl, xlims, ylims=None, idx=0):
+    early_ax = plt.subplot(NROWS, NCOLS, idx * 2 + 1)
+    late_ax = plt.subplot(NROWS, NCOLS, idx * 2 + 2, sharex=early_ax)
+
+    draw(early_ax, contents=panels[lnl]["early"], xlims=xlims, hist_kwargs={"nbins": 80})
+    draw(late_ax, contents=panels[lnl]["late"], xlims=xlims, hist_kwargs={"nbins": 80})
+    num = len(panels[lnl]["early"]) // 2
+
+    early_handles, early_labels = early_ax.get_legend_handles_labels()
+    sorted_early_handles = [early_handles[i * num + j] for j in range(num) for i in [1,0]]
+    sorted_early_labels = [early_labels[i * num + j] for j in range(num) for i in [1,0]]
+
+    if ylims:
+        early_ax.set_ylim(ylims)
+
+    early_ax.get_xaxis().set_visible(False)
+    early_ax.set_yticks([])
+    early_ax.set_ylabel("early T-cat.", fontweight="bold")
+    early_ax.legend(sorted_early_handles, sorted_early_labels, labelspacing=0.3)
+
+    if ylims:
+        late_ax.set_ylim(ylims)
+
+    late_handles, late_labels = late_ax.get_legend_handles_labels()
+    post_late_handles = late_handles[:num]
+    post_late_labels = late_labels[:num]
+    late_ax.set_yticks([])
+    late_ax.set_xlabel("prevalence [%]", fontweight="bold")
+    late_ax.set_ylabel("late T-cat.", fontweight="bold")
+    late_ax.legend(post_late_handles, post_late_labels, labelspacing=0.3)
 
 
 if __name__ == "__main__":
     plt.rcParams.update(figsizes.icml2022_full(
         nrows=NROWS,
         ncols=NCOLS,
-        height_to_width_ratio=0.3,
+        height_to_width_ratio=0.2,
     ))
     plt.rcParams.update(fontsizes.icml2022())
-    fig, axes = plt.subplots(nrows=NROWS, ncols=NCOLS, sharex="col", sharey="row")
+    fig = plt.figure()
 
-    panels = {
-        "early": [],
-        "late": [],
+    panels = {lnl: {"early": [], "late": []} for lnl in ["II", "III", "IV"]}
+    colors = {
+        lnl: {
+            "early": cycle(COLORS.values()),
+            "late": cycle(COLORS.values()),
+        } for lnl in ["II", "III", "IV"]
     }
+    for lnl_combo in LNLS_COMBOS:
+        lnl_combo = "".join(lnl_combo)
+        match = re.match(r"([IV]{2,3})(and|not)?([IV]{2,3})?", lnl_combo)
+        lnl_block = match[1]
+        for stage in ["early", "late"]:
+            try:
+                _histo = Histogram.from_hdf5(
+                    filename=INPUT,
+                    dataname=f"{lnl_combo}/{stage}",
+                    label=get_lnl_label(match),
+                )
+                _post = Posterior.from_hdf5(
+                    filename=INPUT,
+                    dataname=f"{lnl_combo}/{stage}",
+                )
+                color = next(colors[lnl_block][stage])
+                _histo.kwargs["color"] = color
+                _post.kwargs["color"] = color
+                panels[lnl_block][stage].append(_histo)
+                panels[lnl_block][stage].append(_post)
 
-    for stage in ["early", "late"]:
-        panels[stage] = [
-            Histogram.from_hdf5(
-                filename=INPUT,
-                dataname=f"II/{stage}",
-                label="LNL II overall",
-                color=COLORS["red"],
-            ),
-            Posterior.from_hdf5(
-                filename=INPUT,
-                dataname=f"II/{stage}",
-                color=COLORS["red"],
-            ),
-            Histogram.from_hdf5(
-                filename=INPUT,
-                dataname=f"III/{stage}",
-                label="LNL III overall",
-                color=COLORS["blue"],
-            ),
-            Posterior.from_hdf5(
-                filename=INPUT,
-                dataname=f"III/{stage}",
-                color=COLORS["blue"],
-            ),
-            Histogram.from_hdf5(
-                filename=INPUT,
-                dataname=f"IV/{stage}",
-                label="LNL IV overall",
-                color=COLORS["green"],
-            ),
-            Posterior.from_hdf5(
-                filename=INPUT,
-                dataname=f"IV/{stage}",
-                color=COLORS["green"],
-            ),
-        ]
+            except KeyError as key_err:
+                pass
 
-    panels["early"].append(Histogram.from_hdf5(
-        filename=INPUT,
-        dataname="IInotIII/early",
-        label="LNL II without LNL III",
-        color=COLORS["orange"],
-    ))
-    panels["early"].append(Posterior.from_hdf5(
-        filename=INPUT,
-        dataname="IInotIII/early",
-        color=COLORS["orange"],
-    ))
-
-    panels["late"].append(Histogram.from_hdf5(
-        filename=INPUT,
-        dataname="IIInotIV/late",
-        label="LNL III without LNL IV",
-        color="#8f8f8f",
-    ))
-    panels["late"].append(Posterior.from_hdf5(
-        filename=INPUT,
-        dataname="IIInotIV/late",
-        color="#8f8f8f",
-    ))
-    panels["late"].append(Histogram.from_hdf5(
-        filename=INPUT,
-        dataname="IIIandIV/late",
-        label="LNL III and LNL IV",
-        histtype="step",
-        color="black",
-        linewidth=2.,
-        hatch=r"////",
-    ))
-    panels["late"].append(Posterior.from_hdf5(
-        filename=INPUT,
-        dataname="IIIandIV/late",
-        color="black",
-    ))
-
-    draw(axes[0], contents=panels["early"], xlims=(0., 85.), hist_kwargs={"nbins": 120})
-    axes[0].set_ylabel("early T-cat.", fontweight="bold")
-    axes[0].legend(loc="upper right")
-
-    draw(axes[1], contents=panels["late"], xlims=(0., 85.), hist_kwargs={"nbins": 120})
-    axes[1].set_ylabel("late T-cat.", fontweight="bold")
-    axes[1].set_xlabel("prevalence [%]")
-    axes[1].legend(handles=axes[1].get_children()[5:10],)
+    draw_early_late_panels(panels, "II", xlims=(20., 85.), idx=0)
+    draw_early_late_panels(panels, "III", xlims=(0., 45.), idx=1)
+    draw_early_late_panels(panels, "IV", xlims=(0., 18.), ylims=(0., 0.9), idx=2)
 
     plt.savefig(OUTPUT, dpi=300)

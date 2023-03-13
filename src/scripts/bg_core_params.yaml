@@ -77,23 +77,19 @@ risks: []
 # diagnostic modality. It can, however, be compared to the prevalence
 # in the data.
 prevalences:
+  # early
   - name: II/early
     modality: max_llh
     pattern:
       ipsi:
         II: true
     t_stage: early
-  - name: III/early
+  - name: IIandIII/early
     modality: max_llh
     pattern:
       ipsi:
+        II: true
         III: true
-    t_stage: early
-  - name: IV/early
-    modality: max_llh
-    pattern:
-      ipsi:
-        IV: true
     t_stage: early
   - name: IInotIII/early
     modality: max_llh
@@ -102,12 +98,19 @@ prevalences:
         II: true
         III: false
     t_stage: early
-  - name: IIInotIV/early
+
+  - name: IIInotII/early
+    modality: max_llh
+    pattern:
+      ipsi:
+        II: false
+        III: true
+    t_stage: early
+  - name: III/early
     modality: max_llh
     pattern:
       ipsi:
         III: true
-        IV: false
     t_stage: early
   - name: IIIandIV/early
     modality: max_llh
@@ -116,24 +119,55 @@ prevalences:
         III: true
         IV: true
     t_stage: early
+  - name: IIInotIV/early
+    modality: max_llh
+    pattern:
+      ipsi:
+        III: true
+        IV: false
+    t_stage: early
 
+  - name: IVnotIII/early
+    modality: max_llh
+    pattern:
+      ipsi:
+        III: false
+        IV: true
+    t_stage: early
+  - name: IV/early
+    modality: max_llh
+    pattern:
+      ipsi:
+        IV: true
+    t_stage: early
+  - name: IVandII/early
+    modality: max_llh
+    pattern:
+      ipsi:
+        II: true
+        IV: true
+    t_stage: early
+  - name: IVnotII/early
+    modality: max_llh
+    pattern:
+      ipsi:
+        II: false
+        IV: true
+    t_stage: early
+
+  # late
   - name: II/late
     modality: max_llh
     pattern:
       ipsi:
         II: true
     t_stage: late
-  - name: III/late
+  - name: IIandIII/late
     modality: max_llh
     pattern:
       ipsi:
+        II: true
         III: true
-    t_stage: late
-  - name: IV/late
-    modality: max_llh
-    pattern:
-      ipsi:
-        IV: true
     t_stage: late
   - name: IInotIII/late
     modality: max_llh
@@ -142,6 +176,27 @@ prevalences:
         II: true
         III: false
     t_stage: late
+
+  - name: IIInotII/late
+    modality: max_llh
+    pattern:
+      ipsi:
+        II: false
+        III: true
+    t_stage: late
+  - name: III/late
+    modality: max_llh
+    pattern:
+      ipsi:
+        III: true
+    t_stage: late
+  - name: IIIandIV/late
+    modality: max_llh
+    pattern:
+      ipsi:
+        III: true
+        IV: true
+    t_stage: late
   - name: IIInotIV/late
     modality: max_llh
     pattern:
@@ -149,10 +204,31 @@ prevalences:
         III: true
         IV: false
     t_stage: late
-  - name: IIIandIV/late
+
+  - name: IVnotIII/late
     modality: max_llh
     pattern:
       ipsi:
-        III: true
+        III: false
+        IV: true
+    t_stage: late
+  - name: IV/late
+    modality: max_llh
+    pattern:
+      ipsi:
+        IV: true
+    t_stage: late
+  - name: IVandII/late
+    modality: max_llh
+    pattern:
+      ipsi:
+        II: true
+        IV: true
+    t_stage: late
+  - name: IVnotII/late
+    modality: max_llh
+    pattern:
+      ipsi:
+        II: false
         IV: true
     t_stage: late
