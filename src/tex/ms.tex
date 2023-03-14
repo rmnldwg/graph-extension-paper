@@ -455,6 +455,10 @@ For the base graph, we have plotted the predicted prevalence of involvement patt
 
 \Cref{fig:bg_prevalences} shows that this minimal graph is already capable of describing the most important parts of the observed data very well. Notably, the model is not only accurate in its predictions, it also correctly estimates the variance stemming from the limited amount of data. The spread between involvement prevalences of early and late T-category tumors is also represented well. This shows that expecting later diagnosis times, on average, for patients with advanced T-category tumors is able to explain more severe lymphatic involvement.
 
+There are only a few involvement patterns for which the model's prediction does not match the prevalence of the data with perfect accuracy. But in these instances, e.g. the case where \gls{lnl} III is metastatic while \gls{lnl} IV is healthy in an early T-category patient (\cref{fig:bg_prevalences}, third row, green line and histogram), the model slightly overestimates the prevalence. An overestimation by a few percent however, does not pose a risk to the model's clinical applicability, since in the context of volume-deescalation, this can be considered cautious.
+
+It is interesting to note that not all involvement patterns become more prevalent with advanced T-category. For example, a healthy \gls{lnl} III is observed slightly less often together with a metastatic level II in advanced, compared to early T-category. This is because in the latter instance, it is more likely the disease has already spread to \gls{lnl} III. Our model captures this accurately and precisely.
+
 
 
 \subsection{The Optimal Extended Graph}
@@ -492,6 +496,15 @@ In \cref{fig:IandII_low_prevs,fig:IandII_high_prevs,fig:IIIandV_prevs} the base 
 %         \label{fig:IIandVII_prevs}
 %     \end{centering}
 % \end{figure}
+
+\begin{figure}
+    \script{comp_IIandV_prevs.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/comp_IIandV_prevs.png}
+        \caption{TODO: Write Caption.}
+        \label{fig:IIandV_prevs}
+    \end{centering}
+\end{figure}
 
 \begin{figure}
     \script{comp_IIIandV_prevs.py}
