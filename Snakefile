@@ -16,6 +16,15 @@ rule compute_prevalences:
     shell:
         "lyscripts predict prevalences --params {input.params} --thin 10 {input.model} {input.data} {output}"
 
+rule compute_risks:
+    input:
+        model = "src/data/{graph}_samples.hdf5",
+        params = "src/scripts/{graph}_risks.yaml",
+    output:
+        "src/data/{graph}_risks.hdf5"
+    shell:
+        "lyscripts predict risks --params {input.params} --thin 10 {input.model} {output}"
+
 rule extract_metrics:
     input:
         "src/data/bg_metrics.json",
