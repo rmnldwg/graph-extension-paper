@@ -450,7 +450,7 @@ For the base graph, we have plotted the predicted prevalence of involvement patt
 
 \begin{enumerate}
     \item The colored histograms over the base graph model's prediction for the prevalence of the respective pattern of involvement. These histograms are obtained by computing the same prevalence with different samples from the inference process, thus providing us with a measure of uncertainty for the prediction.
-    \item Colored lines, depicting the Beta posterior over the same involvement pattern's prevalence, given a uniform prior and the observed data as likelihood. The maximum of the Beta distributions always coincides with the data prevalence but we additionally gain an intuition into how statistically significant the data is. E.g., Observing 3 out of 10 patients with a particular pattern of nodal metastases is less convincing than 300 out of a cohort of 1000 patients. A Beta posterior over these prevalences reflects that in its variance.
+    \item Colored lines, depicting the beta posterior over the same involvement pattern's prevalence, given a uniform beta prior and the binomial likelihood of the observed data. The maximum of the beta distributions always coincides with the data prevalence but we additionally gain an intuition into how statistically significant the data is. E.g., Observing 3 out of 10 patients with a particular pattern of nodal metastases is less convincing than 300 out of a cohort of 1000 patients. A beta posterior over these prevalences reflects that in its variance.
 \end{enumerate}
 
 \Cref{fig:bg_prevalences} shows that this minimal graph is already capable of describing the most important parts of the observed data very well. Notably, the model is not only accurate in its predictions, it also correctly estimates the variance stemming from the limited amount of data. The spread between involvement prevalences of early and late T-category tumors is also represented well. This shows that expecting later diagnosis times, on average, for patients with advanced T-category tumors is able to explain more severe lymphatic involvement.
@@ -472,26 +472,17 @@ In \cref{fig:IandII_prevs,fig:IIandV_prevs,fig:IIIandV_prevs} the base graph's e
     \script{comp_IandII_prevs.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/comp_IandII_prevs.png}
-        \caption{TODO: Write Caption.}
+        \caption{Comparison of observed and predicted prevalences of \gls{lnl} I and II involvement patterns. The top and bottom panels show the prevalences for early and late T-category, respectively. The solid lines are Beta posteriors from the data, while the histograms are predicted prevalences (colored: winning graph, gray-hatched: base graph). Blue and red plots indicate overall \gls{lnl} I and II involvement, respectively. Green plots indicate \gls{lnl} I involvement without level II, while orange plots indicate the opposite (\gls{lnl} II without level I). The winning graph has an added edge from \gls{lnl} II to I, which improves the prediction of the rare green pattern and reduces the overestimation of the orange pattern in late T-category. However, it slightly underestimates the orange pattern in early T-category.}
         \label{fig:IandII_prevs}
     \end{centering}
 \end{figure*}
 
 
-% \begin{figure}
-%     \script{comp_IIandVII_prevs.py}
-%     \begin{centering}
-%         \includegraphics[width=\linewidth]{figures/comp_IIandVII_prevs.png}
-%         \caption{Prevalences for involvement patterns where \gls{lnl} VII is involved with (red) and without (blue) \gls{lnl} II. The solid lines depict a Beta posterior over the prevalence as observed in the data. The colored histograms show these prevalences as predicted by the winning graph. The hatched histograms show the same predictions from the base graph for comparison. Since the winning graph does not include an additional arc between \glspl{lnl} II and VII, the fit w.r.t. these two \glspl{lnl} does not improve.}
-%         \label{fig:IIandVII_prevs}
-%     \end{centering}
-% \end{figure}
-
 \begin{figure}
     \script{comp_IIandV_prevs.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/comp_IIandV_prevs.png}
-        \caption{TODO: Write Caption.}
+        \caption{Beta posterior over the prevalence of the involvement pattern where \gls{lnl} II \emph{and} V show metastases (orange line), as well as the pattern with \gls{lnl} V involved \emph{without} level II (blue line). Both prevalences are shown for early (top panel) and late T-category (bottom panel). The correspondingly colored histograms show the same prevalences as predicted by the winning graph model. The hatched gray modalities display the same predictions as made by the base graph model. The winning graph slightly improves its fit to the data in the case of early T-category prevalence of \gls{lnl} V without \gls{lnl} II, and in the case of late T-category co-involvement of the levels II and V. This likely stems from the additional arc the winning graph has from \gls{lnl} II to V.}
         \label{fig:IIandV_prevs}
     \end{centering}
 \end{figure}
@@ -504,15 +495,6 @@ In \cref{fig:IandII_prevs,fig:IIandV_prevs,fig:IIIandV_prevs} the base graph's e
         \label{fig:IIIandV_prevs}
     \end{centering}
 \end{figure}
-
-% \begin{figure}
-%     \script{comp_IVandV_prevs.py}
-%     \begin{centering}
-%         \includegraphics[width=\linewidth]{figures/comp_IVandV_prevs.png}
-%         \caption{Predictions vs observations of the prevalence of two patterns of involvement: One for the case when both \gls{lnl} VI and V are metastatic (blue) and one for the case where \gls{lnl} V is involved with level IV being healthy (orange). Again, the solid lies depict the Beta posterior over the prevalence of these patterns in the data. Colored histograms show the predicted distribution over the two patterns from the winning graph model. Hatched histograms show the same predictions from the base graph model for comparison. Although no arc was added from \gls{lnl} IV to V, the winning graph slightly improves its predictions both for early (top panel) and late T-category cases (bottom panel).}
-%         \label{fig:IVandV_prevs}
-%     \end{centering}
-% \end{figure}
 
 
 \subsection{Risk Prediction for Occult Disease}
