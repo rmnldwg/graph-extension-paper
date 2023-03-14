@@ -35,10 +35,7 @@ dependencies:
     - src/data/bg_samples.hdf5
   src/scripts/bg_core_prevs.py:
     - src/data/bg_core_prevs.hdf5
-  src/scripts/comp_IandII_low_prevs.py:
-    - src/data/bg_IandII_prevs.hdf5
-    - src/data/wg_IandII_prevs.hdf5
-  src/scripts/comp_IandII_high_prevs.py:
+  src/scripts/comp_IandII_prevs.py:
     - src/data/bg_IandII_prevs.hdf5
     - src/data/wg_IandII_prevs.hdf5
   src/scripts/comp_IIandVII_prevs.py:

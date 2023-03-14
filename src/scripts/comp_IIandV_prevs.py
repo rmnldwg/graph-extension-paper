@@ -24,7 +24,7 @@ if __name__ == "__main__":
     plt.rcParams.update(figsizes.icml2022_half(
         nrows=NROWS,
         ncols=NCOLS,
-        # height_to_width_ratio=0.3,
+        height_to_width_ratio=0.45,
     ))
     plt.rcParams.update(fontsizes.icml2022())
     fig, axes = plt.subplots(nrows=NROWS, ncols=NCOLS, sharex="col", sharey="row")
@@ -82,11 +82,13 @@ if __name__ == "__main__":
     draw(axes[0], contents=panels["early"], xlims=(0., 12.), hist_kwargs={"nbins": 40})
     axes[0].set_ylim(bottom=0., top=0.9)
     axes[0].set_ylabel("early T-cat.", fontweight="bold")
+    axes[0].set_yticks([])
     axes[0].legend()
 
     draw(axes[1], contents=panels["late"], xlims=(0., 12.), hist_kwargs={"nbins": 40})
     # axes[1].set_ylim(bottom=0., top=1.2)
     axes[1].set_ylabel("late T-cat.", fontweight="bold")
+    axes[1].set_yticks([])
     axes[1].set_xlabel("prevalence [%]")
     axes[1].legend(handles=[h for h in axes[1].get_children() if isinstance(h, Line2D)])
 

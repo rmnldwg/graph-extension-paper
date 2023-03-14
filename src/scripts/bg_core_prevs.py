@@ -57,7 +57,7 @@ def draw_early_late_panels(panels, lnl, xlims, ylims=None, idx=0):
     post_late_handles = late_handles[:num]
     post_late_labels = late_labels[:num]
     late_ax.set_yticks([])
-    late_ax.set_xlabel("prevalence [%]", fontweight="bold")
+    late_ax.set_xlabel("prevalence [%]")
     late_ax.set_ylabel("late T-cat.", fontweight="bold")
     late_ax.legend(post_late_handles, post_late_labels, labelspacing=0.3)
 
