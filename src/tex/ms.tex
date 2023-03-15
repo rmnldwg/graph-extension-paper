@@ -5,6 +5,7 @@
 \usepackage{nicefrac}
 \usepackage{wasysym}
 \usepackage{amssymb}
+\usepackage[inline]{enumitem}
 
 % Glossaries
 \usepackage[acronym,toc]{glossaries}
@@ -504,7 +505,13 @@ In \cref{fig:IandII_prevs,fig:IIandV_prevs,fig:IIIandV_prevs} the base graph's e
     \script{wg_IV_risks.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/wg_IV_risks.png}
-        \caption{TODO: Write caption.}
+        \caption{Distributions over the risk for microscopic involvement in \gls{lnl} IV as predicted by the winning graph model, given early (top panel) or late T-category (bottom panel), and three different CT-based diagnoses:
+        \begin{enumerate*}[label=\arabic*)]
+            \item A clinical N0 patient (gray histogram),
+            \item visible metastases in \gls{lnl} II, but otherwise healthy-looking lymph nodes (blue histogram), and
+            \item macroscopic metastases in the \glspl{lnl} II \& III, whith the rest of the neck still being clinically ode negative (orange histogram).
+        \end{enumerate*}
+        }
         \label{fig:wg_IV_risks}
     \end{centering}
 \end{figure}
@@ -513,7 +520,12 @@ In \cref{fig:IandII_prevs,fig:IIandV_prevs,fig:IIIandV_prevs} the base graph's e
     \script{wg_V_risks.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/wg_V_risks.png}
-        \caption{TODO: Write caption.}
+        \caption{The winning graph's predictions over the risk for occult disease in \gls{lnl} V for early (top panel) and late T-category (bottom panel). Each of the risks is computed, given one of three diagnostic scenarios that were obtained by a CT scan:
+        \begin{enumerate*}[label=\arabic*)]
+            \item A clinically healthy neck (green),
+            \item on CT imaging visible involvement in the \glspl{lnl} II \& III (orange) with the remaining levels still clinically negative, and
+            \item observed involvement in the levels II, III, and IV (red).
+        \end{enumerate*}}
         \label{fig:wg_V_risks}
     \end{centering}
 \end{figure}
