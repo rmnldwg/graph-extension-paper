@@ -75,11 +75,18 @@ risks:
       ipsi: {I: false, II: false, III: false, IV: false, V: false, VII: false}
     given_diagnosis_spsn: [0.76, 0.81]
     t_stage: early
-  - name: early/II/N0
+  - name: early/I/II
     involvement:
-      ipsi: {II: true}
+      ipsi: {I: true}
     given_diagnosis:
-      ipsi: {I: false, II: false, III: false, IV: false, V: false, VII: false}
+      ipsi: {I: false, II: true, III: false, IV: false, V: false, VII: false}
+    given_diagnosis_spsn: [0.76, 0.81]
+    t_stage: early
+  - name: early/I/IIandIIIandIV
+    involvement:
+      ipsi: {I: true}
+    given_diagnosis:
+      ipsi: {I: false, II: true, III: true, IV: true, V: false, VII: false}
     given_diagnosis_spsn: [0.76, 0.81]
     t_stage: early
   - name: early/III/N0
@@ -87,6 +94,13 @@ risks:
       ipsi: {III: true}
     given_diagnosis:
       ipsi: {I: false, II: false, III: false, IV: false, V: false, VII: false}
+    given_diagnosis_spsn: [0.76, 0.81]
+    t_stage: early
+  - name: early/III/II
+    involvement:
+      ipsi: {III: true}
+    given_diagnosis:
+      ipsi: {I: false, II: true, III: false, IV: false, V: false, VII: false}
     given_diagnosis_spsn: [0.76, 0.81]
     t_stage: early
   - name: early/IV/N0
@@ -138,13 +152,6 @@ risks:
       ipsi: {I: false, II: true, III: true, IV: true, V: false, VII: false}
     given_diagnosis_spsn: [0.76, 0.81]
     t_stage: early
-  - name: early/VII/N0
-    involvement:
-      ipsi: {VII: true}
-    given_diagnosis:
-      ipsi: {I: false, II: false, III: false, IV: false, V: false, VII: false}
-    given_diagnosis_spsn: [0.76, 0.81]
-    t_stage: early
 
   - name: late/I/N0
     involvement:
@@ -153,11 +160,18 @@ risks:
       ipsi: {I: false, II: false, III: false, IV: false, V: false, VII: false}
     given_diagnosis_spsn: [0.76, 0.81]
     t_stage: late
-  - name: late/II/N0
+  - name: late/I/II
     involvement:
-      ipsi: {II: true}
+      ipsi: {I: true}
     given_diagnosis:
-      ipsi: {I: false, II: false, III: false, IV: false, V: false, VII: false}
+      ipsi: {I: false, II: true, III: false, IV: false, V: false, VII: false}
+    given_diagnosis_spsn: [0.76, 0.81]
+    t_stage: late
+  - name: late/I/IIandIIIandIV
+    involvement:
+      ipsi: {I: true}
+    given_diagnosis:
+      ipsi: {I: false, II: true, III: true, IV: true, V: false, VII: false}
     given_diagnosis_spsn: [0.76, 0.81]
     t_stage: late
   - name: late/III/N0
@@ -165,6 +179,13 @@ risks:
       ipsi: {III: true}
     given_diagnosis:
       ipsi: {I: false, II: false, III: false, IV: false, V: false, VII: false}
+    given_diagnosis_spsn: [0.76, 0.81]
+    t_stage: late
+  - name: late/III/II
+    involvement:
+      ipsi: {III: true}
+    given_diagnosis:
+      ipsi: {I: false, II: true, III: false, IV: false, V: false, VII: false}
     given_diagnosis_spsn: [0.76, 0.81]
     t_stage: late
   - name: late/IV/N0
@@ -214,13 +235,6 @@ risks:
       ipsi: {V: true}
     given_diagnosis:
       ipsi: {I: false, II: true, III: true, IV: true, V: false, VII: false}
-    given_diagnosis_spsn: [0.76, 0.81]
-    t_stage: late
-  - name: late/VII/N0
-    involvement:
-      ipsi: {VII: true}
-    given_diagnosis:
-      ipsi: {I: false, II: false, III: false, IV: false, V: false, VII: false}
     given_diagnosis_spsn: [0.76, 0.81]
     t_stage: late
 

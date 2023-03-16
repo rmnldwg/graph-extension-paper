@@ -50,6 +50,10 @@ dependencies:
   src/scripts/comp_IVandV_prevs.py:
     - src/data/bg_IVandV_prevs.hdf5
     - src/data/wg_IVandV_prevs.hdf5
+  src/scripts/wg_I_risks.py:
+    - src/data/wg_risks.hdf5
+  src/scripts/wg_III_risks.py:
+    - src/data/wg_risks.hdf5
   src/scripts/wg_IV_risks.py:
     - src/data/wg_risks.hdf5
   src/scripts/wg_V_risks.py:
