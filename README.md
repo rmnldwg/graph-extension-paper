@@ -18,11 +18,11 @@
 # Modelling Lymphatic Metastatic Progression in HNSCC: Extending the Graph
 
 **Authors:** 
-_Roman Ludwig_[^1], _Jean-Marc Hoffmann_[^1], _Bertrand Pouymayou_[^1], _Panagiotis Balermpas_[^1], _Lauence Bauwens_[^2], _Vincent Grégoire_[^2], _Roland Giger_[^3], _Jan Unkelbach_[^1],
+_Roman Ludwig_[^USZ], _Jean-Marc Hoffmann_[^USZ], _Bertrand Pouymayou_[^USZ], _Panagiotis Balermpas_[^USZ], _Lauence Bauwens_[^CLB], _Vincent Grégoire_[^CLB], _Roland Giger_[^ISB], _Jan Unkelbach_[^USZ],
 
-[^1]: University Hospital Zurich, Switzerland
-[^2]: Centre Léon Bérard, France
-[^3]: Inselspital Bern, Switzerland
+[^USZ]: University Hospital Zurich, Switzerland
+[^CLB]: Centre Léon Bérard, France
+[^ISB]: Inselspital Bern, Switzerland
 
 
 This is an open-access _and_ open-source publication that is made fully reproducible with the help of [DVC] and _[showyourwork!]_.

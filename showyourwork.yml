@@ -61,6 +61,8 @@ dependencies:
   src/scripts/thermo_int.py:
     - src/data/base_accuracies.csv
     - src/data/win_accuracies.csv
+  src/scripts/wg_sens_spec_risks.py:
+    - src/data/wg_risks.hdf5
 # Name of the `.tex` manuscript and corresponding `.pdf` article
 ms_name: ms
 
