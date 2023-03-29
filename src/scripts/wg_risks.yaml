@@ -152,6 +152,30 @@ risks:
       ipsi: {I: false, II: true, III: true, IV: true, V: false, VII: false}
     given_diagnosis_spsn: [0.76, 0.81]
     t_stage: early
+  - name: early/anyIorIVorVorVII/N0
+    involvement:
+      ipsi: {I: false, IV: false, V: false, VII: false}
+    given_diagnosis:
+      ipsi: {I: false, II: false, III: false, IV: false, V: false, VII: false}
+    given_diagnosis_spsn: [0.76, 0.81]
+    t_stage: early
+    invert: true
+  - name: early/anyIorIVorVorVII/II
+    involvement:
+      ipsi: {I: false, IV: false, V: false, VII: false}
+    given_diagnosis:
+      ipsi: {I: false, II: true, III: false, IV: false, V: false, VII: false}
+    given_diagnosis_spsn: [0.76, 0.81]
+    t_stage: early
+    invert: true
+  - name: early/anyIorIVorVorVII/IIandIII
+    involvement:
+      ipsi: {I: false, IV: false, V: false, VII: false}
+    given_diagnosis:
+      ipsi: {I: false, II: true, III: true, IV: false, V: false, VII: false}
+    given_diagnosis_spsn: [0.76, 0.81]
+    t_stage: early
+    invert: true
 
   - name: late/I/N0
     involvement:
@@ -237,6 +261,30 @@ risks:
       ipsi: {I: false, II: true, III: true, IV: true, V: false, VII: false}
     given_diagnosis_spsn: [0.76, 0.81]
     t_stage: late
+  - name: late/anyIorIVorVorVII/N0
+    involvement:
+      ipsi: {I: false, IV: false, V: false, VII: false}
+    given_diagnosis:
+      ipsi: {I: false, II: false, III: false, IV: false, V: false, VII: false}
+    given_diagnosis_spsn: [0.76, 0.81]
+    t_stage: late
+    invert: true
+  - name: late/anyIorIVorVorVII/II
+    involvement:
+      ipsi: {I: false, IV: false, V: false, VII: false}
+    given_diagnosis:
+      ipsi: {I: false, II: true, III: false, IV: false, V: false, VII: false}
+    given_diagnosis_spsn: [0.76, 0.81]
+    t_stage: late
+    invert: true
+  - name: late/anyIorIVorVorVII/IIandIII
+    involvement:
+      ipsi: {I: false, IV: false, V: false, VII: false}
+    given_diagnosis:
+      ipsi: {I: false, II: true, III: true, IV: false, V: false, VII: false}
+    given_diagnosis_spsn: [0.76, 0.81]
+    t_stage: late
+    invert: true
 
 
 ########################################################################################
