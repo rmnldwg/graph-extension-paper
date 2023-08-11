@@ -4,10 +4,10 @@ deps:
 - path: models/samples.hdf5
   repo:
     url: https://github.com/rmnldwg/lynference
-    rev: ed11b3ebcfa9614f50bc05a6606772fb4aee87e2
-    rev_lock: ed11b3ebcfa9614f50bc05a6606772fb4aee87e2
+    rev: base-graph-v1
+    rev_lock: b633311d9b9b610402b673fc6813b5183a4a999b
 outs:
 - path: bg_samples.hdf5
-  md5: b314e1668e0650671f4b65b931871211
-  size: 38190520
-md5: 5f392de1f06d69c4d691cd60f23350ee
+  md5: a450ea18766cd65808fc2d5aeebaa5fa
+  size: 146406528
+md5: b1abe13b8cdda1c9bb041426522fe059

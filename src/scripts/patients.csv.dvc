@@ -1,12 +1,12 @@
-md5: b2354cfff200ea1c17d7320814e09e88
+md5: 6667f62b14dcb939d31128cc8cc994e9
 wdir: ../data
 frozen: true
 deps:
 - path: data/cleaned.csv
   repo:
     url: https://github.com/rmnldwg/lynference
-    rev: ed11b3ebcfa9614f50bc05a6606772fb4aee87e2
-    rev_lock: ed11b3ebcfa9614f50bc05a6606772fb4aee87e2
+    rev: base-graph-v1
+    rev_lock: b633311d9b9b610402b673fc6813b5183a4a999b
 outs:
 - md5: 5c2b261b840a237ad630c450ec0d9ae4
   size: 155737

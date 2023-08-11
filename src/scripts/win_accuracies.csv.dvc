@@ -1,4 +1,4 @@
-md5: 8835888c3f61db4b348f38d97da97c5b
+md5: 5c503c8d0f351511911bb33a59475e5a
 wdir: ../data
 frozen: true
 deps:
@@ -6,7 +6,7 @@ deps:
   repo:
     url: https://github.com/rmnldwg/lynference
     rev: win-graph-v1
-    rev_lock: 1cd03798a1a663d9aee3a21fa78143845b1cba72
+    rev_lock: 4d7f34eeef6a4367be87c0f8d6805d06125e47cf
 outs:
 - md5: 8874882966430612157cfa86eb7df3eb
   size: 3723

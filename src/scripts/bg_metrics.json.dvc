@@ -1,4 +1,4 @@
-md5: c9f587c7e8ea598259cd16883027e814
+md5: ee365bbb6acddec9d649aa87cb8154f4
 wdir: ../data
 frozen: true
 deps:
@@ -6,7 +6,7 @@ deps:
   repo:
     url: https://github.com/rmnldwg/lynference
     rev: base-graph-v1
-    rev_lock: 69de780ebecbb3fdd038ed2e40595ea24c2c9e81
+    rev_lock: b633311d9b9b610402b673fc6813b5183a4a999b
 outs:
 - md5: 28d9022c6ba16a3c63188b4ef84d8edf
   size: 160
