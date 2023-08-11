@@ -38,6 +38,8 @@
 \newacronym{usz}{USZ}{University Hospital Zurich}
 \newacronym{isb}{ISB}{Inselspital Bern}
 
+\newcommand{\ju}[1]{{\textcolor{red}{#1}}}
+
 % Cross-referencing
 \usepackage{hyperref}
 \AtEndPreamble{\usepackage{cleveref}}
@@ -48,19 +50,24 @@
 % Title
 \title{Modelling the Lymphatic Metastatic Progression Pathways of OPSCC from Multi-Institutional Datasets}
 
+
 % Author list
 \author{Roman Ludwig}
 \author{Jean-Marc Hoffmann}
 \author{Bertrand Pouymayou}
-\author{Panagiotis Balermpas}
 \author{Lauence Bauwens}
 \author{Vincent Grégoire}
 \author{Roland Giger}
+\author{Panagiotis Balermpas}
 \author{Jan Unkelbach}
 
 % Abstract
 \begin{abstract}
-    The \gls{ctv-n}\glsunset{ctv} in \gls{hnscc}\glsunset{scc} is currently based mostly on the prevalence of lymphatic metastases in different \glspl{lnl} for a given primary tumor location. In this work, we present an extension to a probabilistic model for lymphatic metastatic spread developed earlier that can quantify the risk for microscopic nodal involvement based on an individual patient diagnosis. The extension is based on the same formalism of \glspl{hmm} as the original model, but in addition to the \glspl{lnl} I, II, III, and IV, it also covers the \glspl{lnl} V and VII of the ipsilateral neck. Moreover, we infer which pathways of lymphatic spread to model from clinical lymphatic progression patterns of 681 patients from three institutions. The extended model may allow for a more personalized \gls{ctv-n} definition based on a patient's individual state of disease. The \gls{hmm} uses a collection of hidden binary \glspl{rv} -- one for each \gls{lnl} -- to model a patient's state of lymphatic involvement. Clinical diagnoses and/or pathological examinations of resected \glspl{lnl} represent the observed binary \glspl{rv} corresponding to the unobservable true state of nodal disease. A \gls{dag} with parametrized edges is used to compute the transition matrix of the \gls{hmm} and consequently the (log-)likelihood of the diagnoses of 681 patients, given a set of spread parameters. Based on the defined likelihood function, \gls{mcmc} sampling is then used to infer a distribution over the model's parameters. T-category is model by assuming that, on average, patients with late T-category tumors are diagnosed at a later time compared to patients with early T-category tumors. Using \gls{ti} and the \gls{bic} we compare models based on different \glspl{dag} and demonstrate the accuracy and precision of the best-performing model. When extended to the contralateral side, this model may form the basis of future guidelines of elective \gls{ctv} definition.
+    Objective: The \gls{ctv-n}\glsunset{ctv} in \gls{hnscc}\glsunset{scc} is currently based mostly on the prevalence of lymph node metastases in different \glspl{lnl} for a given primary tumor location. In this work, we present a probabilistic model for ipsilateral lymphatic metastatic spread that can quantify the risk for microscopic nodal involvement based on an individual patient's T-stage and clinical involvement of \glspl{lnl} at diagnosis. \\
+    Methods: The model is based on the formalism of \glspl{hmm} as conceptually introduced in a previous publication. The \gls{hmm} uses a collection of hidden binary \glspl{rv} -- one for each of the \glspl{lnl} I, II, III, IV, V, and VII -- to model a patient's true state of lymph node involvement corresponding to pathological examinations. Clinical involvement at diagnosis represent the observed binary \glspl{rv} linked to the true state via sensitivity and specificity. A \gls{dag} with is used to compute the transition matrix of the \gls{hmm}, where each edge is associated with a parameter for the probability of tumor spread from the primary tumor and between \gls{lnl}. To learn the parameters, we collected a dataset of 681 \gls{opscc} patients from three institutions. To determine the best graph that balances model complexity and accurate description of \gls{lnl} involvement patterns in the data, we compare graphs based on the model evidence calculated via \gls{ti}. \\
+    Results: The graph maximizing the model evidence contains edges for lymphatic spread from \gls{lnl} II to I, III and V, and from \gls{lnl} III to IV and V, and is thus consistent with commonly assumed lymphatic drainage in the neck. Application of the model suggests that the risk of occult disease in level IV is below 5\% if level III is clinically negative, and that the risk of occult disease in level V is below 5\% except for late T-category patients with clinical involvement of levels II, III, and IV. 
+    Conclusion: We provide a statistical model of lymph node involvement in \gls{opscc} patients trained on a multi-institutional dataset, which may guide the design of clinical trials on volume-deescalated treatment of \gls{opscc} and eventually contribute to further personalized guidelines on elective nodal treatment.
+%    The \gls{ctv-n}\glsunset{ctv} in \gls{hnscc}\glsunset{scc} is currently based mostly on the prevalence of lymphatic metastases in different \glspl{lnl} for a given primary tumor location. In this work, we present an extension to a probabilistic model for lymphatic metastatic spread developed earlier that can quantify the risk for microscopic nodal involvement based on an individual patient diagnosis. The extension is based on the same formalism of \glspl{hmm} as the original model, but in addition to the \glspl{lnl} I, II, III, and IV, it also covers the \glspl{lnl} V and VII of the ipsilateral neck. Moreover, we infer which pathways of lymphatic spread to model from clinical lymphatic progression patterns of 681 patients from three institutions. The extended model may allow for a more personalized \gls{ctv-n} definition based on a patient's individual state of disease. The \gls{hmm} uses a collection of hidden binary \glspl{rv} -- one for each \gls{lnl} -- to model a patient's state of lymphatic involvement. Clinical diagnoses and/or pathological examinations of resected \glspl{lnl} represent the observed binary \glspl{rv} corresponding to the unobservable true state of nodal disease. A \gls{dag} with parametrized edges is used to compute the transition matrix of the \gls{hmm} and consequently the (log-)likelihood of the diagnoses of 681 patients, given a set of spread parameters. Based on the defined likelihood function, \gls{mcmc} sampling is then used to infer a distribution over the model's parameters. T-category is model by assuming that, on average, patients with late T-category tumors are diagnosed at a later time compared to patients with early T-category tumors. Using \gls{ti} and the \gls{bic} we compare models based on different \glspl{dag} and demonstrate the accuracy and precision of the best-performing model. When extended to the contralateral side, this model may form the basis of future guidelines of elective \gls{ctv} definition.
 \end{abstract}
 
 
@@ -68,19 +75,23 @@
 \section{Introduction}
 \label{sec:intro}
 
-When treating \gls{hnscc}, either with radiotherapy or via surgery, the aim is to irradiate or resect as much of the present malignancies as possible. This includes the primary tumor mass and metastases that are sufficiently large to be detected using in-vivo imaging modalities such as \gls{ct}, \gls{mri}, or \gls{pet}. But it also includes regions of possible microscopic spread, which these modalities cannot detect, to increase the patient's probability of cure \cite{poortmans_internal_2020,murthy_prostate-only_2021}. Microscopic disease can currently only be observed by a pathological examination of the tissue. Consequently, clinicians that are presented with cancer patients need to routinely assess the risk of microscopic involvement in parts of the body that appear clinically node negative.
+When treating \gls{hnscc} with radiotherapy or surgery, the aim is to irradiate or resect as much of the malignant tissue as possible. This includes the primary tumor mass and clinically detected lymph node metastases. However, to reduce the risk of locoregional failure, treatment also includes regions of the lymph drainage system of the neck with possible microscopic tumor spread, which in-vivo imaging modalities such as \gls{ct}, \gls{mri}, or \gls{pet} cannot detect. This is referred to as elective nodal irradiation or prophylactic neck dissection. Treatment decisions regarding the \gls{ctv-n} or the extent of neck dissection must balance the conflicting goals of treating regions at risk of occult lymph node metastases to avoid recurrences while avoiding toxicity related to unnecessary treatment of healthy tissues.
 
-This work concerns itself with \gls{opscc}, which commonly spreads lymphatically. The only two publicly available datasets on nodal involvement patterns in \gls{opscc}, at the time of writing, show that 80\% of patients where either cN+ or -- if available -- pN+ \cite{ludwig_dataset_2022}. Since the exact number and location of lymph nodes varies from patient to patient, the nodes are grouped into anatomically defined \glspl{lnl}. These levels are then often irradiated or resected prophylactically due to the risk of harboring occult metastases despite negative findings from imaging modalities. In current clinical practice, \gls{ctv-n} definition is mostly based on guidelines \cite{gregoire_ct-based_2003,gregoire_delineation_2014,gregoire_delineation_2018,eisbruch_intensity-modulated_2002,biau_selection_2019,chao_determination_2002,vorwerk_guidelines_2011,ferlito_elective_2009} that are derived from the observed prevalence of involvement in an \gls{lnl} for a given tumor location.
+%\cite{poortmans_internal_2020,murthy_prostate-only_2021}. 
+%Microscopic disease can currently only be observed by a pathological examination of the tissue. Consequently, clinicians that are presented with cancer patients need to routinely assess the risk of microscopic involvement in parts of the body that appear clinically node negative.
 
-These guidelines, however, do not account for the personal risk of the patients that may depend greatly on their diagnosis. E.g., macroscopic metastases detected via \gls{pet} in the \glspl{lnl} II and III may increase the risk for occult disease in \gls{lnl} IV over the case of a patient who presents with a clinically N0 neck.
+This work concerns itself with \gls{opscc}, where approximately 70-80\% of patients present with lymph node metastases at the time of diagnosis.  
+%which commonly spreads lymphatically. The only two publicly available datasets on nodal involvement patterns in \gls{opscc}, at the time of writing, show that 80\% of patients where either cN+ or -- if available -- pN+ \cite{ludwig_dataset_2022}. Since the exact number and location of lymph nodes varies from patient to patient, the nodes are grouped into anatomically defined \glspl{lnl}. These levels are then often irradiated or resected prophylactically due to the risk of harboring occult metastases despite negative findings from imaging modalities. 
+In clinical practice, \gls{ctv-n} definition in radiotherapy is based on guidelines \cite{gregoire_ct-based_2003,gregoire_delineation_2014,gregoire_delineation_2018,eisbruch_intensity-modulated_2002,biau_selection_2019,chao_determination_2002,vorwerk_guidelines_2011,ferlito_elective_2009} that are mostly derived from the observed prevalence of involvement in an \gls{lnl} for a given tumor location. These guidelines currently suggest extensive irradiation of both sides of the neck for most patients. In the ipsilateral neck, the \gls{ctv-n} includes \glspl{lnl} II, III and IV for all patients, and levels I and V for the majority of patients. These guidelines, however, do not account for the personal risk of the patients that may depend greatly on their state of tumor progression at diagnosis. E.g., a patient with macroscopic metastases detected via \gls{pet} in both \glspl{lnl} II and III may have a substantial risk for occult disease in \gls{lnl} IV. Instead, patients who present with a clinically N0 neck or a single metastasis in \gls{lnl} II may have a much smaller risk for occult disease in \gls{lnl} IV.
 
-A model for estimating the risk of microscopic disease, given a personal diagnosis based on \glspl{bn} was previously developed \cite{pouymayou_bayesian_2019}. It was subsequently formulated as a \glspl{hmm} to include T-category in an intuitive manner \cite{ludwig_hidden_2021}. These models were trained on a dataset of early T-category (T1 and T2) patients that could be reconstructed from \cite{sanguineti_defining_2009}. Since this publication only includes details about the involvement of the ipsilateral \glspl{lnl} I, II, III, and IV, the models were limited to these nodal levels as well.
-
-With the publication of larger and more detailed datasets \cite{ludwig_dataset_2022}, we are thus able to
+We previously developed a model of lymphatic metastatic progression for estimating the risk of microscopic disease, given a patient's personal diagnosis. The initial model was based on the methodology of Bayesian networks \cite{pouymayou_bayesian_2019}. It was subsequently extended and formulated as a \glspl{hmm} to include T-category in an intuitive manner \cite{ludwig_hidden_2021}. However, these models were introduced based on only a small dataset of approximately 100 early T-category patients \cite{sanguineti_defining_2009} available at that time. The limited data did not allow us to quantify the probability of metastases in the rarely involved \gls{lnl} I, V, and VII, nor did the data allow us to verify that the \gls{hmm} is adequate to describe the dependence on lymph node involvement on T-category.
+%Since this publication only includes details about the involvement of the ipsilateral \glspl{lnl} I, II, III, and IV, the models were limited to these nodal levels as well.
+%With the publication of larger and more detailed datasets \cite{ludwig_dataset_2022}, we are thus able to
+In this paper, we extend the previous work \cite{ludwig_hidden_2021} by making the following contributions:
 \begin{enumerate}
-    \item include all relevant \glspl{lnl} into the model, namely the levels I, II, III, IV, V, and VII.
-    \item train the probabilistic model based on a multi-centric dataset consisting of \variable{output/num_patients.txt} patients from four institutions.
-    \item present exaples of results on personalized risk estimations performed with the trained model.
+    \item We provide a \glspl{hmm} of ipsilateral lymph node involvement including all relevant \glspl{lnl}, namely the levels I, II, III, IV, V, and VII. To determine the underlying \gls{dag} we compare different graphs by calculating the model evidence through \gls{ti}.
+    \item We collect a multi-centric dataset consisting of \variable{output/num_patients.txt} patients from three institutions, allowing us to train the model based on a sizable dataset.
+    \item We use the trained model to provide personalized risk estimations for occult metastases for typical clinical states of tumor progression at diagnosis, illustrating its potential for guiding volume-deescalated treatment strategies in the future. 
 \end{enumerate}
 
 
@@ -241,7 +252,7 @@ Another relevant model parameter that needs to be set for the inference process,
 \subsection{Risk estimation}
 \label{subsec:formalism:risk}
 
-Now, the main task of personalizing the \gls{ctv-n} definition is to predict the probability of the hidden possible states $\boldsymbol{\xi}_k$ given the diagnosis $d^\star=\boldsymbol{\zeta}_\ell$ of a new patient. Using Bayes' theorem, we get
+The main task for personalizing the \gls{ctv-n} definition is to predict the probability of the hidden possible states $\boldsymbol{\xi}_k$ given the diagnosis $d^\star=\boldsymbol{\zeta}_\ell$ of a new patient. Using Bayes' theorem, we get
 %
 \begin{equation}
     P\left( \mathbf{X}=\boldsymbol{\xi}_k \mid \mathbf{Z}=\boldsymbol{\zeta}_\ell \right) = \frac{P\left( \boldsymbol{\zeta}_\ell \mid \boldsymbol{\xi}_k \right) P\left( \boldsymbol{\xi}_k \mid \boldsymbol{\theta} \right)}{\sum_{r=1}^{2^V} P\left( \boldsymbol{\zeta}_\ell \mid \boldsymbol{\xi}_r \right) P\left( \boldsymbol{\xi}_r \mid \boldsymbol{\theta} \right) }
@@ -249,7 +260,7 @@ Now, the main task of personalizing the \gls{ctv-n} definition is to predict the
 %
 The described model along with the inferred parameters $\boldsymbol{\hat{\theta}}$ will yield an estimate (or multiple estimates) for the ``prior'' in the above equation $P\big( \boldsymbol{\xi}_k \mid \boldsymbol{\hat{\theta}} \big)$.
 
-
+\ju{Also say that the above equation gives the probability of a hidden state. To get the probability of involvement in a given level one has to marginalize over all corresponding states}
 
 \section{Complete Model of Ipsilateral Spread in OPSCC}
 \label{sec:complete_model}
@@ -261,15 +272,17 @@ The described model along with the inferred parameters $\boldsymbol{\hat{\theta}
 \begin{figure}
     \centering
     \includegraphics[width=0.6\linewidth]{figures/extended_graph.png}
-    \caption{Extended \gls{dag} representing different possible spread graphs underlying the \gls{hmm}. As in \cref{fig:graph_with_obs}, red arcs are parametrized with probabilities of spread from the tumor (red circle) to the \glspl{lnl} (blue circles). These red arcs, together with the blue arcs fron \gls{lnl} to \gls{lnl}, make up the \emph{base graph}. One after the other, each of the green arcs was added to the base graph. Subsequently, the performance of the resulting models in terms of its \gls{bic} was compared to the base graph to asssess whether the additional edge should be kept in the \emph{winning graph} or not.}
+    \caption{Extended \gls{dag} representing different possible spread graphs underlying the \gls{hmm}. As in \cref{fig:graph_with_obs}, red arcs are parametrized with probabilities of spread from the tumor (red circle) to the \glspl{lnl} (blue circles). These red arcs, together with the blue arcs fron \gls{lnl} to \gls{lnl}, make up the \emph{base graph}. One after the other, each of the green arcs was added to the base graph. Subsequently, the performance of the resulting models in terms of its \gls{bic} was compared to the base graph to assess whether the additional edge should be kept in the \emph{winning graph} or not.}
     \label{fig:extended_graph}
 \end{figure}
 
-The \gls{dag} shown in \cref{fig:graph_with_obs} includes the \glspl{lnl} II, III, and IV since previous models \cite{pouymayou_bayesian_2019,ludwig_hidden_2021} had to rely on a reconstructed dataset of \gls{opscc} patients that contained only information on \gls{lnl} I and these three levels \cite{sanguineti_defining_2009}. Now, with datasets available that almost always report the \glspl{lnl} I, II, III, IV, V, and VII, we may add more \glspl{rv} to extend the graph and investigate how these \glspl{rv} should be connected among each other.
+The \gls{dag} shown in \cref{fig:graph_with_obs} includes the \glspl{lnl} II, III, and IV, which represent the most relevant lymph node levels for oropharyngeal SCC. It includes the arcs from II to III and from III to IV, representing the main direction of lymphatic drainage, which is well motivated anatomically and by the data on lymph node involvement. Previous publications  \cite{pouymayou_bayesian_2019,ludwig_hidden_2021} focused on these levels because they relied on a limited reconstructed dataset of \gls{opscc} patients \cite{sanguineti_defining_2009}. Now, with the datasets available for this work, we can extend the graph to include random variables for all \glspl{lnl} that are relevant for oropharyngeal SCC: I, II, III, IV, V, and VII. The main question to answer is: which arcs between \glspl{lnl} are needed to accurately model the data on lymph node involvement without increasing the model's complexity unnecessarily.
 
-First, we notice that the direct arcs from tumor to each of the \glspl{lnl} must be present, since every \gls{lnl} appears metastatic in isolation at least once. For example, some patients presented with metastases in \gls{lnl} I, while the other levels appeared healthy. If no spread was allowed from the tumor to $X_1$ (i.e., $b_i = 0$), the likelihood of observing this patient would be zero.
+First, we notice that the direct arcs from tumor to each of the \glspl{lnl} must be present, since every \gls{lnl} appears metastatic in isolation at least once in the dataset. For example, some patients presented with metastases in \gls{lnl} I, while the other levels appeared healthy. If no spread was allowed from the tumor to $X_1$ (i.e., $b_1 = 0$), the likelihood of observing this patient would be zero.
 
-We have more freedom in choosing how to connect the \glspl{lnl} to each other. To investigate which connections to add we start by establishing a baseline from a model using a minimal \emph{base graph}. It contains only the connections from \gls{lnl} II to III and an arc from \gls{lnl} III to IV, as motivated by the \emph{main lymphatic pathway} \cite{lengele_anatomical_2007}. In contrast to the \gls{dag} used in \cite{pouymayou_bayesian_2019,ludwig_hidden_2021}, we decided not to include the edge from level I to II into the base graph, since \gls{lnl} I is rarely involved and inferring $t_{12}$ is therefore difficult. Rather, we wanted to use the model comparison methodology outlined in \cref{subsec:complete_model:comparison} to see if the arc from \gls{lnl} I to II can be motivated from our data or if the arc should be flipped and go from \gls{lnl} II to I.
+We have more freedom in choosing how to connect the \glspl{lnl} to each other. To investigate which connections to add we start by establishing a baseline from a model using a minimal \emph{base graph}. It contains only the connections from \gls{lnl} II to III and an arc from \gls{lnl} III to IV, as motivated by the \emph{main lymphatic pathway} \cite{lengele_anatomical_2007}. The base graph is illustrated in \cref{fig:extended_graph} via the red and blue arcs. The lymphatic drainage to or from levels I, V, and VII is not as clearly defined. Therefore, we define a set of candidate arcs (green arcs in \cref{fig:extended_graph}) and use the model comparison methodology outlined in \cref{subsec:complete_model:comparison} to see which arc is motivated from our data. 
+
+To connect level I, we investigate two candidate arcs: from I to II and from II to I. An arc from I to II was used in \cite{pouymayou_bayesian_2019,ludwig_hidden_2021} and is anatomically motivated. However, since \gls{lnl} I is rarely involved compared to level II, the associated parameter $t_{12}$ is mostly undetermined. Therefore, we also consider the flipped arc from \gls{lnl} II to I and investigate if it helps to describe the correlations between the involvement of levels I and II.
 
 Anatomically, the \emph{posterior accessory pathway} that drains \gls{lnl} II through \gls{lnl} V motivates investigating and arc from $X_2$ into $X_5$ \cite{lengele_anatomical_2007}. And, although no lymphatic pathway is described that directly drains \gls{lnl} III or IV into level V, due to their proximity to each other, we will also investigate additional arcs from \gls{lnl} III and IV into level V.
 
@@ -400,9 +413,11 @@ All figures in this work, like the risk predictions and prevalences we show hist
     \label{table:data_prevalence}
 \end{table}
 
-The dataset $\boldsymbol{\mathcal{D}}$ that we used for inference is comprised of the detailed reports on lymphatic involvement patterns in \gls{opscc} patients treated at three different institutions in France and Switzerland: The \gls{clb} in Lyon (France), the \gls{isb}, and the \gls{usz} (both in Switzerland). We have previously published the patterns of nodal involvement for the \gls{usz} cohort \cite{ludwig_dataset_2022} and described its characteristics in detail \cite{ludwig_detailed_2022}. A large part of the \gls{clb} data underlies a publication on \gls{hpv} status in \gls{opscc} \cite{bauwens_prevalence_2021} that was kindly provided to us by Vincent Grégoire. The patient information on lymphatic metastatic involvement from the \gls{isb} cohort was sent to us by Roland Giger through a collaboration.
+The dataset $\boldsymbol{\mathcal{D}}$ that we used for inference is comprised of the detailed reports on lymph node involvement patterns in \gls{opscc} patients treated at three different institutions in France and Switzerland: The \gls{clb} in Lyon (France), the \gls{isb}, and the \gls{usz} (both in Switzerland). We have previously published the patterns of nodal involvement for the \gls{usz} cohort (287 patients) \cite{ludwig_dataset_2022} and described its characteristics in detail \cite{ludwig_detailed_2022}. A large part of the \gls{clb} data (263 patients) underlies a publication on \gls{hpv} status in \gls{opscc} \cite{bauwens_prevalence_2021}. The data from \gls{clb} and \gls{isb} are described in details in a data set publication [lets cite it as under review and attach the submitted draft of the DiB].
 
-In total, the dataset contains \variable{output/num_patients.txt} patients newly diagnosed with \gls{opscc} that were treated with either definitive radiotherapy or neck dissection. Pathologically assessed post-operative \gls{lnl} involvement was available for 393 of patients, while for the remainder the nodal involvement was assessed based on available diagnostic modalities. If multiple modalities were used to diagnose a patient's lymphatic involvement and conflicting conclusions were drawn from this, the conflicts were resolved by inferring the most likely state (healthy or metastatic) for each \gls{lnl} separately. To do so, we used literature values for the sensitivity and specificity of the diagnostic modalities \cite{de_bondt_detection_2007,kyzas_18f-fluorodeoxyglucose_2008}, which we also tabulated in \cref{table:sens_spec}.
+In total, the dataset contains \variable{output/num_patients.txt} patients with newly diagnosed \gls{opscc}. It includes patients treated with definitive (chemo)radiotherapy, adjuvant (chemo)radiotherapy following neck dissection, or neck dissection alone. Pathologically assessed \gls{lnl} involvement was available for 393 surgically treated patients, while for the remainder the nodal involvement was assessed based on available diagnostic modalities (FDG-PET-CT, CT, MRI, FNA). If multiple modalities were used to diagnose a patient's lymph node involvement, the available modalities were combined into a consensus decision. When different modalities were conflicting, the conflicts were resolved by inferring the most likely state (healthy or metastatic) for each \gls{lnl} separately. To do so, we used literature values for the sensitivity and specificity of the diagnostic modalities \cite{de_bondt_detection_2007,kyzas_18f-fluorodeoxyglucose_2008}, which we also tabulated in \cref{table:sens_spec}. Practically, this means that, whenever pathology after neck dissection was available, the pathology result was taken as the consensus, overruling any other clinical diagnostic modality. If, for example, PET-CT and MRI ware available and conflicting, PET-CT was taken as the consensus, overruling MRI.
+
+The dataset containing the consensus decision for the involvement of each level in every patient was then used for model parameter learning, assuming that it represents an observation of the true hidden state $\boldsymbol{\xi}_k$. The frequencies of some of the most important combinations of involved lymph node levels are listed in \cref{table:data_prevalence}.
 
 
 \begin{table}
@@ -427,13 +442,6 @@ In total, the dataset contains \variable{output/num_patients.txt} patients newly
 \section{Results}
 \label{sec:results}
 
-\begin{table}
-    \centering
-    \variable{output/results_table.tex}
-    \caption{Model comparison results from the base graph and the extended graph we chose as the ``winnning'' model. For both \glspl{dag} we show the log-evidence, computed via thermodynamic integration, the negative one half of the \gls{bic}, as well as the maximum log-likelihood that was encountered during the final \gls{mcmc} sampling round.}
-    \label{table:evidence}
-\end{table}
-
 \begin{figure*}
     \script{bg_core_prevs.py}
     \begin{centering}
@@ -454,36 +462,44 @@ For the base graph, we have plotted the predicted prevalence of involvement patt
     \item Colored lines, depicting the beta posterior over the same involvement pattern's prevalence, given a uniform beta prior and the binomial likelihood of the observed data. The maximum of the beta distributions always coincides with the data prevalence but we additionally gain an intuition into how statistically significant the data is. E.g., Observing 3 out of 10 patients with a particular pattern of nodal metastases is less convincing than 300 out of a cohort of 1000 patients. A beta posterior over these prevalences reflects that in its variance.
 \end{enumerate}
 
-\Cref{fig:bg_prevalences} shows that this minimal graph is already capable of describing the most important parts of the observed data very well. Notably, the model is not only accurate in its predictions, it also correctly estimates the variance stemming from the limited amount of data. The spread between involvement prevalences of early and late T-category tumors is also represented well. This shows that expecting later diagnosis times, on average, for patients with advanced T-category tumors is able to explain more severe lymphatic involvement.
+\Cref{fig:bg_prevalences} shows that this minimal graph is already capable of describing the most important parts of the observed data very well. Notably, the model is not only accurate in its predictions, it also correctly estimates the variance stemming from the limited amount of data. The separation between involvement prevalences of early and late T-category tumors is also reproduced well by the model. This is remarkable because the model introduces only a single parameter to describe the differences between early and late T-category for all involvement patterns. This shows that expecting later diagnosis times, on average, for patients with advanced T-category tumors is able to explain more severe lymphatic involvement.
 
-There are only a few involvement patterns for which the model's prediction does not match the prevalence of the data with perfect accuracy. But in these instances, e.g. the case where \gls{lnl} III is metastatic while \gls{lnl} IV is healthy in an early T-category patient (\cref{fig:bg_prevalences}, third row, green line and histogram), the model slightly overestimates the prevalence. An overestimation by a few percent however, does not pose a risk to the model's clinical applicability, since in the context of volume-deescalation, this can be considered cautious.
+%I wouldn't even describe these minor deviations
 
-It is interesting to note that not all involvement patterns become more prevalent with advanced T-category. For example, a healthy \gls{lnl} III is observed slightly less often together with a metastatic level II in advanced, compared to early T-category. This is because in the latter instance, it is more likely the disease has already spread to \gls{lnl} III. Our model captures this accurately and precisely.
+%There are only a few involvement patterns for which the model's prediction does not match the prevalence of the data with perfect accuracy. But in these instances, e.g. the case where \gls{lnl} III is metastatic while \gls{lnl} IV is healthy in an early T-category patient (\cref{fig:bg_prevalences}, third row, green line and histogram), the model slightly overestimates the prevalence. An overestimation by a few percent however, does not pose a risk to the model's clinical applicability, since in the context of volume-deescalation, this can be considered cautious.
+
+It is interesting to note that not all involvement patterns become more prevalent with advanced T-category. For example, a healthy \gls{lnl} III together with a metastatic level II is observed slightly less often for advanced T-category tumors compared to early T-category (yellow histogram, row 1 versus 2). This is because, for advanced T-category, it is more likely the disease has already spread to \gls{lnl} III (blue histogram, row 1 versus 2). Our model captures this accurately and precisely.
 
 
 
 \subsection{The Optimal Extended Graph}
 \label{subsec:results:optimal_graph}
 
-The changes to the graph connections we investigate in this work focus on the improvements w.r.t. involvement patterns that include the \glspl{lnl} I, V, and VII, that more rarely harbor occult disease.
+\begin{table}
+    \centering
+    \variable{output/results_table.tex}
+    \caption{Model comparison results from the base graph and the extended graph we chose as the ``winnning'' model. For both \glspl{dag} we show the log-evidence, computed via thermodynamic integration, the negative one half of the \gls{bic}, as well as the maximum log-likelihood that was encountered during the final \gls{mcmc} sampling round.}
+    \label{table:evidence}
+\end{table}
 
-In \cref{fig:IandII_prevs,fig:IIandV_prevs,fig:IIIandV_prevs} the base graph's estimations for prevalences of involvement patterns that include the \glspl{lnl} I, V, and VII have been plotted as gray, hatched histograms. Alongside, we show again the Beta posterior over the prevalence of the respective involvement pattern, given the data, as colored line. The prediction by the winning graph are shown as colored histograms. Every scenario is shown for early and late T-category. This allows us to compare how the winning graph improves its fit to the data in these particular scenarios around low-risk \glspl{lnl}. How frequently each of the investigated lymphatic metastatic patterns were observed in the data is additionally tabulated in \cref{table:data_prevalence}, again both for early and for late T-category cases.
+\Cref{table:evidence} reports the model evidence for all extended graphs that were investigated. The results is additionally visualized in Figure xxx. The winning graph adds arcs from level II to I, from level II to V, and from level III to level V to the base graph. Below, we further analyze why these connections improve the model's ability to describe the involvement patterns seen in the data. 
 
-\begin{figure*}
-    \script{comp_IandII_prevs.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/comp_IandII_prevs.png}
-        \caption{Comparison of observed and predicted prevalences of \gls{lnl} I and II involvement patterns. The top and bottom panels show the prevalences for early and late T-category, respectively. The solid lines are Beta posteriors from the data, while the histograms are predicted prevalences (colored: winning graph, gray-hatched: base graph). Blue and red plots indicate overall \gls{lnl} I and II involvement, respectively. Green plots indicate \gls{lnl} I involvement without level II, while orange plots indicate the opposite (\gls{lnl} II without level I). The winning graph has an added edge from \gls{lnl} II to I, which improves the prediction of the rare green pattern and reduces the overestimation of the orange pattern in late T-category. However, it slightly underestimates the orange pattern in early T-category.}
-        \label{fig:IandII_prevs}
-    \end{centering}
-\end{figure*}
+The most likely model parameters for the winning graph, corresponding to the mean of the marginals of the sampled posterior distributions, are given by \ju{as placeholder taken from figure 7.5 of your thesis}: $b_1=?$, $b_2=0.37$, $b_3=0.07$, $b_4=0.01$, $b_5=?$, $b_7=0.02$ for the base probabilities, and $t_{23}=0.13$, $t_{34}=0.14$, $t_{21}=?$, $t_{25}=?$, $t_{35}=?$, and $p_{late}=0.4$ for the time prior parameter for advanced T-category patients (where we have fixed $p_{early}=0.3$ for early T-category tumors, and $t_{max}=10$ time steps). The result that $t_{23}$ and $t_{34}$ are relatively large compared to $b_3$ and $b_4$ reflects the observation that skip metastases in levels III and IV without involvement of the upstream level is rare. Since level II has no parent nodes except for the primary tumor, $b_2$ can be easily related to the prevalence of involvement in level II. The probability for no involvement of level II when the patient is diagnosed after $t$ time steps is $\left(1-b_2\right)^t$. The prevalence of level II involvement for late T-category patients is thus $1-\sum_{t=0}^{10} \left(1-0.37\right)^t 0.4^t \, (1-0.4)^{(10-t)}\binom{10}{t}\approx 0.8$, which agrees with \cref{fig:bg_prevalences}.
 
+\subsection{Involvement of levels I, V, and VII}
+
+First, we observe that the winning graph describes the involvement of levels II, III, and IV equally well as the base graph, a result that is expected and not further shown. We thus focus on the improvements w.r.t. involvement patterns that include the \glspl{lnl} I, V, and VII, that more rarely harbor metastases.
+
+{\it Level V:} In \cref{fig:IIandV_prevs,fig:IIIandV_prevs} we compare the base graph's and the winning graph's estimations for prevalences of involvement patterns that include \gls{lnl} V. 
+
+
+, and VII have been plotted as gray, hatched histograms. Alongside, we show again the Beta posterior over the prevalence of the respective involvement pattern, given the data, as colored line. The prediction by the winning graph are shown as colored histograms. Every scenario is shown for early and late T-category. This allows us to compare how the winning graph improves its fit to the data in these particular scenarios around low-risk \glspl{lnl}. How frequently each of the investigated lymphatic metastatic patterns were observed in the data is additionally tabulated in \cref{table:data_prevalence}, again both for early and for late T-category cases.
 
 \begin{figure}
     \script{comp_IIandV_prevs.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/comp_IIandV_prevs.png}
-        \caption{Beta posterior over the prevalence of the involvement pattern where \gls{lnl} II \emph{and} V show metastases (orange line), as well as the pattern with \gls{lnl} V involved \emph{without} level II (blue line). Both prevalences are shown for early (top panel) and late T-category (bottom panel). The correspondingly colored histograms show the same prevalences as predicted by the winning graph model. The hatched gray modalities display the same predictions as made by the base graph model. The winning graph slightly improves its fit to the data in the case of early T-category prevalence of \gls{lnl} V without \gls{lnl} II, and in the case of late T-category co-involvement of the levels II and V. This likely stems from the additional arc the winning graph has from \gls{lnl} II to V.}
+        \caption{Beta posterior over the prevalence of the involvement pattern where \gls{lnl} II \emph{and} V show metastases (orange line), as well as the pattern with \gls{lnl} V involved \emph{without} level II (blue line). Both   are shown for early (top panel) and late T-category (bottom panel). The correspondingly colored histograms show the same prevalences as predicted by the winning graph model. The hatched gray modalities display the same predictions as made by the base graph model. The winning graph slightly improves its fit to the data in the case of early T-category prevalence of \gls{lnl} V without \gls{lnl} II, and in the case of late T-category co-involvement of the levels II and V. This likely stems from the additional arc the winning graph has from \gls{lnl} II to V.}
         \label{fig:IIandV_prevs}
     \end{centering}
 \end{figure}
@@ -497,18 +513,27 @@ In \cref{fig:IandII_prevs,fig:IIandV_prevs,fig:IIIandV_prevs} the base graph's e
     \end{centering}
 \end{figure}
 
+In \cref{fig:IandII_prevs,fig:IIandV_prevs,fig:IIIandV_prevs}
+
+\begin{figure*}
+    \script{comp_IandII_prevs.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/comp_IandII_prevs.png}
+        \caption{Comparison of observed and predicted prevalences of \gls{lnl} I and II involvement patterns. The top and bottom panels show the prevalences for early and late T-category, respectively. The solid lines are Beta posteriors from the data, while the histograms are predicted prevalences (colored: winning graph, gray-hatched: base graph). Blue and red plots indicate overall \gls{lnl} I and II involvement, respectively. Green plots indicate \gls{lnl} I involvement without level II, while orange plots indicate the opposite (\gls{lnl} II without level I). The winning graph has an added edge from \gls{lnl} II to I, which improves the prediction of the rare green pattern and reduces the overestimation of the orange pattern in late T-category. However, it slightly underestimates the orange pattern in early T-category.}
+        \label{fig:IandII_prevs}
+    \end{centering}
+\end{figure*}
+
+
+
 
 \subsection{Risk Prediction for Occult Disease}
 \label{subsec:results:risk_prediction}
+In this section, the model corresponding to the winning graph is applied to estimating the risk of occult metastases in clinically negative \glspl{lnl}. We assume a sensitivity of 0.76 and a specificity of 0.81 for the clinical diagnosis of lymph node metastases, corresponding to CT imaging in \cref{table:sens_spec}. \\
 
-\begin{figure}
-    \script{wg_I_risks.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/wg_I_risks.png}
-        \caption{TODO: Write caption.}
-        \label{fig:wg_I_risks}
-    \end{centering}
-\end{figure}
+{\it Level III:} \Cref{fig:wg_III_risks} compares the risk of occult disease in level III between patients that are clinically N0 (orange) and patients with clinically diagnosed involvement of only level II (red), for early T-category (upper panel) and advanced T-category (bottom panel). The histograms represent the uncertainty in model's risk prediction arising from the uncertainty in the model parameters and are generated by randomly drawing 1000 samples from the model parameter's joint posterior distribution. The model predicts a risk of 5\% for early T-stage tumors and 8\% for advanced T-stage. For patients with involvement of level II, the risk in level III increases to approximately 9\% and 12\%, respectively.
+
+\ju{perhaps one could use the same color in each risk figure for a given clinical involvement, e.g. always green for N0}
 
 \begin{figure}
     \script{wg_III_risks.py}
@@ -519,6 +544,8 @@ In \cref{fig:IandII_prevs,fig:IIandV_prevs,fig:IIIandV_prevs} the base graph's e
     \end{centering}
 \end{figure}
 
+{\it Level IV:} \Cref{fig:wg_IV_risks} compares the risk of occult disease in level IV for the typical clinical presentations: clinically N0 (grey), metastases in level II (blue), and metastases in levels II and III (orange). The model predicts a low risk of 1-2\% in level IV for patients with clinically healthy level III. For patients with clinical involvement of level III, the risk of occult disease in level IV increases to approximately 3\% for early T-stage and 5\% for advanced T-stage tumors.
+
 \begin{figure}
     \script{wg_IV_risks.py}
     \begin{centering}
@@ -527,12 +554,14 @@ In \cref{fig:IandII_prevs,fig:IIandV_prevs,fig:IIIandV_prevs} the base graph's e
         \begin{enumerate*}[label=\arabic*)]
             \item A clinical N0 patient (gray histogram),
             \item visible metastases in \gls{lnl} II, but otherwise healthy-looking lymph nodes (blue histogram), and
-            \item macroscopic metastases in the \glspl{lnl} II \& III, whith the rest of the neck still being clinically ode negative (orange histogram).
+            \item macroscopic metastases in the \glspl{lnl} II \& III, with the rest of the neck still being clinically node negative (orange histogram).
         \end{enumerate*}
         }
         \label{fig:wg_IV_risks}
     \end{centering}
 \end{figure}
+
+{\it Level V:} \Cref{fig:wg_V_risks} shows the risk of occult disease in level V depending on T-category and the clinical involvement of levels II-IV. For clinically N0 patients, the risk in level V is estimated to be around 1\%. Extensive nodal involvement of levels II-IV increases the risk in level V to approximately 4\% for advanced T-stage tumors. 
 
 \begin{figure}
     \script{wg_V_risks.py}
@@ -548,6 +577,18 @@ In \cref{fig:IandII_prevs,fig:IIandV_prevs,fig:IIIandV_prevs} the base graph's e
     \end{centering}
 \end{figure}
 
+{\it Level I:} \Cref{fig:wg_I_risks} shows the risk of occult disease in level I depending on T-category and the clinical involvement of levels II-IV. For clinically N0 patients, the risk in level I is estimated to be in the order of 1-2\%. Extensive nodal involvement of levels II-IV increases the risk in level I to approximately 4-5\% for advanced T-stage tumors. It is pointed out that the winning graph does not contain arcs from levels III or IV to level I (and anatomically we do not assume that there is lymphatic drainage from levels III or IV to level I). Thus, the increased risk in level I is related to the time evolution: Involvement of levels III and IV corresponds to a more advances state of disease that is likely diagnosed at a later time step, such that the tumor had more time to spread to level I.
+
+\begin{figure}
+    \script{wg_I_risks.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/wg_I_risks.png}
+        \caption{TODO: Write caption.}
+        \label{fig:wg_I_risks}
+    \end{centering}
+\end{figure}
+
+
 \begin{figure}
     \script{wg_any_risks.py}
     \begin{centering}
@@ -557,14 +598,37 @@ In \cref{fig:IandII_prevs,fig:IIandV_prevs,fig:IIIandV_prevs} the base graph's e
     \end{centering}
 \end{figure}
 
+\section{Discussion}
+\label{sec:discussion}
+\subsection{Summary} 
+In this publication we present a statistical model of ipsilateral lymph node involvement in oropharyngeal SCC patients. Although the basic \gls{hmm} of lymphatic progression has been conceptually introduced in a previous work \cite{ludwig_hidden_2021}, this is the first publication that evaluates the model based on a large multi-institutional dataset containing \variable{output/num_patients.txt} patients. It is demonstrated for the first time that the model can accurately describe the patterns of lymph node involvement observed in the data, including the correlations between levels and its dependence on T-stage. Furthermore, state-of-the-art techniques are applied to calculate the model evidence for Bayesian model comparison. This yields a complete model including all \glspl{lnl} relevant for \gls{opscc}: I, II, III, IV, V, and VII with an parameterization that balances accuracy and model complexity. 
+
+\subsection{Implications for elective nodal treatment} 
+Risk predictions obtained by the model may be used to design clinical trials on volume-deescalated treatment of \gls{opscc}. In the context of radiotherapy, this corresponds to excluding \glspl{lnl} from the CTV-N, which are irradiated according to the current guidelines. The list below should be seen as a summary of \cref{subsec:results:risk_prediction} and the limitations discussed in \cref{subsec:disc:limitation} should be taken into account in its interpretation. Assuming that one accepts approximately a 5\% risk of occult metastases per \gls{lnl}, the statistical model presented in this paper would suggest to:
+\begin{itemize}
+    \item[$\bullet$] Irradiate level II for all patients. \ju{maybe we should actually show the risk in level II for N0 patients, at least state the risk in the text, are even have the risk histogram for completeness.}
+    \item[$\bullet$] Irradiate level III for most patients. Only for clinically N0, early T-category patients, not irradiating level III could be considered. 
+    \item[$\bullet$] Exclude level IV from the CTV-N for patients with clinically negative level III. For advanced T-category patients with involvement of level III, level IV should be irradiated. %For early T-category patients with involvement of level III, not irradiating level IV could be considered.
+    \item[$\bullet$] Exclude level V from the CTV-N for most patients. Only for patients with extensive involvement of levels II, III, and IV, irradiation of level V can be considered.
+    \item[$\bullet$] Exclude level I from the CTV-N for early T-category patients with limited metastatic disease. For advanced T-category patients with extensive nodal involvement of levels II, III, and IV, level I should be irradiated (see also the limitations discussed below).
+    \item[$\bullet$] \ju{Level VII}
+\end{itemize}
+
+\subsection{Limitations and future work}
+\label{subsec:disc:limitation}
+{\it T-stage dependence of level I involvement:} As shown in \cref{fig:bg_prevalences}, the model describes the involvement of \glspl{lnl} II, III, and IV depending on T-stage very well despite having only a single parameter related to T-stage. \Cref{fig:IandII_prevs} shows that the model does not perfectly describe the T-stage dependence of level I. It adjusts the parameters such that level I involvement is correctly described for the set of all patients combined, but it overestimates level I involvement for early T-stage and underestimates it for advanced T-stage. A possible explanation is that advanced T-stage tumors are more likely to have grown into a regions with direct lymph drainage to level I. The more severe involvement in levels II, III, IV for advanced T-stage can be explained by tumors having more time to spread while keeping the spread probability rates $b_2$, $b_3$, $b_4$ constant. Regarding level I, early versus advanced T-stage tumors may have different spread probability rates $b_1$.
+
 \begin{figure}
     \script{wg_sens_spec_risks.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/wg_sens_spec_risks.png}
-        \caption{TODO: Write caption.}
+        \caption{Dependence of risk of occult disease on sensitivity and specificity. The figure shows the mean risk (i.e. averaged over the risk calculated for different model parameter samples \ju{is that what you do?}) in level IV in patients with clinical involvement of levels II and III.}
         \label{fig:wg_sens_spec_risks}
     \end{centering}
 \end{figure}
+
+{\it Sensitivity and Specificity:} Estimating the risk of occult metastases depends on the assumed parameter values for sensitivity and specificity of clinical detection of lymph node metastases. For this work, we adopted literature values for sensitivity and specificity. However, different authors have estimated these values using different criteria and different methods. Consequently, these values need to be considered with caution. \cref{fig:wg_sens_spec_risks} illustrates for one example how the risk of occult disease depends on sensitivity and specificity. Here, we consider the risk in level IV in patients with clinically detected metastases in levels II and III. For our default parameters of 81\% specificity and 76 \% sensitivity, the risk is 5\%, but it increases to x\% for a a sensitivity of 66\%. Future work may aim at developing new methods to model the difference between pathological and clinical lymph node involvement based on surgically treated patients in whom both is reported.  
+
 
 \bibliography{bib}
 
