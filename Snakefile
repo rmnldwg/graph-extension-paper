@@ -66,6 +66,17 @@ rule write_mean_params:
     input:
         "src/data/wg_samples.hdf5"
     output:
-        "src/tex/output/wg_mean_{name}.txt"
+        "src/tex/output/wg_mean_b1.txt",
+        "src/tex/output/wg_mean_b2.txt",
+        "src/tex/output/wg_mean_b3.txt",
+        "src/tex/output/wg_mean_b4.txt",
+        "src/tex/output/wg_mean_b5.txt",
+        "src/tex/output/wg_mean_b7.txt",
+        "src/tex/output/wg_mean_t21.txt",
+        "src/tex/output/wg_mean_t23.txt",
+        "src/tex/output/wg_mean_t25.txt",
+        "src/tex/output/wg_mean_t34.txt",
+        "src/tex/output/wg_mean_t35.txt",
+        "src/tex/output/wg_mean_late_p.txt",
     script:
-        "src/scripts/wg_mean_{name}.py"
+        "src/scripts/wg_mean.py"
