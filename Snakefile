@@ -61,3 +61,11 @@ rule get_num_patients:
         "src/tex/output/num_patients.txt",
     script:
         "src/scripts/get_num_patients.py"
+
+rule write_mean_params:
+    input:
+        "src/data/wg_samples.hdf5"
+    output:
+        "src/tex/output/wg_mean_{name}.txt"
+    script:
+        "src/scripts/wg_mean_{name}.py"
