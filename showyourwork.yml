@@ -65,29 +65,7 @@ dependencies:
     - src/data/win_accuracies.csv
   src/scripts/wg_sens_spec_risks.py:
     - src/data/wg_risks.hdf5
-  src/scripts/wg_mean_b1.py:
-    - src/data/wg_samples.hdf5
-  src/scripts/wg_mean_b2.py:
-    - src/data/wg_samples.hdf5
-  src/scripts/wg_mean_b3.py:
-    - src/data/wg_samples.hdf5
-  src/scripts/wg_mean_b4.py:
-    - src/data/wg_samples.hdf5
-  src/scripts/wg_mean_b5.py:
-    - src/data/wg_samples.hdf5
-  src/scripts/wg_mean_b7.py:
-    - src/data/wg_samples.hdf5
-  src/scripts/wg_mean_t21.py:
-    - src/data/wg_samples.hdf5
-  src/scripts/wg_mean_t23.py:
-    - src/data/wg_samples.hdf5
-  src/scripts/wg_mean_t25.py:
-    - src/data/wg_samples.hdf5
-  src/scripts/wg_mean_t34.py:
-    - src/data/wg_samples.hdf5
-  src/scripts/wg_mean_t35.py:
-    - src/data/wg_samples.hdf5
-  src/scripts/wg_mean_late_p.py:
+  src/scripts/wg_means.py:
     - src/data/wg_samples.hdf5
 # Name of the `.tex` manuscript and corresponding `.pdf` article
 ms_name: ms
