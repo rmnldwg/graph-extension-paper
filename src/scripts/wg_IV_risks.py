@@ -35,18 +35,8 @@ if __name__ == "__main__":
             Histogram.from_hdf5(
                 filename=INPUT,
                 dataname=f"{stage}/IV/N0",
-                label=None,
-                color=USZ["gray"],
-            ),
-            Histogram.from_hdf5(
-                filename=INPUT,
-                dataname=f"{stage}/IV/N0",
                 label="LNL IV, given N0",
-                color="#97a3a7",
-                histtype="step",
-                linewidth=2.,
-                alpha=1.0,
-                zorder=1.,
+                color=USZ["green"],
             ),
             Histogram.from_hdf5(
                 filename=INPUT,

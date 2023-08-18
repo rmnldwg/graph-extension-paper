@@ -36,13 +36,13 @@ if __name__ == "__main__":
                 filename=INPUT,
                 dataname=f"{stage}/III/N0",
                 label="LNL III, given N0",
-                color=USZ["orange"],
+                color=USZ["green"],
             ),
             Histogram.from_hdf5(
                 filename=INPUT,
                 dataname=f"{stage}/III/II",
                 label="LNL III, given LNL II involved",
-                color=USZ["red"],
+                color=USZ["blue"],
             ),
         ]
 
