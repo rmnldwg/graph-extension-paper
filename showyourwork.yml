@@ -52,6 +52,8 @@ dependencies:
     - src/data/wg_IVandV_prevs.hdf5
   src/scripts/wg_I_risks.py:
     - src/data/wg_risks.hdf5
+  src/scripts/wg_II_risks.py:
+    - src/data/wg_risks.hdf5
   src/scripts/wg_III_risks.py:
     - src/data/wg_risks.hdf5
   src/scripts/wg_IV_risks.py:

@@ -69,3 +69,11 @@ rule write_mean_params:
         "src/tex/output/wg_means.tex"
     script:
         "src/scripts/wg_means.py"
+
+rule write_wg_II_risk:
+    input:
+        "src/data/wg_risks.hdf5"
+    output:
+        "src/tex/output/wg_II_risks.tex"
+    script:
+        "src/scripts/wg_II_risks.py"
