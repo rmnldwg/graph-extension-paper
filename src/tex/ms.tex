@@ -563,7 +563,7 @@ In this section, the model corresponding to the winning graph is applied to esti
     \end{centering}
 \end{figure}
 
-{\it Level IV:} \Cref{fig:wg_IV_risks} compares the risk of occult disease in level IV for the typical clinical presentations: clinically N0 (grey), metastases in level II (blue), and metastases in levels II and III (orange). The model predicts a low risk of 1-2\% in level IV for patients with clinically healthy level III. For patients with clinical involvement of level III, the risk of occult disease in level IV increases to approximately 3\% for early T-stage and 5\% for advanced T-stage tumors.
+{\it Level IV:} \Cref{fig:wg_IV_risks} compares the risk of occult disease in level IV for the typical clinical presentations: clinically N0 (green), metastases in level II (blue), and metastases in levels II and III (orange). The model predicts a low risk of 1-2\% in level IV for patients with clinically healthy level III. For patients with clinical involvement of level III, the risk of occult disease in level IV increases to approximately 3\% for early T-stage and 5\% for advanced T-stage tumors.
 
 \begin{figure}
     \script{wg_IV_risks.py}
@@ -598,11 +598,13 @@ In this section, the model corresponding to the winning graph is applied to esti
 
 {\it Level I:} \Cref{fig:wg_I_risks} shows the risk of occult disease in level I depending on T-category and the clinical involvement of levels II-IV. For clinically N0 patients, the risk in level I is estimated to be in the order of 1-2\%. Extensive nodal involvement of levels II-IV increases the risk in level I to approximately 4-5\% for advanced T-stage tumors. It is pointed out that the winning graph does not contain arcs from levels III or IV to level I (and anatomically we do not assume that there is lymphatic drainage from levels III or IV to level I). Thus, the increased risk in level I is related to the time evolution: Involvement of levels III and IV corresponds to a more advances state of disease that is likely diagnosed at a later time step, such that the tumor had more time to spread to level I.
 
+{\it Level II:} As can be seen in \cref{tab:params} the model infers the spread from the tumor to \gls{lnl} II to be the most probable transition at any given time step. As a consequence, even for an early T-category patient that presents with a clinical N0 neck, our model predicts a \variable{output/wg_II_risks.tex} risk for microscopic metastases in \gls{lnl} II.
+
 \begin{figure}
     \script{wg_I_risks.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/wg_I_risks.png}
-        \caption{TODO: Write caption.}
+        \caption{Distributions over predicted risk for involvement in \gls{lnl} I, given different clinical diagnosis scenarios: For N0 patients (green), patients with macroscopic involvement in \gls{lnl} II (blue), and for the case where the \glspl{lnl} II, III, and IV show involvement. The top panel shows these risks for early T-category and the bottom row for late T-category.}
         \label{fig:wg_I_risks}
     \end{centering}
 \end{figure}
@@ -612,7 +614,7 @@ In this section, the model corresponding to the winning graph is applied to esti
     \script{wg_any_risks.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/wg_any_risks.png}
-        \caption{TODO: Write caption.}
+        \caption{TODO: Shown are the historgams over the predicted risk for involvement in any of the \glspl{lnl} I, IV, V, or VII. The risk is plotted given a clinical N0 diagnosis (green), macroscopically detected metastases in \gls{lnl} II (blue), and lastly given visible involvement in both \gls{lnl} II and III (orange). The top row shows these risks for early T-category diagnoses and the bottom row for late T-category.}
         \label{fig:wg_any_risks}
     \end{centering}
 \end{figure}
