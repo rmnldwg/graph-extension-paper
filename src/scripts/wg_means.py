@@ -9,7 +9,6 @@ import paths
 
 INPUT = paths.data / "wg_samples.hdf5"
 OUTPUT = paths.output
-THIN = 10
 NAMES = [
     r"b_\text{I}",
     r"b_\text{II}",
@@ -29,7 +28,7 @@ NAMES = [
 if __name__ == "__main__":
     # open samples
     backend = HDFBackend(paths.data / INPUT, read_only=True)
-    samples = backend.get_chain(flat=True, thin=THIN)
+    samples = backend.get_chain(flat=True)
     means = samples.mean(axis=0)
     stddevs = samples.std(axis=0)
 
