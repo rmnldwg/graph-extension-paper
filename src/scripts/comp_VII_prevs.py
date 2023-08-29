@@ -23,10 +23,10 @@ if __name__ == "__main__":
     plt.rcParams.update(figsizes.icml2022_half(
         nrows=NROWS,
         ncols=NCOLS,
-        height_to_width_ratio=0.3,
+        height_to_width_ratio=1.3,
     ))
     plt.rcParams.update(fontsizes.icml2022())
-    fig, axes = plt.subplots(nrows=NROWS, ncols=NCOLS)
+    fig, axes = plt.subplots(nrows=NROWS, ncols=NCOLS, sharey="row")
 
 
     panels = {
@@ -58,20 +58,21 @@ if __name__ == "__main__":
             ),
         ]
 
-    draw(axes[0], contents=panels["early"], xlims=(2., 10.), hist_kwargs={"nbins": 40})
+    draw(axes[0], contents=panels["early"], xlims=(1., 9.), hist_kwargs={"nbins": 20})
     h, l = axes[0].get_legend_handles_labels()
     handles = [*h[2:4], h[0], *h[4:6], h[1]]
     labels = [*l[2:4], l[0], *l[4:6], l[1]]
     axes[0].set_ylim(bottom=0.)
     axes[0].set_title("early T-cat.", fontweight="bold")
     axes[0].set_yticks([])
+    axes[0].set_xlabel("prevalence [%]")
     axes[0].legend(handles=handles, labels=labels)
 
-    draw(axes[1], contents=panels["late"], xlims=(4., 12.), hist_kwargs={"nbins": 40})
+    draw(axes[1], contents=panels["late"], xlims=(4., 12.), hist_kwargs={"nbins": 20})
     h, l = axes[1].get_legend_handles_labels()
-    handles = h[:2]
-    labels = l[:2]
-    axes[1].set_ylim(bottom=0.)
+    handles = h[2:]
+    labels = l[2:]
+    axes[1].set_ylim(bottom=0., top=0.7)
     axes[1].set_title("late T-cat.", fontweight="bold")
     axes[1].set_yticks([])
     axes[1].set_xlabel("prevalence [%]")
