@@ -1,13 +1,14 @@
-md5: ee365bbb6acddec9d649aa87cb8154f4
+md5: 0daf1472af7ea0a63a25b965ab3f011d
 wdir: ../data
 frozen: true
 deps:
 - path: metrics.json
   repo:
     url: https://github.com/rmnldwg/lynference
-    rev: base-graph-v1
-    rev_lock: b633311d9b9b610402b673fc6813b5183a4a999b
+    rev: base-graph-v2
+    rev_lock: 10070802eb993b258130e11c80861a1294e28493
 outs:
-- md5: 28d9022c6ba16a3c63188b4ef84d8edf
-  size: 160
+- md5: b015a7141a9915784bfe699c8996630a
+  size: 161
   path: bg_metrics.json
+  hash: md5

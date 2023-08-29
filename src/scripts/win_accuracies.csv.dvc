@@ -1,13 +1,14 @@
-md5: 5c503c8d0f351511911bb33a59475e5a
+md5: 3bbb07d2cae7236038935c4764fa4da9
 wdir: ../data
 frozen: true
 deps:
 - path: ./plots/ti/accuracies.csv
   repo:
     url: https://github.com/rmnldwg/lynference
-    rev: win-graph-v1
-    rev_lock: 4d7f34eeef6a4367be87c0f8d6805d06125e47cf
+    rev: win-graph-v2
+    rev_lock: cc35d1295f09e96a3ba014c9a1209b9a9458e9f1
 outs:
-- md5: 8874882966430612157cfa86eb7df3eb
-  size: 3723
+- md5: cb4fab80ce615c93dacf4b9d4517b164
+  size: 3712
   path: win_accuracies.csv
+  hash: md5

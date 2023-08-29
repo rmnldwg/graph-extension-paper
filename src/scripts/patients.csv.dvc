@@ -1,13 +1,14 @@
-md5: 6667f62b14dcb939d31128cc8cc994e9
+md5: 8b03ad82e8e638bbd7205e8f244c149b
 wdir: ../data
 frozen: true
 deps:
 - path: data/cleaned.csv
   repo:
     url: https://github.com/rmnldwg/lynference
-    rev: base-graph-v1
-    rev_lock: b633311d9b9b610402b673fc6813b5183a4a999b
+    rev: base-graph-v2
+    rev_lock: 10070802eb993b258130e11c80861a1294e28493
 outs:
-- md5: 5c2b261b840a237ad630c450ec0d9ae4
-  size: 155737
+- md5: c98cfd2e5a4d6680b2ff3c10d077d4c0
+  size: 227786
   path: patients.csv
+  hash: md5
