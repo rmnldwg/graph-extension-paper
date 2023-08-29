@@ -512,14 +512,14 @@ First, we observe that the winning graph describes the involvement of levels II,
 
 {\it Level V:} In \cref{fig:IIandIIIandV_prevs} we compare the base graph's and the winning graph's estimations for prevalences of involvement patterns that include \gls{lnl} V. The base graph's predictions have been plotted as gray, hatched histograms. Alongside, we show again the Beta posterior over the prevalence of the respective involvement pattern, given the data, as colored line. The prediction by the winning graph are shown as colored histograms. Every scenario is shown for early and late T-category. This allows us to compare how the winning graph improves its fit to the data in these particular scenarios around low-risk \glspl{lnl}. How frequently each of the investigated lymphatic metastatic patterns were observed in the data is additionally tabulated in \cref{table:data_prevalence}, again both for early and for late T-category cases.
 
-\begin{figure}
+\begin{figure*}
     \script{comp_IIandIIIandV_prevs.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/comp_IIandIIIandV_prevs.png}
         \caption{Beta posterior over the prevalence of the involvement pattern where \gls{lnl} II \emph{and} V show metastases (orange line), as well as the pattern with \gls{lnl} V involved \emph{without} level II (blue line). Both are shown for early (top panel) and late T-category (bottom panel). The correspondingly colored histograms show the same prevalences as predicted by the winning graph model. The hatched gray modalities display the same predictions as made by the base graph model. The winning graph slightly improves its fit to the data in the case of early T-category prevalence of \gls{lnl} V without \gls{lnl} II, and in the case of late T-category co-involvement of the levels II and V. This likely stems from the additional arc the winning graph has from \gls{lnl} II to V. Observations of prevalences in the data (solid lines) compared to predictions from the base (hatched histograms) and the winning graph model (colored histograms). The investigated involvement patterns here are how often is \gls{lnl} V involved together with \gls{lnl} III (red) and how often is level V involved while \gls{lnl} III is healthy (green). For early T-category cases, the fit of both models to the data is good. For late T-category, however, the winning graph shows a better ability to split the two investigated patterns of involvement. This is presumably due to the added connection from \gls{lnl} III to V.}
         \label{fig:IIandIIIandV_prevs}
     \end{centering}
-\end{figure}
+\end{figure*}
 
 {\it Level I:} In \cref{fig:IandII_prevs}, the same kind of comparisons are plotted for involvement patterns that inlcude metastatic disease in \gls{lnl} I. Here, we observe that the model does at times struggle to capture the spread between the prevalence of \gls{lnl} I involvement for early and late T-category, which is more pronounced than in the levels II and III.
 
