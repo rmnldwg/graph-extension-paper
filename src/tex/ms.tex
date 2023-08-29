@@ -516,7 +516,8 @@ First, we observe that the winning graph describes the involvement of levels II,
     \script{comp_IIandIIIandV_prevs.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/comp_IIandIIIandV_prevs.png}
-        \caption{Beta posterior over the prevalence of the involvement pattern where \gls{lnl} II \emph{and} V show metastases (orange line), as well as the pattern with \gls{lnl} V involved \emph{without} level II (blue line). Both are shown for early (top panel) and late T-category (bottom panel). The correspondingly colored histograms show the same prevalences as predicted by the winning graph model. The hatched gray modalities display the same predictions as made by the base graph model. The winning graph slightly improves its fit to the data in the case of early T-category prevalence of \gls{lnl} V without \gls{lnl} II, and in the case of late T-category co-involvement of the levels II and V. This likely stems from the additional arc the winning graph has from \gls{lnl} II to V. Observations of prevalences in the data (solid lines) compared to predictions from the base (hatched histograms) and the winning graph model (colored histograms). The investigated involvement patterns here are how often is \gls{lnl} V involved together with \gls{lnl} III (red) and how often is level V involved while \gls{lnl} III is healthy (green). For early T-category cases, the fit of both models to the data is good. For late T-category, however, the winning graph shows a better ability to split the two investigated patterns of involvement. This is presumably due to the added connection from \gls{lnl} III to V.}
+        \caption{{\it Left panel:} Beta posterior over the prevalence of the involvement pattern where \gls{lnl} II \emph{and} V show metastases (orange line), as well as the pattern with \gls{lnl} V involved \emph{without} level II (blue line). Both are shown for early (top panel) and late T-category (bottom panel). The correspondingly colored histograms show the same prevalences as predicted by the winning graph model. The hatched gray modalities display the same predictions as made by the base graph model. The winning graph slightly improves its fit to the data in the case of early T-category prevalence of \gls{lnl} V without \gls{lnl} II, and in the case of late T-category co-involvement of the levels II and V. This may stems from the added arc from \gls{lnl} II to V. \\
+        {\it Right panel:} The same plots, but for involvement patterns where \gls{lnl} V is involved together with \gls{lnl} III (red) and where level V is involved while \gls{lnl} III is healthy (green). For early T-category cases, the fit of the base graph model to the data is actually better than the winning graph's. For late T-category, however, the winning graph shows a better ability to reverse the prevalence of the two investigated patterns of involvement (note that the base graph model predicts the prevalences the wrong way around here). This is presumably due to the added connection from \gls{lnl} III to V.}
         \label{fig:IIandIIIandV_prevs}
     \end{centering}
 \end{figure*}
@@ -533,6 +534,15 @@ First, we observe that the winning graph describes the involvement of levels II,
 \end{figure*}
 
 {\it Level VII:} The two models' predictions w.r.t. the prevalence of involvement patterns that include \gls{lnl} VII are not compared in a dedicated figure, as this level is only connected to the primary tumor in both graphs.
+
+\begin{figure}
+    \script{comp_VII_prevs.py}
+    \begin{centering}
+        \includegraphics[width=\linewidth]{figures/comp_VII_prevs.png}
+        \caption{TODO: Write caption}
+        \label{fig:VII_prevs}
+    \end{centering}
+\end{figure}
 
 \subsection{Risk Prediction for Occult Disease}
 \label{subsec:results:risk_prediction}
