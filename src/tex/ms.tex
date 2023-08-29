@@ -304,7 +304,7 @@ Lastly, we also compared how the model's performance improves with an added conn
     \script{thermo_int.py}
     \centering
     \includegraphics[width=\linewidth]{figures/thermo_int.png}
-    \caption{The expected log-accuracy under the power posterior plotted against the value of the inverse temperature $\beta$. These values were computed during a \gls{ti} run for the base graph model (red line), as well as the winning graph model (green line). Note that the scaling of the x-axis is chosen such that the 64 points on the temperature ladder appear evenly spaced. This is to stress how the log-accuracy develops in the range from $\beta=0$ to around $\beta=0.1$. The area under these two curves yields an approximation of the log-evidence of the respective model. In this plot one can see that due to the simplicity of the base graph model its accuracy increases earlier and faster that the winning graph model's. However, already around $\beta=0.1$ the model based on the winning graph outperforms the base graph model. Ultimately, the winning graph's log-evidence is better than the base graph model's by a value of around 3 (see \cref{table:evidence}).}
+    \caption{The expected log-accuracy under the power posterior plotted against the value of the inverse temperature $\beta$. These values were computed during a \gls{ti} run for the base graph model (red line), as well as the winning graph model (green line). Note that the scaling of the x-axis is chosen such that the 64 points on the temperature ladder appear evenly spaced. This is to stress how the log-accuracy develops in the range from $\beta=0$ to around $\beta=0.1$. The area under these two curves yields an approximation of the log-evidence of the respective model. In this plot one can see that due to the simplicity of the base graph model its accuracy increases earlier and faster that the winning graph model's. However, already around $\beta=0.1$ the model based on the winning graph outperforms the base graph model. Ultimately, the winning graph's log-evidence is better than the base graph model's by a value of around 0.8 (see \cref{table:evidence}).}
     \label{fig:thermo_int}
 \end{figure}
 
@@ -503,51 +503,40 @@ which agrees with \cref{fig:bg_prevalences}.
     \centering
     \variable{output/wg_means.tex}
     \caption{Mean of sampled parameters in percent.}
-    \label{tab:params}
+    \label{table:params}
 \end{table}
 
 \subsection{Involvement of levels I, V, and VII}
 
 First, we observe that the winning graph describes the involvement of levels II, III, and IV equally well as the base graph, a result that is expected and not further shown. We thus focus on the improvements w.r.t. involvement patterns that include the \glspl{lnl} I, V, and VII, that more rarely harbor metastases.
 
-{\it Level V:} In \cref{fig:IIandV_prevs,fig:IIIandV_prevs} we compare the base graph's and the winning graph's estimations for prevalences of involvement patterns that include \gls{lnl} V. 
-
-
-, and VII have been plotted as gray, hatched histograms. Alongside, we show again the Beta posterior over the prevalence of the respective involvement pattern, given the data, as colored line. The prediction by the winning graph are shown as colored histograms. Every scenario is shown for early and late T-category. This allows us to compare how the winning graph improves its fit to the data in these particular scenarios around low-risk \glspl{lnl}. How frequently each of the investigated lymphatic metastatic patterns were observed in the data is additionally tabulated in \cref{table:data_prevalence}, again both for early and for late T-category cases.
+{\it Level V:} In \cref{fig:IIandIIIandV_prevs} we compare the base graph's and the winning graph's estimations for prevalences of involvement patterns that include \gls{lnl} V. The base graph's predictions have been plotted as gray, hatched histograms. Alongside, we show again the Beta posterior over the prevalence of the respective involvement pattern, given the data, as colored line. The prediction by the winning graph are shown as colored histograms. Every scenario is shown for early and late T-category. This allows us to compare how the winning graph improves its fit to the data in these particular scenarios around low-risk \glspl{lnl}. How frequently each of the investigated lymphatic metastatic patterns were observed in the data is additionally tabulated in \cref{table:data_prevalence}, again both for early and for late T-category cases.
 
 \begin{figure}
-    \script{comp_IIandV_prevs.py}
+    \script{comp_IIandIIIandV_prevs.py}
     \begin{centering}
-        \includegraphics[width=\linewidth]{figures/comp_IIandV_prevs.png}
-        \caption{Beta posterior over the prevalence of the involvement pattern where \gls{lnl} II \emph{and} V show metastases (orange line), as well as the pattern with \gls{lnl} V involved \emph{without} level II (blue line). Both   are shown for early (top panel) and late T-category (bottom panel). The correspondingly colored histograms show the same prevalences as predicted by the winning graph model. The hatched gray modalities display the same predictions as made by the base graph model. The winning graph slightly improves its fit to the data in the case of early T-category prevalence of \gls{lnl} V without \gls{lnl} II, and in the case of late T-category co-involvement of the levels II and V. This likely stems from the additional arc the winning graph has from \gls{lnl} II to V.}
-        \label{fig:IIandV_prevs}
+        \includegraphics[width=\linewidth]{figures/comp_IIandIIIandV_prevs.png}
+        \caption{Beta posterior over the prevalence of the involvement pattern where \gls{lnl} II \emph{and} V show metastases (orange line), as well as the pattern with \gls{lnl} V involved \emph{without} level II (blue line). Both are shown for early (top panel) and late T-category (bottom panel). The correspondingly colored histograms show the same prevalences as predicted by the winning graph model. The hatched gray modalities display the same predictions as made by the base graph model. The winning graph slightly improves its fit to the data in the case of early T-category prevalence of \gls{lnl} V without \gls{lnl} II, and in the case of late T-category co-involvement of the levels II and V. This likely stems from the additional arc the winning graph has from \gls{lnl} II to V. Observations of prevalences in the data (solid lines) compared to predictions from the base (hatched histograms) and the winning graph model (colored histograms). The investigated involvement patterns here are how often is \gls{lnl} V involved together with \gls{lnl} III (red) and how often is level V involved while \gls{lnl} III is healthy (green). For early T-category cases, the fit of both models to the data is good. For late T-category, however, the winning graph shows a better ability to split the two investigated patterns of involvement. This is presumably due to the added connection from \gls{lnl} III to V.}
+        \label{fig:IIandIIIandV_prevs}
     \end{centering}
 \end{figure}
 
-\begin{figure}
-    \script{comp_IIIandV_prevs.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/comp_IIIandV_prevs.png}
-        \caption{Observations of prevalences in the data (solid lines) compared to predictions from the base (hatched histograms) and the winning graph model (colored histograms). The investigated involvement patterns here are how often is \gls{lnl} V involved together with \gls{lnl} III (red) and how often is level V involved while \gls{lnl} III is healthy (green). For early T-category cases, the fit of both models to the data is good. For late T-category, however, the winning graph shows a better ability to split the two investigated patterns of involvement. This is presumably due to the added connection from \gls{lnl} III to V.}
-        \label{fig:IIIandV_prevs}
-    \end{centering}
-\end{figure}
-
-In \cref{fig:IandII_prevs,fig:IIandV_prevs,fig:IIIandV_prevs}
+{\it Level I:} In \cref{fig:IandII_prevs}, the same kind of comparisons are plotted for involvement patterns that inlcude metastatic disease in \gls{lnl} I. Here, we observe that the model does at times struggle to capture the spread between the prevalence of \gls{lnl} I involvement for early and late T-category, which is more pronounced than in the levels II and III.
 
 \begin{figure*}
     \script{comp_IandII_prevs.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/comp_IandII_prevs.png}
-        \caption{Comparison of observed and predicted prevalences of \gls{lnl} I and II involvement patterns. The top and bottom panels show the prevalences for early and late T-category, respectively. The solid lines are Beta posteriors from the data, while the histograms are predicted prevalences (colored: winning graph, gray-hatched: base graph). Blue and red plots indicate overall \gls{lnl} I and II involvement, respectively. Green plots indicate \gls{lnl} I involvement without level II, while orange plots indicate the opposite (\gls{lnl} II without level I). The winning graph has an added edge from \gls{lnl} II to I, which improves the prediction of the rare green pattern and reduces the overestimation of the orange pattern in late T-category. However, it slightly underestimates the orange pattern in early T-category.}
+        \caption{Comparison of observed and predicted prevalences of \gls{lnl} I and II involvement patterns. The top and bottom panels show the prevalences for early and late T-category, respectively. The solid lines are Beta posteriors from the data, while the histograms are predicted prevalences (colored: winning graph, gray-hatched: base graph). Blue and red plots indicate overall \gls{lnl} I and II involvement, respectively. Green plots indicate \gls{lnl} I involvement without level II, while orange plots indicate the opposite (\gls{lnl} II without level I). The winning graph has an added edge from \gls{lnl} II to I, which improves the prediction of the rare green pattern and minimally reduces the overestimation of the orange pattern in late T-category.}
         \label{fig:IandII_prevs}
     \end{centering}
 \end{figure*}
 
+{\it Level VII:} The two models' predictions w.r.t. the prevalence of involvement patterns that include \gls{lnl} VII are not compared in a dedicated figure, as this level is only connected to the primary tumor in both graphs.
 
 \subsection{Risk Prediction for Occult Disease}
 \label{subsec:results:risk_prediction}
-In this section, the model corresponding to the winning graph is applied to estimating the risk of occult metastases in clinically negative \glspl{lnl}. We assume a sensitivity of 0.76 and a specificity of 0.81 for the clinical diagnosis of lymph node metastases, corresponding to CT imaging in \cref{table:sens_spec}. \\
+In this section, the model corresponding to the winning graph is applied to estimating the risk of occult metastases in clinically negative \glspl{lnl}. We assume a sensitivity of 0.76 and a specificity of 0.81 for the clinical diagnosis of lymph node metastases, corresponding to CT imaging in \cref{table:sens_spec}.
 
 {\it Level III:} \Cref{fig:wg_III_risks} compares the risk of occult disease in level III between patients that are clinically N0 (orange) and patients with clinically diagnosed involvement of only level II (red), for early T-category (upper panel) and advanced T-category (bottom panel). The histograms represent the uncertainty in model's risk prediction arising from the uncertainty in the model parameters and are generated by randomly drawing 1000 samples from the model parameter's joint posterior distribution. The model predicts a risk of 5\% for early T-stage tumors and 8\% for advanced T-stage. For patients with involvement of level II, the risk in level III increases to approximately 9\% and 12\%, respectively.
 
