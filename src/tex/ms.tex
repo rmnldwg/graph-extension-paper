@@ -510,8 +510,6 @@ which agrees with \cref{fig:bg_prevalences}.
 
 First, we observe that the winning graph describes the involvement of levels II, III, and IV equally well as the base graph, a result that is expected and not further shown. We thus focus on the improvements w.r.t. involvement patterns that include the \glspl{lnl} I, V, and VII, that more rarely harbor metastases.
 
-{\it Level V:} In \cref{fig:IIandIIIandV_prevs} we compare the base graph's and the winning graph's estimations for prevalences of involvement patterns that include \gls{lnl} V. The base graph's predictions have been plotted as gray, hatched histograms. Alongside, we show again the Beta posterior over the prevalence of the respective involvement pattern, given the data, as colored line. The prediction by the winning graph are shown as colored histograms. Every scenario is shown for early and late T-category. This allows us to compare how the winning graph improves its fit to the data in these particular scenarios around low-risk \glspl{lnl}. How frequently each of the investigated lymphatic metastatic patterns were observed in the data is additionally tabulated in \cref{table:data_prevalence}, again both for early and for late T-category cases.
-
 \begin{figure*}
     \script{comp_IIandIIIandV_prevs.py}
     \begin{centering}
@@ -521,6 +519,8 @@ First, we observe that the winning graph describes the involvement of levels II,
         \label{fig:IIandIIIandV_prevs}
     \end{centering}
 \end{figure*}
+
+{\it Level V:} In \cref{fig:IIandIIIandV_prevs} we compare the base graph's and the winning graph's estimations for prevalences of involvement patterns that include \gls{lnl} V. The base graph's predictions have been plotted as gray, hatched histograms. Alongside, we show again the Beta posterior over the prevalence of the respective involvement pattern, given the data, as colored line. The prediction by the winning graph are shown as colored histograms. Every scenario is shown for early and late T-category. This allows us to compare how the winning graph improves its fit to the data in these particular scenarios around low-risk \glspl{lnl}. How frequently each of the investigated lymphatic metastatic patterns were observed in the data is additionally tabulated in \cref{table:data_prevalence}, again both for early and for late T-category cases.
 
 {\it Level I:} In \cref{fig:IandII_prevs}, the same kind of comparisons are plotted for involvement patterns that inlcude metastatic disease in \gls{lnl} I. Here, we observe that the model does at times struggle to capture the spread between the prevalence of \gls{lnl} I involvement for early and late T-category, which is more pronounced than in the levels II and III.
 
@@ -533,13 +533,13 @@ First, we observe that the winning graph describes the involvement of levels II,
     \end{centering}
 \end{figure*}
 
-{\it Level VII:} The two models' predictions w.r.t. the prevalence of involvement patterns that include \gls{lnl} VII are not compared in a dedicated figure, as this level is only connected to the primary tumor in both graphs.
+{\it Level VII:} The two models' predictions w.r.t. the prevalence of involvement patterns that include \gls{lnl} VII are compared in \cref{fig:VII_prevs}. Here, the base and winning graph yield almost the same predictions, as no new edge connects from or to \gls{lnl} VII in the latter model. Notably, the prevalence of early T-category level VII involvement is slightly overestimated, while for late T-category, the fit is very good.
 
 \begin{figure}
     \script{comp_VII_prevs.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/comp_VII_prevs.png}
-        \caption{TODO: Write caption}
+        \caption{Predictions for the prevalence of \gls{lnl} VII involvement based on the base graph (hatched) and the winning graph (blue histogram) plotted agains the beta posterior over the prevalence in the data (solid line).}
         \label{fig:VII_prevs}
     \end{centering}
 \end{figure}
@@ -596,8 +596,6 @@ In this section, the model corresponding to the winning graph is applied to esti
 
 {\it Level I:} \Cref{fig:wg_I_risks} shows the risk of occult disease in level I depending on T-category and the clinical involvement of levels II-IV. For clinically N0 patients, the risk in level I is estimated to be in the order of 1-2\%. Extensive nodal involvement of levels II-IV increases the risk in level I to approximately 4-5\% for advanced T-stage tumors. It is pointed out that the winning graph does not contain arcs from levels III or IV to level I (and anatomically we do not assume that there is lymphatic drainage from levels III or IV to level I). Thus, the increased risk in level I is related to the time evolution: Involvement of levels III and IV corresponds to a more advances state of disease that is likely diagnosed at a later time step, such that the tumor had more time to spread to level I.
 
-{\it Level II:} As can be seen in \cref{tab:params} the model infers the spread from the tumor to \gls{lnl} II to be the most probable transition at any given time step. As a consequence, even for an early T-category patient that presents with a clinical N0 neck, our model predicts a \variable{output/wg_II_risks.tex} risk for microscopic metastases in \gls{lnl} II.
-
 \begin{figure}
     \script{wg_I_risks.py}
     \begin{centering}
@@ -607,6 +605,7 @@ In this section, the model corresponding to the winning graph is applied to esti
     \end{centering}
 \end{figure}
 
+{\it Level II:} As can be seen in \cref{tab:params} the model infers the spread from the tumor to \gls{lnl} II to be the most probable transition at any given time step. As a consequence, even for an early T-category patient that presents with a clinical N0 neck, our model predicts a \variable{output/wg_II_risks.tex} risk for microscopic metastases in \gls{lnl} II.
 
 \begin{figure}
     \script{wg_any_risks.py}
@@ -637,6 +636,8 @@ Risk predictions obtained by the model may be used to design clinical trials on 
 \label{subsec:disc:limitation}
 {\it T-stage dependence of level I involvement:} As shown in \cref{fig:bg_prevalences}, the model describes the involvement of \glspl{lnl} II, III, and IV depending on T-stage very well despite having only a single parameter related to T-stage. \Cref{fig:IandII_prevs} shows that the model does not perfectly describe the T-stage dependence of level I. It adjusts the parameters such that level I involvement is correctly described for the set of all patients combined, but it overestimates level I involvement for early T-stage and underestimates it for advanced T-stage. A possible explanation is that advanced T-stage tumors are more likely to have grown into a regions with direct lymph drainage to level I. The more severe involvement in levels II, III, IV for advanced T-stage can be explained by tumors having more time to spread while keeping the spread probability rates $b_2$, $b_3$, $b_4$ constant. Regarding level I, early versus advanced T-stage tumors may have different spread probability rates $b_1$.
 
+{\it Sensitivity and Specificity:} Estimating the risk of occult metastases depends on the assumed parameter values for sensitivity and specificity of clinical detection of lymph node metastases. For this work, we adopted literature values for sensitivity and specificity. However, different authors have estimated these values using different criteria and different methods. Consequently, these values need to be considered with caution. \cref{fig:wg_sens_spec_risks} illustrates for one example how the risk of occult disease depends on sensitivity and specificity. Here, we consider the risk in level IV in patients with clinically detected metastases in levels II and III. For our default parameters of 81\% specificity and 76 \% sensitivity, the risk is 5\%, but it increases to x\% for a a sensitivity of 66\%. Future work may aim at developing new methods to model the difference between pathological and clinical lymph node involvement based on surgically treated patients in whom both is reported.  
+
 \begin{figure}
     \script{wg_sens_spec_risks.py}
     \begin{centering}
@@ -645,8 +646,6 @@ Risk predictions obtained by the model may be used to design clinical trials on 
         \label{fig:wg_sens_spec_risks}
     \end{centering}
 \end{figure}
-
-{\it Sensitivity and Specificity:} Estimating the risk of occult metastases depends on the assumed parameter values for sensitivity and specificity of clinical detection of lymph node metastases. For this work, we adopted literature values for sensitivity and specificity. However, different authors have estimated these values using different criteria and different methods. Consequently, these values need to be considered with caution. \cref{fig:wg_sens_spec_risks} illustrates for one example how the risk of occult disease depends on sensitivity and specificity. Here, we consider the risk in level IV in patients with clinically detected metastases in levels II and III. For our default parameters of 81\% specificity and 76 \% sensitivity, the risk is 5\%, but it increases to x\% for a a sensitivity of 66\%. Future work may aim at developing new methods to model the difference between pathological and clinical lymph node involvement based on surgically treated patients in whom both is reported.  
 
 \section{Acknowledgments}
 
