@@ -44,7 +44,7 @@
 
 % Cross-referencing
 \usepackage{hyperref}
-\AtEndPreamble{\usepackage{cleveref}}
+\usepackage{cleveref}
 
 % Begin!
 \begin{document}
@@ -294,7 +294,7 @@ To connect level I, we investigate two candidate arcs: from I to II and from II 
 
 Anatomically, the \emph{posterior accessory pathway} that drains \gls{lnl} II through \gls{lnl} V motivates investigating and arc from $X_2$ into $X_5$ \cite{lengele_anatomical_2007}. And, although no lymphatic pathway is described that directly drains \gls{lnl} III or IV into level V, due to their proximity to each other, we will also investigate additional arcs from \gls{lnl} III and IV into level V.
 
-Lastly, we also compared how the model's performance improves with an added connection from the most commonly involved level II to one of the most rarely metastatic \glspl{lnl} VII.
+To determine the optimal graph describing the data at hand best, we considered six models, each with one of the green candidate arcs of \cref{fig:extended_graph} added to the base graph. Every one of these models was evaluated as described below in \cref{subsec:complete_model:comparison}.
 
 
 \subsection{Model Comparison}
@@ -304,7 +304,7 @@ Lastly, we also compared how the model's performance improves with an added conn
     \script{thermo_int.py}
     \centering
     \includegraphics[width=\linewidth]{figures/thermo_int.png}
-    \caption{The expected log-accuracy under the power posterior plotted against the value of the inverse temperature $\beta$. These values were computed during a \gls{ti} run for the base graph model (red line), as well as the winning graph model (green line). Note that the scaling of the x-axis is chosen such that the 64 points on the temperature ladder appear evenly spaced. This is to stress how the log-accuracy develops in the range from $\beta=0$ to around $\beta=0.1$. The area under these two curves yields an approximation of the log-evidence of the respective model. In this plot one can see that due to the simplicity of the base graph model its accuracy increases earlier and faster that the winning graph model's. However, already around $\beta=0.1$ the model based on the winning graph outperforms the base graph model. Ultimately, the winning graph's log-evidence is better than the base graph model's by a value of around 0.8 (see \cref{table:evidence}).}
+    \caption{The expected log-accuracy under the power posterior plotted against the value of the inverse temperature $\beta$. These values were computed during a \gls{ti} run for the base graph model (red line), as well as the winning graph model (green line). Note that the scaling of the x-axis is chosen such that the 64 points on the temperature ladder appear evenly spaced. This is to stress how the log-accuracy develops in the range from $\beta=0$ to around $\beta=0.1$. The area under these two curves yields an approximation of the log-evidence of the respective model. In this plot one can see that due to the simplicity of the base graph model its accuracy increases earlier and faster that the winning graph model's. However, already around $\beta=0.1$ the model based on the winning graph outperforms the base graph model. Ultimately, the winning graph's log-evidence is better than the base graph model's by a value of around \variable{output/evidence_diff.txt} (see \cref{table:evidence}).}
     \label{fig:thermo_int}
 \end{figure}
 
@@ -391,7 +391,7 @@ The process of computing the log-evidence using \gls{ti} was as follows: We rand
 %
 And then computed the mean and standard deviation of all the integrated $\ln \hat{E}_i$. We then used this for the log-evidence and its error.
 
-Without derivation or insight, we would like to mention that the model evidence naturally balances a model's accuracy against its complexity. The value of $\ln E$ will generally be larger (i.e., less negative) if a model fits the data better than another while being similarily complex. On the other hand, if e.g. additional parameters are introduced without sufficiently improving how well the model explains the data, the evidence will penalize the increase in complexity.
+Without derivation or insight, we would like to mention that the model evidence naturally balances a model's accuracy against its complexity. The value of $\ln E$ will generally be larger (i.e., less negative) if a model fits the data better than another while being similarly complex. On the other hand, if e.g. additional parameters are introduced without sufficiently improving how well the model explains the data, the evidence will penalize the increase in complexity.
 
 An approximation to the evidence that also attempts to balance accuracy and complexity against each other is the heuristic called \gls{bic}. The negative one half of the \gls{bic} approximates the $\ln E$ via Lagrange's method \cite{bhat_derivation_2010} and yields an easy to compute estimate that may also be used to compare models, as long as its underlying assumptions are valid:
 %
@@ -399,7 +399,7 @@ An approximation to the evidence that also attempts to balance accuracy and comp
     - \text{BIC} / 2 = \ln{\hat{\mathcal{L}}} - \frac{k}{2} \ln{N} \approx \ln{E}
 \end{equation}
 %
-Here, $\hat{\mathcal{L}} = \max_{\boldsymbol{\theta}}{\left( \ln P \left( \boldsymbol{\mathcal{D}} \mid \boldsymbol{\theta} \right)\right)}$ is the maximum log-likelihood. The approximation is good, when the posterior distribution over the parameters $p\left( \boldsymbol{\theta} \mid \boldsymbol{\mathcal{D}} \right)$ is single-modal and falls quickly to zero from the maximum. Also, the number of datapoints $N$ needs to be much larger than the number of parameters $k$. We will see that for the models we consider here, the \gls{bic} is generally a good approximation and the conclusions drawn from comparing models using this metric can be reproduced reliably using the true model evidence computed with \gls{ti}.
+Here, $\hat{\mathcal{L}} = \max_{\boldsymbol{\theta}}{\left( \ln P \left( \boldsymbol{\mathcal{D}} \mid \boldsymbol{\theta} \right)\right)}$ is the maximum log-likelihood. The approximation is good, when the posterior distribution over the parameters $p\left( \boldsymbol{\theta} \mid \boldsymbol{\mathcal{D}} \right)$ is single-modal and falls quickly to zero from the maximum. Also, the number of data points $N$ needs to be much larger than the number of parameters $k$. We will see that for the models we consider here, the \gls{bic} is generally a good approximation and the conclusions drawn from comparing models using this metric can be reproduced reliably using the true model evidence computed with \gls{ti}.
 
 
 \subsection{Reproducibility}
