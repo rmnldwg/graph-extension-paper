@@ -77,3 +77,12 @@ rule write_wg_II_risk:
         "src/tex/output/wg_II_risks.tex"
     script:
         "src/scripts/wg_II_risks.py"
+
+rule write_evidence_diff:
+    input:
+        "src/data/wg_metrics.json",
+        "src/data/bg_metrics.json"
+    output:
+        "src/tex/output/evidence_diff.txt"
+    script:
+        "src/scripts/evidence_diff.py"
