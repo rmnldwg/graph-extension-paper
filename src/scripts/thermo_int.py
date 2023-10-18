@@ -24,6 +24,7 @@ POWER = 5
 if __name__ == "__main__":
     plt.rcParams.update(figsizes.icml2022_half())
     plt.rcParams.update(fontsizes.icml2022())
+    plt.rcParams.update({"text.usetex": False})
     fig, axes = plt.subplots()
 
     accuracies = pd.read_csv(
