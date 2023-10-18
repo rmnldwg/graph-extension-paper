@@ -74,6 +74,8 @@ dependencies:
   src/scripts/evidence_diff.py:
     - src/data/wg_metrics.json
     - src/data/bg_metrics.json
+  src/scripts/get_num_patients.py:
+    - src/data/patients.csv
 # Name of the `.tex` manuscript and corresponding `.pdf` article
 ms_name: ms
 
@@ -132,7 +134,7 @@ synctex: True
 tectonic_args: []
 
 # Enable verbose output?
-verbose: false
+verbose: true
 
 # Version of `showyourwork` used to create this workflow
 version: 0.4.3
