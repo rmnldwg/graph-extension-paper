@@ -71,6 +71,9 @@ dependencies:
     - src/data/wg_risks.hdf5
   src/scripts/wg_means.py:
     - src/data/wg_samples.hdf5
+  src/scripts/evidence_diff.py:
+    - src/data/wg_metrics.json
+    - src/data/bg_metrics.json
 # Name of the `.tex` manuscript and corresponding `.pdf` article
 ms_name: ms
 
