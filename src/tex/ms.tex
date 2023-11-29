@@ -293,6 +293,13 @@ We have more freedom in choosing how to connect the \glspl{lnl} to each other. T
 
 To connect level I, we investigate two candidate arcs: from I to II and from II to I. An arc from I to II was used in \cite{pouymayou_bayesian_2019,ludwig_hidden_2021} and is anatomically motivated. However, since \gls{lnl} I is rarely involved compared to level II, the associated parameter $t_{12}$ is mostly undetermined. Therefore, we also consider the flipped arc from \gls{lnl} II to I and investigate if it helps to describe the correlations between the involvement of levels I and II.
 
+\begin{figure}
+    \centering
+    \includegraphics{figures/ranking.pdf}
+    \caption{Visual ranking of the investigated graphs w.r.t. their model evidence, computed via thermodynamic integration. Missing are only the two graphs where the arc from \gls{lnl} III to IV was removed. Their respective model evidence fell below $-1528$ and did thus not fit on this figure. In the bottom left corner, we provide a visual reference in analogy to \cref{table:bayes_factor}: E.g., any difference in the model evidence shorter than the first of the three rulers indicates that the improvement is "barely worth a mention".}
+    \label{fig:ranking}
+\end{figure}
+
 Anatomically, the \emph{posterior accessory pathway} that drains \gls{lnl} II through \gls{lnl} V motivates investigating and arc from $X_2$ into $X_5$ \cite{lengele_anatomical_2007}. And, although no lymphatic pathway is described that directly drains \gls{lnl} III or IV into level V, due to their proximity to each other, we will also investigate additional arcs from \gls{lnl} III and IV into level V.
 
 To determine the optimal graph describing the data at hand best, we considered six models, each with one of the green candidate arcs of \cref{fig:extended_graph} added to the base graph. Every one of these models was evaluated by computing its evidence via thermodynamic integration as described below in \cref{subsec:complete_model:comparison}. These evidences are shown in table XXX. The X most promising added edges were then considered in a combined model which was ultimately designated to be the "winning graph" which is in great detail compared to the base graph in the results (\cref{sec:results}). All considered graphs' performances are visualized in figure XXX.
