@@ -21,10 +21,10 @@ SAMPLES_PATH = paths.data / "wg_samples.hdf5"
 OUTPUT = (paths.figures / Path(__file__).name).with_suffix(".png")
 WINNING_GRAPH = {
     ("tumor", "primary"): ["I", "II", "III", "IV", "V", "VII"],
-    ("lnl", "I"): [],
-    ("lnl", "II"): ["I", "III", "V"],
-    ("lnl", "III"): ["IV", "V"],
-    ("lnl", "IV"): [],
+    ("lnl", "I"): ["II"],
+    ("lnl", "II"): ["III"],
+    ("lnl", "III"): ["IV"],
+    ("lnl", "IV"): ["V"],
     ("lnl", "V"): [],
     ("lnl", "VII"): [],
 }

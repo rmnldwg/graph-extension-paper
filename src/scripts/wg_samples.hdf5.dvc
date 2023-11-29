@@ -1,14 +1,14 @@
-md5: 9e346366a23ee7cda800a39d00bb5341
+md5: 32aea8f2754fb27cd5d3b542501c32e1
 wdir: ../data
 frozen: true
 deps:
 - path: models/samples.hdf5
   repo:
     url: https://github.com/rmnldwg/lynference
-    rev: win-graph-v1
-    rev_lock: 4d7f34eeef6a4367be87c0f8d6805d06125e47cf
+    rev: win-graph-v3
+    rev_lock: 5a8bb864059ead39f9876fc567988fe62b30ec9b
 outs:
-- md5: 8cd8a44a5d58459eb47b5ccc93733a51
-  size: 211994528
+- md5: 65b668650d108ed6eb66a315fc12b3bb
+  size: 202769624
   path: wg_samples.hdf5
   hash: md5

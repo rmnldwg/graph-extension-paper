@@ -16,11 +16,10 @@ NAMES = [
     r"b_\text{IV}",
     r"b_\text{V}",
     r"b_\text{VII}",
-    r"t_{\text{II} \rightarrow {I}}",
+    r"t_{\text{I} \rightarrow {II}}",
     r"t_{\text{II} \rightarrow {III}}",
-    r"t_{\text{II} \rightarrow {V}}",
     r"t_{\text{III} \rightarrow {IV}}",
-    r"t_{\text{III} \rightarrow {V}}",
+    r"t_{\text{IV} \rightarrow {V}}",
     r"p_\text{late}",
 ]
 
