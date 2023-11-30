@@ -65,7 +65,7 @@ dependencies:
   src/scripts/wg_any_risks.py:
     - src/data/wg_risks.hdf5
   src/scripts/thermo_int.py:
-    - src/data/base_accuracies.csv
+    - src/data/loose_accuracies.csv
     - src/data/win_accuracies.csv
   src/scripts/wg_sens_spec_risks.py:
     - src/data/wg_risks.hdf5
@@ -75,7 +75,7 @@ dependencies:
     - src/data/patients.csv
   src/scripts/evidence_diff.py:
     - src/data/wg_metrics.json
-    - src/data/bg_metrics.json
+    - src/data/lg_metrics.json
   src/tex/ms.tex:
     - src/tex/output/evidence_diff.txt
 # Name of the `.tex` manuscript and corresponding `.pdf` article

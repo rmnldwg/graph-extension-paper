@@ -79,7 +79,7 @@ rule write_wg_II_risk:
 rule write_evidence_diff:
     input:
         "src/data/wg_metrics.json",
-        "src/data/bg_metrics.json"
+        "src/data/lg_metrics.json"
     output:
         "src/tex/output/evidence_diff.txt"
     script:

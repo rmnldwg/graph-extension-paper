@@ -1,0 +1,14 @@
+md5: 546f0e0c4700659eb7218f20172e30e0
+wdir: ../data
+frozen: true
+deps:
+- path: metrics.json
+  repo:
+    url: https://github.com/rmnldwg/lynference
+    rev: del-II-to-III-and-III-to-IV
+    rev_lock: b481fad0a03425759049f81fb1097c9a77249a99
+outs:
+- md5: 0420d3729d4c68b66f115e2b123eaea5
+  size: 162
+  path: lg_metrics.json
+  hash: md5

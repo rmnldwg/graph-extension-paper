@@ -1,0 +1,14 @@
+md5: f7c5ff3f77c0434ec7816f5ab3aaeeb0
+wdir: ../data
+frozen: true
+deps:
+- path: ./plots/ti/accuracies.csv
+  repo:
+    url: https://github.com/rmnldwg/lynference
+    rev: del-II-to-III-and-III-to-IV
+    rev_lock: b481fad0a03425759049f81fb1097c9a77249a99
+outs:
+- md5: d431131534bae3e98ab9bca69c1fe90c
+  size: 3718
+  path: loose_accuracies.csv
+  hash: md5

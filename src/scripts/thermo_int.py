@@ -1,5 +1,5 @@
 """
-Plot how the accuracies evolved for the base vs the winning graph.
+Plot how the accuracies evolved for the lose vs the winning graph.
 """
 from pathlib import Path
 
@@ -14,7 +14,7 @@ import paths
 
 
 ACCURACY_PATHS = {
-    "base": paths.data / "base_accuracies.csv",
+    "lose": paths.data / "loose_accuracies.csv",
     "win" : paths.data / "win_accuracies.csv",
 }
 OUTPUT = (paths.figures / Path(__file__).name).with_suffix(".png")
@@ -28,9 +28,9 @@ if __name__ == "__main__":
     fig, axes = plt.subplots()
 
     accuracies = pd.read_csv(
-        ACCURACY_PATHS["base"]
+        ACCURACY_PATHS["lose"]
     ).rename(
-        columns={"accuracy": "base graph"}
+        columns={"accuracy": "lose graph"}
     ).join(
         pd.read_csv(
             ACCURACY_PATHS["win"]
@@ -43,16 +43,16 @@ if __name__ == "__main__":
     )
 
     errors = accuracies.copy().drop(
-        columns=["base graph", "win graph"]
+        columns=["lose graph", "win graph"]
     ).rename(
-        columns={"std_": "base graph", "std": "win graph"}
+        columns={"std_": "lose graph", "std": "win graph"}
     )
     errors["β"] = errors["β"] ** (1./POWER)
     accuracies = accuracies.drop(columns=["std_", "std"])
     accuracies["β"] = accuracies["β"] ** (1./POWER)
 
     accuracies.plot(
-        x="β", y=["base graph", "win graph"], ax=axes,
+        x="β", y=["lose graph", "win graph"], ax=axes,
         color=[USZ["red"], USZ["green"]],
     )
 
