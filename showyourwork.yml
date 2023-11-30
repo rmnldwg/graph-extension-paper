@@ -76,6 +76,8 @@ dependencies:
   src/scripts/evidence_diff.py:
     - src/data/wg_metrics.json
     - src/data/bg_metrics.json
+  src/tex/ms.tex:
+    - src/tex/output/evidence_diff.txt
 # Name of the `.tex` manuscript and corresponding `.pdf` article
 ms_name: ms
 
