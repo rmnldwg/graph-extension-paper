@@ -55,20 +55,25 @@
 
 % Author list
 \author{Roman Ludwig}
-\author{Jean-Marc Hoffmann}
-\author{Bertrand Pouymayou}
+\author{Adrian Schubert}
+\author{Dorothea Barbatei}
 \author{Lauence Bauwens}
-\author{Vincent Grégoire}
-%\author{Roland Giger}
-\author{... TBD ...}
+\author{Jean-Marc Hoffmann}
+\author{Sandrine Werlen}
+\author{Olgun Elicin}
+\author{Matthias Dettmer}
+\author{Philippe Zrounba}
+\author{Bertrand Pouymayou}
 \author{Panagiotis Balermpas}
+\author{Vincent Grégoire}
+\author{Roland Giger}
 \author{Jan Unkelbach}
 
 % Abstract
 \begin{abstract}
     Objective: The \gls{ctv-n}\glsunset{ctv} in \gls{hnscc}\glsunset{scc} is currently based mostly on the prevalence of lymph node metastases in different \glspl{lnl} for a given primary tumor location. In this work, we present a probabilistic model for ipsilateral lymphatic metastatic spread that can quantify the risk for microscopic nodal involvement based on an individual patient's T-stage and clinical involvement of \glspl{lnl} at diagnosis. \\
     Methods: The model is based on the formalism of \glspl{hmm} as conceptually introduced in a previous publication. The \gls{hmm} uses a collection of hidden binary \glspl{rv} -- one for each of the \glspl{lnl} I, II, III, IV, V, and VII -- to model a patient's true state of lymph node involvement corresponding to pathological examinations. Clinical involvement at diagnosis represent the observed binary \glspl{rv} linked to the true state via sensitivity and specificity. A \gls{dag} with is used to compute the transition matrix of the \gls{hmm}, where each edge is associated with a parameter for the probability of tumor spread from the primary tumor and between \gls{lnl}. To learn the parameters, we collected a dataset of 681 \gls{opscc} patients from three institutions. To determine the best graph that balances model complexity and accurate description of \gls{lnl} involvement patterns in the data, we compare graphs based on the model evidence calculated via \gls{ti}. \\
-    Results: The graph maximizing the model evidence contains edges for lymphatic spread from \gls{lnl} II to I, III and V, and from \gls{lnl} III to IV and V, and is thus consistent with commonly assumed lymphatic drainage in the neck. Application of the model suggests that the risk of occult disease in level IV is below 5\% if level III is clinically negative, and that the risk of occult disease in level V is below 5\% except for late T-category patients with clinical involvement of levels II, III, and IV. 
+    Results: The graph maximizing the model evidence contains edges for lymphatic spread from \gls{lnl} II to I, III and V, and from \gls{lnl} III to IV and V, and is thus consistent with commonly assumed lymphatic drainage in the neck. Application of the model suggests that the risk of occult disease in level IV is below 5\% if level III is clinically negative, and that the risk of occult disease in level V is below 5\% except for advanced T-category (T3 and T4) patients with clinical involvement of levels II, III, and IV. 
     Conclusion: We provide a statistical model of lymph node involvement in \gls{opscc} patients trained on a multi-institutional dataset, which may guide the design of clinical trials on volume-deescalated treatment of \gls{opscc} and eventually contribute to further personalized guidelines on elective nodal treatment.
 \end{abstract}
 
@@ -285,7 +290,7 @@ Subsequently, we can compute the marginalization as a dot product:
     \label{fig:extended_graph}
 \end{figure}
 
-The \gls{dag} shown in \cref{fig:graph_with_obs} includes the \glspl{lnl} II, III, and IV, which represent the most relevant lymph node levels for oropharyngeal SCC. It includes the arcs from II to III and from III to IV, representing the main direction of lymphatic drainage, which is well motivated anatomically and by the data on lymph node involvement. Previous publications  \cite{pouymayou_bayesian_2019,ludwig_hidden_2021} focused on these levels because they relied on a limited reconstructed dataset of \gls{opscc} patients \cite{sanguineti_defining_2009}. Now, with the datasets available for this work, we can extend the graph to include random variables for all \glspl{lnl} that are relevant for oropharyngeal SCC: I, II, III, IV, V, and VII. The main question to answer is: which arcs between \glspl{lnl} are needed to accurately model the data on lymph node involvement without increasing the model's complexity unnecessarily.
+The \gls{dag} shown in \cref{fig:graph_with_obs} includes the \glspl{lnl} II, III, and IV, which represent the most relevant lymph node levels for \gls{opscc}. It includes the arcs from II to III and from III to IV, representing the main direction of lymphatic drainage, which is well motivated anatomically and by the data on lymph node involvement. Previous publications  \cite{pouymayou_bayesian_2019,ludwig_hidden_2021} focused on these levels because they relied on a limited reconstructed dataset of \gls{opscc} patients \cite{sanguineti_defining_2009}. Now, with the datasets available for this work, we can extend the graph to include random variables for all \glspl{lnl} that are relevant for \gls{opscc}: I, II, III, IV, V, and VII. The main question to answer is: which arcs between \glspl{lnl} are needed to accurately model the data on lymph node involvement without increasing the model's complexity unnecessarily.
 
 First, we notice that the direct arcs from tumor to each of the \glspl{lnl} must be present, since every \gls{lnl} appears metastatic in isolation at least once in the dataset. For example, some patients presented with metastases in \gls{lnl} I, while the other levels appeared healthy. If no spread was allowed from the tumor to $X_1$ (i.e., $b_1 = 0$), the likelihood of observing this patient would be zero.
 
