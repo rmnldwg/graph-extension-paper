@@ -73,6 +73,9 @@ dependencies:
     - src/data/wg_samples.hdf5
   src/scripts/get_num_patients.py:
     - src/data/patients.csv
+  src/scripts/evidence_diff.py:
+    - src/data/wg_metrics.json
+    - src/data/bg_metrics.json
 # Name of the `.tex` manuscript and corresponding `.pdf` article
 ms_name: ms
 
@@ -98,7 +101,7 @@ overleaf:
 require_inputs: true
 
 # Allow cacheable rules to run on GitHub Actions?
-run_cache_rules_on_ci: false
+run_cache_rules_on_ci: true
 
 # Mapping of script file extensions to instructions for executing them
 scripts:
