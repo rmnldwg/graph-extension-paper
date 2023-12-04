@@ -1,11 +1,11 @@
-md5: 4742755e15bf83e3ffe2fd2062fbc938
+md5: 88b6194d10c2f59f7253fae97b4ed967
 wdir: ../data
 frozen: true
 deps:
 - path: ./plots/ti/accuracies.csv
   repo:
     url: https://github.com/rmnldwg/lynference
-    rev: del-II-to-III-and-III-to-IV
+    rev: loose-graph-v1
     rev_lock: b481fad0a03425759049f81fb1097c9a77249a99
 outs:
 - md5: d431131534bae3e98ab9bca69c1fe90c

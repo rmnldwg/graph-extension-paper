@@ -23,7 +23,7 @@ REVISIONS = {
     "add-III-to-V": "add III → V",
     "add-IV-to-V": "add IV → V",
     "del-II-to-III": "remove II → III",
-    "del-II-to-III-and-III-to-IV": "remove II → III & III → IV",
+    "loose-graph-v1": "remove II → III & III → IV",
     "del-III-to-IV": "remove III → IV",
 }
 
