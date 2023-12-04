@@ -65,8 +65,8 @@ dependencies:
   src/scripts/wg_any_risks.py:
     - src/data/wg_risks.hdf5
   src/scripts/thermo_int.py:
-    - src/data/loose_accuracies.csv
     - src/data/win_accuracies.csv
+    - src/data/loose_accuracies.csv
   src/scripts/wg_sens_spec_risks.py:
     - src/data/wg_risks.hdf5
   src/scripts/wg_means.py:
