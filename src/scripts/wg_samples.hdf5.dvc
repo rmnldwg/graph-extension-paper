@@ -1,4 +1,4 @@
-md5: 32aea8f2754fb27cd5d3b542501c32e1
+md5: 8985eed9bb35cb6e54193ffa7c7ef643
 wdir: ../data
 frozen: true
 deps:
@@ -12,3 +12,4 @@ outs:
   size: 202769624
   path: wg_samples.hdf5
   hash: md5
+  cache: false

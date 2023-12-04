@@ -1,4 +1,4 @@
-md5: f7c5ff3f77c0434ec7816f5ab3aaeeb0
+md5: 4742755e15bf83e3ffe2fd2062fbc938
 wdir: ../data
 frozen: true
 deps:
@@ -12,3 +12,4 @@ outs:
   size: 3718
   path: loose_accuracies.csv
   hash: md5
+  cache: false

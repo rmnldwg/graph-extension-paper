@@ -1,4 +1,4 @@
-md5: 9594c1b9384d9025dc7e1af01e57e321
+md5: 685872648979f9e821e2e53d20efda32
 wdir: ../data
 frozen: true
 deps:
@@ -12,3 +12,4 @@ outs:
   size: 162
   path: lg_metrics.json
   hash: md5
+  cache: false

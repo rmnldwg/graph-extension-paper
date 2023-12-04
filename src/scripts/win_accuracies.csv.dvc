@@ -1,4 +1,4 @@
-md5: 361856ed75f695f2b747956fea1099ca
+md5: 6699a1ddb108a549db7c898d1f86d97c
 wdir: ../data
 frozen: true
 deps:
@@ -12,3 +12,4 @@ outs:
   size: 3728
   path: win_accuracies.csv
   hash: md5
+  cache: false

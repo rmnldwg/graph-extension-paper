@@ -1,4 +1,4 @@
-md5: d8321f21644e2203431840c65312d39c
+md5: 0141ee36f4cbba03c2e85c1f3c67379e
 wdir: ../data
 frozen: true
 deps:
@@ -12,3 +12,4 @@ outs:
   size: 162
   path: wg_metrics.json
   hash: md5
+  cache: false

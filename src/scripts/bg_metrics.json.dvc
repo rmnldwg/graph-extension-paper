@@ -1,4 +1,4 @@
-md5: 0daf1472af7ea0a63a25b965ab3f011d
+md5: 0a3d3fd65dc93a0ee6afd67a9cd9f4db
 wdir: ../data
 frozen: true
 deps:
@@ -12,3 +12,4 @@ outs:
   size: 161
   path: bg_metrics.json
   hash: md5
+  cache: false
