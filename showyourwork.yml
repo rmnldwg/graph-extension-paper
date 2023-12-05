@@ -41,11 +41,11 @@ dependencies:
   src/scripts/comp_IIandVII_prevs.py:
     - src/data/bg_IIandVII_prevs.hdf5
     - src/data/wg_IIandVII_prevs.hdf5
-  src/scripts/comp_IIandIIIandV_prevs.py:
-    - src/data/bg_IIandV_prevs.hdf5
-    - src/data/wg_IIandV_prevs.hdf5
+  src/scripts/comp_IIIandIVandV_prevs.py:
     - src/data/bg_IIIandV_prevs.hdf5
     - src/data/wg_IIIandV_prevs.hdf5
+    - src/data/bg_IVandV_prevs.hdf5
+    - src/data/wg_IVandV_prevs.hdf5
   src/scripts/comp_IVandV_prevs.py:
     - src/data/bg_IVandV_prevs.hdf5
     - src/data/wg_IVandV_prevs.hdf5
