@@ -18,14 +18,18 @@
 # Modelling Lymphatic Metastatic Progression in HNSCC: Extending the Graph
 
 **Authors:** 
-_Roman Ludwig_[^USZ], _Jean-Marc Hoffmann_[^USZ], _Bertrand Pouymayou_[^USZ], _Panagiotis Balermpas_[^USZ], _Lauence Bauwens_[^CLB], _Vincent Grégoire_[^CLB], _Roland Giger_[^ISB], _Jan Unkelbach_[^USZ],
+_Roman Ludwig_[^USZ], _Adrian Schubert_[^ISB], _Dorothea Barbatei_[^CLB], _Jean-Marc Hoffmann_[^USZ], _Sandrine Werlen_[^ISB], _Olgun Elicin_[^ISB], _Matthias Dettmer_[^ISB], _Philippe Zrounba_[^CLB], _Bertrand Pouymayou_[^USZ], _Panagiotis Balermpas_[^USZ], _Lauence Bauwens_[^CLB], _Vincent Grégoire_[^CLB], _Roland Giger_[^ISB], _Jan Unkelbach_[^USZ],
+
+This publications presents an extension of our earlier work on modelling how head and neck cancer spreads through the lymphatic system [^@ludwig_2021] to include a larger dataset for training and more modelled lymph node levels.
+
+It is an open-access _and_ open-source publication that is made fully reproducible with the help of [DVC] and _[showyourwork!]_.
 
 [^USZ]: University Hospital Zurich, Switzerland
 [^CLB]: Centre Léon Bérard, France
 [^ISB]: Inselspital Bern, Switzerland
+[^@ludwig_2021]: Ludwig _et al._, "A hidden Markov model for lymphatic tumor progression in the head and neck", **Sci Rep 11** (2021), https://doi.org/10.1038/s41598-021-91544-1.
 
 
-This is an open-access _and_ open-source publication that is made fully reproducible with the help of [DVC] and _[showyourwork!]_.
 
 ## How to reproduce
 
@@ -33,6 +37,7 @@ There are two levels of how this article can be reproduced:
 
 1. **Shallow:** Every figure and table that contains quantitative findings can be recreated by following the instructions by the _[showyourwork!]_ people. This does not include the results on which the generation of the figures depends. A bit further down I will give a brief manual on how to achieve this "shallow" reproduction and essentially recompile the article from the source code in this repository.
 2. **Deep:** The individual experiments that are shown in the article were run and live in a separate GitHub repository called [`rmnldwg/lynference`]. Head over to this repository to learn about how this can be reproduced. This will also involve learning about the tool [DVC].
+
 
 ### Shallow
 
@@ -55,6 +60,7 @@ There are two levels of how this article can be reproduced:
    $ showyourwork build
    ```
 
+
 ## Repository structure
 
 Due to this mix of shallow reproducibility using _[showyourwork!]_ and the deep reproducibility using [DVC], this article repo might not be entirely intuitive to understand. Let me walk you through its layout:
@@ -65,13 +71,16 @@ Everything else that is not automatically created and managed lives in the `src`
 
 The `static` folder is simple: It contains figures that are not dynamically created (like schematics or images).
 
-In `scripts` you can find Python, YAML and [DVC] files. The Python scripts correspond to figures and tables and are dynamically run before compiling the article PDF. However, they often _depend_ on data, which is found in the `data` folder next to the `scripts`. On initial inspection, you will find this folder to be empty. This is because the data is dynamically computed using commands from the [lyscripts] package based on configurations in the YAML files (those back in the `scripts` folder).
+In `scripts` you can find Python, YAML and [DVC] files. The Python scripts correspond to figures and tables and are dynamically run before compiling the article PDF. However, they often _depend_ on data, which is found in the `data` folder next to the `scripts`. On initial inspection, you will find this folder to be empty. This is because the data is dynamically fetched using [DVC], or computed using commands from the [lyscripts] package based on configurations in the YAML files (those back in the `scripts` folder).
 
 One last thing though: The [lyscripts] commands that dynamically compute data that the Python scripts depend on, themselves _depend_ on data from the [`rmnldwg/lynference`] repo. And the [DVC] tool figures out where to get that source data from when reading the `.dvc` files in the `scripts` folder.
 
+
 ### Example
 
-To create figure 4 in the article (the one with the core prevalences), the script `bg_core_prevs.py` will be executed (the name stands for "base graph core prevalences"). It depends **TODO**
+To create figure 4 in the article (the one with the core prevalences), the script `bg_core_prevs.py` will be executed (the name stands for "base graph core prevalences"). It depends on the computed prevalences `data/bg_core_prevs.hdf5`, which are computed using a [lyscripts] command, the configuration file `scripts/bg_core_prevs.hdf5`, as well as the samples of the base graph `data/bg_samples.hdf5`. The last of those files can be dynamically pulled from the cloud using [DVC], for which the `scripts/bg_samples.hdf5.dvc` is used.
+
+_\*phew\*_ :sweat_smile:
 
 
 [DVC]: https://dvc.org
