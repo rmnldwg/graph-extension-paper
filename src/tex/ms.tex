@@ -527,7 +527,7 @@ Based on these results, we consider three additional candidates for the optimal 
         \textbf{graph}  & \textbf{log-evidence}
     }
     \startdata
-    \variable{output/results_table.tex}
+    \variable{output/metrics_table.tex}
     \enddata
 \end{deluxetable}
 
@@ -543,12 +543,22 @@ The most likely model parameters for the winning graph, corresponding to the mea
 which agrees with the second panel from the top in \autoref{fig:bg_prevalences}. 
 The large value for the parameter $t_{\text{I} \rightarrow \text{II}}$ reflects the observation that in almost all patients with level I involvement, level II is also involved. The large uncertainty in $t_{\text{I} \rightarrow \text{II}}$ is related to the fact that level I involvement is rare compared to level II.
 
-\begin{table}[]
-    \centering
-    \variable{output/wg_means.tex}
-    \caption{Mean of sampled parameters in percent.}
-    \label{table:params}
-\end{table}
+% \begin{table}[]
+%     \centering
+%     \variable{output/means_table.tex}
+%     \caption{Mean of sampled parameters in percent.}
+%     \label{table:params}
+% \end{table}
+
+\begin{deluxetable}
+    \tablecaption{Mean and standard deviation of parameters sampled for the winning graph in percent. \label{table:params}}
+    \tablehead{
+        \textbf{parameter} & \textbf{mean} & \textbf{std. dev.}
+    }
+    \startdata
+    \variable{output/means_table.tex}
+    \enddata
+\end{deluxetable}
 
 \subsection{Involvement of levels I and V}
 
