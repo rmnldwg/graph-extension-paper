@@ -514,12 +514,22 @@ Based on these results, we consider three additional candidates for the optimal 
 \subsection{The winning graph}
 \label{subsec:results:optimal_graph}
 
-\begin{table}
-    \centering
+% \begin{table}
+%     \centering
+%     \variable{output/results_table.tex}
+%     \caption{Model comparison results from the base graph and the extended graph we chose as the ``winning'' model. For both \glspl{dag} we show the log-evidence, computed via thermodynamic integration, the negative one half of the \gls{bic}, as well as the maximum log-likelihood that was encountered during the final \gls{mcmc} sampling round.}
+%     \label{table:evidence}
+% \end{table}
+
+\begin{deluxetable}{lr}
+    \tablecaption{Model comparison results from the base graph and the extended graph we chose as the ``winning'' model. For both \glspl{dag} we show the log-evidence, computed via thermodynamic integration, the negative one half of the \gls{bic}, as well as the maximum log-likelihood that was encountered during the final \gls{mcmc} sampling round. \label{table:evidence}}
+    \tablehead{
+        \textbf{graph}  & \textbf{log-evidence}
+    }
+    \startdata
     \variable{output/results_table.tex}
-    \caption{Model comparison results from the base graph and the extended graph we chose as the ``winning'' model. For both \glspl{dag} we show the log-evidence, computed via thermodynamic integration, the negative one half of the \gls{bic}, as well as the maximum log-likelihood that was encountered during the final \gls{mcmc} sampling round.}
-    \label{table:evidence}
-\end{table}
+    \enddata
+\end{deluxetable}
 
 The most likely model parameters for the winning graph, corresponding to the mean of the marginals of the sampled posterior distributions, are tabulated in \autoref{table:params}. We have fixed $p_\text{early}=0.3$ for early T-category tumors (i.e., T0, T1, and T2), and $t_\text{max}=10$ time steps. The result that $t_{\text{II} \rightarrow \text{III}}$ and $t_{\text{III} \rightarrow \text{IV}}$ are relatively large compared to $b_\text{III}$ and $b_\text{IV}$ reflects the observation that skip metastases in levels III and IV without involvement of the upstream level are rare. Since level II's parent node (level I) is rarely involved, $b_\text{II}$ can approximately be related to the prevalence of involvement in level II. The probability for no involvement of level II when the patient is diagnosed after $t$ time steps is $\left(1-b_\text{II}\right)^t$. The prevalence of level II involvement for late T-category patients is thus
 %
