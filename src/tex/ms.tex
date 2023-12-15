@@ -39,12 +39,6 @@
 \newacronym{usz}{USZ}{University Hospital Zurich}
 \newacronym{isb}{ISB}{Inselspital Bern}
 
-\newcommand{\ju}[1]{{\textcolor{red}{#1}}}
-\newcommand{\rl}[1]{{\textcolor{blue}{#1}}}
-
-% Cross-referencing
-% \usepackage{cleveref}
-
 
 % Begin!
 \begin{document}
@@ -633,7 +627,7 @@ In this section, the model corresponding to the winning graph is applied to esti
     \end{centering}
 \end{figure}
 
-{\it Level I:} \autoref{fig:wg_I_risks} shows the risk of occult disease in level I depending on T-category and the clinical involvement of levels II-IV. For clinically N0 patients, the risk in level I is estimated to be in the order of 1-2\%. Extensive nodal involvement of levels II-IV increases the risk in level I to just below 4\% for advanced T-stage tumors. It is pointed out that the winning graph does not contain arcs from levels III or IV to level I (and anatomically we do not assume that there is lymphatic drainage from levels III or IV to level I). Thus, the increased risk in level I is related to the time evolution: Involvement of levels III and IV corresponds to a more advances state of disease that is likely diagnosed at a later time step, such that the tumor had more time to spread to level I. The correlation between the clinical involvement pattern, the likely time of diagnosis in the tumor's time frame based on it, and from that the risk of involvement is another benefit of the formulation of the model as a \gls{hmm}.
+{\it Level I:} \autoref{fig:wg_I_risks} shows the risk of occult disease in level I depending on T-category and the clinical involvement of levels II-IV. For clinically N0 patients, the risk in level I is estimated to be in the order of 1-2\%. Extensive nodal involvement of levels II-IV increases the risk in level I to just below 4\% for advanced T-category tumors. It is pointed out that the winning graph does not contain arcs from levels III or IV to \gls{lnl} I (and anatomically we do not assume that there is lymphatic drainage from levels III or IV to level I). Thus, the increased risk in level I is related to the time evolution: Getting diagnosed at a later time during the disease's evolution probably correlates with more advanced nodal metastasis. And involvement in the levels III and IV corresponds to a more advances state of disease that is likely diagnosed at a later time step, such that the tumor also had more time to spread to level I. The correlation between the clinical involvement pattern, the likely time of diagnosis in the tumor's time frame based on it, and from that the risk of involvement is another benefit of the formulation of the model as a \gls{hmm}.
 
 \begin{figure}
     \script{wg_I_risks.py}
@@ -652,9 +646,12 @@ In this section, the model corresponding to the winning graph is applied to esti
     \end{centering}
 \end{figure}
 
+
 \section{Discussion}
 \label{sec:discussion}
+
 \subsection{Summary} 
+
 In this publication we present a statistical model of ipsilateral lymph node involvement in oropharyngeal SCC patients. Although the basic \gls{hmm} of lymphatic progression has been conceptually introduced in a previous work \citep{ludwig_hidden_2021}, this is the first publication that evaluates the model based on a large multi-institutional dataset containing \variable{output/num_patients.txt} patients. It is demonstrated for the first time that the model can accurately describe the patterns of lymph node involvement observed in the data, including the correlations between levels and its dependence on T-stage. Furthermore, techniques from statistical physics are applied to calculate the model evidence for Bayesian model comparison. This yields a complete model including all \glspl{lnl} relevant for \gls{opscc}: I, II, III, IV, V, and VII with a parameterization that balances accuracy and model complexity. 
 
 \subsection{Implications for elective nodal treatment} 
