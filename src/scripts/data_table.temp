@@ -1,11 +1,4 @@
-\begin{tabular}{|cccccc|rr|rr|}
-    \hline
-    \multicolumn{6}{|c|}{\textbf{LNL involvement} } & \multicolumn{4}{c|}{\textbf{T-category} } \\
-    I & II & III & IV & V & VII & \multicolumn{2}{c}{\textbf{early} } & \multicolumn{2}{c|}{\textbf{late} } \\
-    \hline
-    {% for early, late in scenarios.early | zip(scenarios.late) %}{{ early.pattern | get_lnl("I") }} & {{ early.pattern | get_lnl("II") }} & {{ early.pattern | get_lnl("III") }} & {{ early.pattern | get_lnl("IV") }} & {{ early.pattern | get_lnl("V") }} & {{ early.pattern | get_lnl("VII") }} & {{ early.num_success }} & ({{ early | prev }}) & {{ late.num_success }} & ({{ late | prev }}) \\
-    {% endfor %}
-    \hline
-    \multicolumn{6}{|c|}{total} & {{ scenarios.early.0.num_total }} & \, & {{ scenarios.late.0.num_total }} & \,  \\
-    \hline
-\end{tabular}
+{% for early, late in scenarios.early | zip(scenarios.late) %}{{ early.pattern | get_lnl("I") }} & {{ early.pattern | get_lnl("II") }} & {{ early.pattern | get_lnl("III") }} & {{ early.pattern | get_lnl("IV") }} & {{ early.pattern | get_lnl("V") }} & {{ early.pattern | get_lnl("VII") }} & {{ early.num_success }} & ({{ early | prev }}) & {{ late.num_success }} & ({{ late | prev }}) \\
+{% endfor %}
+\hline
+\multicolumn{6}{c}{total} & {{ scenarios.early.0.num_total }} & & {{ scenarios.late.0.num_total }} &

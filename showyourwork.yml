@@ -52,6 +52,17 @@ dependencies:
   src/scripts/comp_VII_prevs.py:
     - src/data/bg_VII_prevs.hdf5
     - src/data/wg_VII_prevs.hdf5
+  src/scripts/compile_data_table.py:
+    - src/data/bg_core_prevs.hdf5
+    - src/data/bg_IandII_prevs.hdf5
+    - src/data/wg_IandII_prevs.hdf5
+    - src/data/bg_IIandVII_prevs.hdf5
+    - src/data/wg_IIandVII_prevs.hdf5
+    - src/data/bg_IIIandV_prevs.hdf5
+    - src/data/wg_IIIandV_prevs.hdf5
+    - src/data/bg_IVandV_prevs.hdf5
+    - src/data/wg_IVandV_prevs.hdf5
+    - src/scripts/data_table.temp
   src/scripts/wg_I_risks.py:
     - src/data/wg_risks.hdf5
   src/scripts/wg_II_risks.py:
