@@ -28,8 +28,8 @@ REVISIONS = {
     "del-III-to-IV": "remove III → IV",
 }
 
-TEMPLATE_NAME = "results_table.temp"
-TABLE_OUTPUT = paths.output / "results_table.tex"
+TEMPLATE_NAME = "metrics_table.temp"
+TABLE_OUTPUT = paths.output / "metrics_table.tex"
 VISUAL_OUTPUT = paths.figures / "visual_ranking_guide.svg"
 
 

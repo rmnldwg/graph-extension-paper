@@ -25,13 +25,13 @@ rule compute_risks:
     shell:
         "lyscripts predict risks --params {input.params} --thin 10 {input.model} {output}"
 
-rule extract_metrics:
+rule compile_metrics_table:
     input:
         "src/data/bg_metrics.json",
         "src/data/wg_metrics.json",
-        "src/scripts/results_table.temp"
+        "src/scripts/metrics_table.temp"
     output:
-        "src/tex/output/results_table.tex"
+        "src/tex/output/metrics_table.tex"
     script:
         "src/scripts/compile_metrics_table.py"
 
@@ -60,13 +60,14 @@ rule get_num_patients:
     script:
         "src/scripts/get_num_patients.py"
 
-rule write_mean_params:
+rule compile_means_table:
     input:
-        "src/data/wg_samples.hdf5"
+        "src/data/wg_samples.hdf5",
+        "src/scripts/means_table.temp"
     output:
-        "src/tex/output/wg_means.tex"
+        "src/tex/output/means_table.tex"
     script:
-        "src/scripts/wg_means.py"
+        "src/scripts/compile_means_table.py"
 
 rule write_wg_II_risk:
     input:

@@ -1,13 +1,14 @@
 """
 Write all mean parameter samples to a markdown table.
 """
-import pandas as pd
+from jinja2 import Environment, FileSystemLoader
 from emcee.backends import HDFBackend
 
 import paths
 
 
 INPUT = paths.data / "wg_samples.hdf5"
+TEMPLATE_NAME = "means_table.temp"
 OUTPUT = paths.output
 NAMES = [
     r"b_\text{I}",
@@ -31,12 +32,16 @@ if __name__ == "__main__":
     means = samples.mean(axis=0)
     stddevs = samples.std(axis=0)
 
-    means_dict = {
-        f"${name}$": [f"{100 * mean:.2f} \%", f"$\pm$ {100 * std:.2f} \%"]
-        for name, mean, std in zip(NAMES, means, stddevs)
-    }
-    df = pd.DataFrame.from_dict(means_dict, orient="index", columns=["mean", "std. dev."])
-    latex_table = df.to_latex(column_format="lrr")
+    lines = []
+    for name, mean, std in zip(NAMES, means, stddevs):
+        lines.append({
+            "name": name,
+            "mean": 100 * mean,
+            "std": 100 * std,
+        })
 
-    with open(OUTPUT / "wg_means.tex", "w") as f:
-        f.write(latex_table)
+    environment = Environment(loader=FileSystemLoader(paths.scripts))
+    template = environment.get_template(TEMPLATE_NAME)
+
+    with open(OUTPUT / "means_table.tex", "w") as f:
+        f.write(template.render(lines=lines))

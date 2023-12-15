@@ -1,0 +1,3 @@
+{% for line in lines -%}
+${{ line.name }}$ & {{ '%0.2f' | format(line.mean) | float }} \% & $\pm$ {{ '%0.2f' | format(line.std) | float }} \% {% if not loop.last %} \\ {% endif %}
+{% endfor %}

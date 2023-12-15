@@ -63,6 +63,12 @@ dependencies:
     - src/data/bg_IVandV_prevs.hdf5
     - src/data/wg_IVandV_prevs.hdf5
     - src/scripts/data_table.temp
+  src/scripts/compile_metrics_table.py:
+    - src/scripts/metrics_table.temp
+    - src/data/wg_metrics.json
+  src/scripts/compile_means_table.py:
+    - src/scripts/means_table.temp
+    - src/data/wg_samples.hdf5
   src/scripts/wg_I_risks.py:
     - src/data/wg_risks.hdf5
   src/scripts/wg_II_risks.py:
