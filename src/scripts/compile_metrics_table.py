@@ -50,11 +50,13 @@ if __name__ == "__main__":
             "evidence": metrics["evidence"],
         })
 
+    sorted_results = sorted(results, key=lambda x: x["evidence"], reverse=True)
+
     environment = Environment(loader=FileSystemLoader(paths.scripts))
     template = environment.get_template(TEMPLATE_NAME)
 
     with open(TABLE_OUTPUT, "w") as f:
-        f.write(template.render(results=results))
+        f.write(template.render(results=sorted_results))
 
     # fig, ax = plt.subplots(figsize=(10,1))
     # ax.plot(
