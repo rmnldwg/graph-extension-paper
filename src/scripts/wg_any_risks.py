@@ -52,12 +52,12 @@ if __name__ == "__main__":
             ),
         ]
 
-    draw(axes[0], contents=panels["early"], xlims=(0., 16.), hist_kwargs={"nbins": 40})
+    draw(axes[0], contents=panels["early"], xlims=(2., 16.), hist_kwargs={"nbins": 40})
     axes[0].set_ylabel("early T-cat.", fontweight="bold")
     axes[0].set_yticks([])
     axes[0].legend()
 
-    draw(axes[1], contents=panels["late"], xlims=(0., 16.), hist_kwargs={"nbins": 40})
+    draw(axes[1], contents=panels["late"], xlims=(2., 16.), hist_kwargs={"nbins": 40})
     axes[1].set_ylabel("late T-cat.", fontweight="bold")
     axes[1].set_yticks([])
     axes[1].set_xlabel("risk [%]")
