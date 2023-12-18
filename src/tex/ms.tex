@@ -295,13 +295,9 @@ We have more freedom in choosing how to connect the \glspl{lnl} to each other. T
 
 To connect level I, we investigate two candidate arcs: from I to II and from II to I. An arc from I to II was used in \citep{pouymayou_bayesian_2019,ludwig_hidden_2021} and is anatomically motivated. However, since \gls{lnl} I is rarely involved compared to level II, the associated parameter $t_{12}$ is mostly undetermined. Therefore, we also consider the flipped arc from \gls{lnl} II to I and investigate if it helps to describe the correlations between the involvement of levels I and II.
 
-Anatomically, the \emph{posterior accessory pathway} that drains \gls{lnl} II through \gls{lnl} V motivates investigating and arc from $X_2$ into $X_5$ \citep{lengele_anatomical_2007}. And, although no lymphatic pathway is described that directly drains \gls{lnl} III or IV into level V, due to their proximity to each other, we will also investigate additional arcs from \gls{lnl} III and IV into level V. Finally, an arc from \gls{lnl} II to \gls{lnl} VII is considered.
+Anatomically, the \emph{posterior accessory pathway} that drains \gls{lnl} II through \gls{lnl} V motivates investigating and arc from $X_2$ into $X_5$ \citep{lengele_anatomical_2007}. And, although no lymphatic pathway is described that directly drains \gls{lnl} III or IV into level V, due to their proximity to each other, we will also investigate additional edges from the levels III and IV into \gls{lnl} V. Finally, we look at adding an arc from \gls{lnl} II to \gls{lnl} VII also due to their anatomical proximity.
 
-To determine the optimal graph, we first consider six models, each with one of the six green candidate arcs of \autoref{fig:extended_graph} added to the base graph. Every one of these models was evaluated by computing its evidence via thermodynamic integration as described below in \autoref{subsec:complete_model:comparison}. 
-%These evidences are shown, among others, in \autoref{table:evidence}. 
-Subsequently, graphs combining multiple arcs that individually improve the model evidence are considered. Thereby, the ``winning graph'' is determined, which yields the highest value of the model evidence. 
-%which is in great detail compared to the base graph in the results (\autoref{sec:results}). All considered graphs' performances are visualized in \autoref{fig:ranking}.
-
+To determine the optimal graph, we first consider six models, each with one of the six green candidate arcs of \autoref{fig:extended_graph} added to the base graph. Every one of these models was evaluated by computing an approximation to its evidence via thermodynamic integration as described below in \autoref{subsec:complete_model:comparison}. Subsequently, graphs combining multiple arcs that individually improve the model evidence are considered. Thereby, the ``winning graph'' is determined, which yields the highest (i.e., the least negative) value of the logarithm of the model evidence.\looseness=-1
 
 \subsection{Model Comparison}
 \label{subsec:complete_model:comparison}
@@ -412,19 +408,12 @@ Here, $\hat{\mathcal{L}} = \max_{\boldsymbol{\theta}}{\left( \ln P \left( \bolds
 
 The entire methodology used in this work is publicly available in the GitHub repository \href{https://github.com/rmnldwg/lynference}{\texttt{rmnldwg/lynference}}. Tagged references to specific versions of an inference pipeline allow reproducing the inferred parameters of the models described here. Every parameter necessary to reproduce such a pipeline is specified there in designated configuration files. It also defines the sequences of computations that constitute the pipeline that are mostly calls to commands of the \href{https://pypi.org/project/lyscripts/}{\texttt{lyscripts}} we published.
 
-All figures in this work, like the risk predictions and prevalences we show histograms of, can be reproduced following the instructions of the GitHub repository underlying this publication \href{\GitHubURL}{\texttt{rmnldwg/graph-extension}}. It is based off of the \showyourwork project.
+All figures in this work, like the risk predictions and prevalences we show histograms of, can be reproduced following the instructions of the GitHub repository underlying this publication \href{https://github.com/rmnldwg/graph-extension-paper}{\texttt{rmnldwg/graph-extension-paper}}. It is based off of the \showyourwork project.
 
 
 
 \section{Multicentric Dataset}
 \label{sec:data}
-
-% \begin{table}
-%     \centering
-%     \variable{output/data_table.tex}
-%     \caption{Prevalence of involvement patterns in the multi-centric dataset. An involvement pattern is characterized by the state of the six \glspl{lnl}: A red dot means the \gls{lnl} was reported to be metastatic, a green dot means it was determined to be healthy and a question mark means that the prevalence was marginalized over the state of this \gls{lnl}.}
-%     \label{table:data_prevalence}
-% \end{table}
 
 \begin{deluxetable}{ccccccrrrr}
     \tablecaption{Prevalence of involvement patterns in the multi-centric dataset. An involvement pattern is characterized by the state of the six \glspl{lnl}: A red dot means the \gls{lnl} was reported to be metastatic, a green dot means it was determined to be healthy and a question mark means that the prevalence was marginalized over the state of this \gls{lnl}. \label{table:data_prevalence}}
@@ -437,11 +426,12 @@ All figures in this work, like the risk predictions and prevalences we show hist
     \enddata
 \end{deluxetable}
 
-The dataset $\boldsymbol{\mathcal{D}}$ that we used for inference is comprised of the detailed reports on lymph node involvement patterns in \gls{opscc} patients treated at three different institutions in France and Switzerland: The \gls{clb} in Lyon (France), the \gls{isb} in Bern (Switzerland), and the \gls{usz} in Zürich (Switzerland). We have previously published the patterns of nodal involvement for the \gls{usz} cohort (287 patients) \citep{ludwig_dataset_2022,ludwig_lydata_2023} and described its characteristics in detail \citep{ludwig_detailed_2022}. The first \gls{clb} dataset (263 patients) \citep{ludwig_lydata_2022} underlies a publication on \gls{hpv} status in \gls{opscc} \citep{bauwens_prevalence_2021} and is made available in a separate ``Data in Brief'' article alongside the second dataset from France \citep{ludwig_lydata_2023-2} and the lymphatic progression patterns from the \gls{isb} \citep{ludwig_lydata_2023-1,roman_ludwig_multi-centric_nodate}.
+The dataset $\boldsymbol{\mathcal{D}}$ that we used for inference is comprised of the detailed reports on lymph node involvement patterns in \gls{opscc} patients treated at three different institutions in France and Switzerland: The \gls{clb} in Lyon (France), the \gls{isb} in Bern (Switzerland), and the \gls{usz} in Zürich (Switzerland). We have previously published the patterns of nodal involvement for the \gls{usz} cohort (287 patients) \citep{ludwig_dataset_2022,ludwig_lydata_2023} and described its characteristics in detail \citep{ludwig_detailed_2022}. The first \gls{clb} dataset (263 patients) \citep{ludwig_lydata_2022} underlies a publication on \gls{hpv} status in \gls{opscc} \citep{bauwens_prevalence_2021} and is made available in a separate ``Data in Brief'' article alongside the second dataset from France \citep{ludwig_lydata_2023-2} and the lymphatic progression patterns from the \gls{isb} \citep{ludwig_lydata_2023-1,ludwig_multi-centric_2023}. All datasets may be explored online in our web-based interface \href{https://lyprox.org}{LyProX}.
 
 In total, the dataset contains \variable{output/num_patients.txt}patients with newly diagnosed \gls{opscc}. It includes patients treated with definitive (chemo)radiotherapy, adjuvant (chemo)radiotherapy following neck dissection, or neck dissection alone. Pathologically assessed \gls{lnl} involvement was available for 263 surgically treated patients, while for the remainder the nodal involvement was assessed based on available diagnostic modalities (FDG-PET-CT, CT, MRI, FNA). If multiple modalities were used to diagnose a patient's lymph node involvement, the available modalities were combined into a consensus decision. When different modalities were conflicting, the conflicts were resolved by inferring the most likely state (healthy or metastatic) for each \gls{lnl} separately. To do so, we used literature values for the sensitivity and specificity of the diagnostic modalities \citep{de_bondt_Detection_2007,kyzas_18f-fluorodeoxyglucose_2008}, which we also tabulated in \autoref{table:sens_spec}. Practically, this means that, whenever pathology after neck dissection was available, the pathology result was taken as the consensus, overruling any other clinical diagnostic modality. If, for example, PET-CT and MRI ware available and conflicting, PET-CT was taken as the consensus, overruling MRI.
 
 The dataset containing the consensus decision for the involvement of each level in every patient was then used for model parameter learning, assuming that it represents an observation of the true hidden state $\boldsymbol{\xi}_k$. The frequencies of some of the most important combinations of involved lymph node levels are listed in \autoref{table:data_prevalence}.
+
 
 \begin{deluxetable}{l|rr}
     \tablecaption{
@@ -490,13 +480,11 @@ It is interesting to note that not all involvement patterns become more prevalen
 \subsection{Comparison of candidates graphs}
 \label{subsec:results:graph_candidates}
 
-% \rl{\textbf{NOTE:} This subsection is still unfinished an will be completed when the respective computations are ready. Qualitatively, we don't expect any major changes though.}
-
 The model evidences of all candidate graphs are reported in \autoref{table:evidence}. A visual ranking is provided in \autoref{fig:ranking}. Let us first consider the six models in which one of the candidate arcs is added to the base graph. Evidently, adding a connection from \gls{lnl} I to II is strongly supported given this dataset, and is slightly superior to the reverse connection from \gls{lnl} II to I. In addition, there is strong evidence for introducing an arc from \gls{lnl} IV to V. Furthermore, there is substantial evidence for an arc from \gls{lnl} III to V. All other investigated additions lead to improvements that are barely worth a mention or do not justify the additional complexity at all, indicated by a lower evidence. 
 
 Based on these results, we consider three additional candidates for the optimal graph that combine the added arc from \gls{lnl} I to II with the arc(s) $\text{III} \rightarrow \text{V}$ and/or $\text{IV} \rightarrow \text{V}$. The model evidence for these three graphs is also reported in \autoref{table:evidence}. The best performing graph with decisive evidence over the base graph turned out to be the one which combines the arcs from \gls{lnl} I to II and IV to V. Interestingly, the evidence gain of this ``winning graph'' is roughly the sum of the gains seen in the two candidates where only one of these connections was added, respectively. This indicates that the two additional parameters are largely independent of each other and manage to describe different aspects of the data.
 
-\autoref{table:evidence} additionally shows the evidence of graphs in which the arc from level II to III or from level III to IV is removed. The low model evidence for these graphs confirms the importance of these connections and is consistent with the anatomical motivation. The connection from level III to IV is crucial for describing the observation that metastases in level IV are extremely rare without simultaneous involvement of the upstream level III.
+\autoref{table:evidence} additionally shows the evidence of graphs in which the arc from level II to III or from level III to IV is removed. The low model evidence for these graphs confirms the importance of these connections and is consistent with the anatomical motivation. The connection from level III to IV is crucial for describing the observation that metastases in level IV are extremely rare without simultaneous involvement of the upstream level III. \looseness=-1
 
 \begin{figure*}
     \centering
@@ -507,13 +495,6 @@ Based on these results, we consider three additional candidates for the optimal 
 
 \subsection{The winning graph}
 \label{subsec:results:optimal_graph}
-
-% \begin{table}
-%     \centering
-%     \variable{output/results_table.tex}
-%     \caption{Model comparison results from the base graph and the extended graph we chose as the ``winning'' model. For both \glspl{dag} we show the log-evidence, computed via thermodynamic integration, the negative one half of the \gls{bic}, as well as the maximum log-likelihood that was encountered during the final \gls{mcmc} sampling round.}
-%     \label{table:evidence}
-% \end{table}
 
 \begin{deluxetable}{lr}
     \tablecaption{Model comparison results from the base graph and the extended graph we chose as the ``winning'' model. For both \glspl{dag} we show the log-evidence, computed via thermodynamic integration, the negative one half of the \gls{bic}, as well as the maximum log-likelihood that was encountered during the final \gls{mcmc} sampling round. \label{table:evidence}}
@@ -536,13 +517,6 @@ The most likely model parameters for the winning graph, corresponding to the mea
 %
 which agrees with the second panel from the top in \autoref{fig:bg_prevalences}. 
 The large value for the parameter $t_{\text{I} \rightarrow \text{II}}$ reflects the observation that in almost all patients with level I involvement, level II is also involved. The large uncertainty in $t_{\text{I} \rightarrow \text{II}}$ is related to the fact that level I involvement is rare compared to level II.
-
-% \begin{table}[]
-%     \centering
-%     \variable{output/means_table.tex}
-%     \caption{Mean of sampled parameters in percent.}
-%     \label{table:params}
-% \end{table}
 
 \begin{deluxetable}{lrr}
     \tablecaption{Mean and standard deviation of parameters sampled for the winning graph in percent. \label{table:params}}
@@ -625,6 +599,7 @@ In this section, the model corresponding to the winning graph is applied to esti
     \end{centering}
 \end{figure}
 
+To illustrate the flexibility of the model in predicting various risks, we have plotted the risk for occult disease in \textit{any} of the \glspl{lnl} I, IV, and/or V, given different clinical diagnoses in \autoref{fig:wg_any_risks}. Similar to this, we may compute the risk for an arbitrary combination of involved levels, given a similarly arbitrary clinical diagnosis. For the base graph (\href{https://lyprox.org/riskpredictor/9}{\texttt{base-graph-v2}}) and the winning graph (\href{https://lyprox.org/riskpredictor/8}{\texttt{win-graph-v3}}), one may also interactively explore these risks in our web-based interface \href{https://lyprox.org/riskpredictor/list}{LyProX}, similar to how it is possible to explore the underlying data in an interactive way.
 
 \begin{figure}
     \script{wg_any_risks.py}
@@ -649,16 +624,20 @@ Risk predictions obtained by the model may be used to design clinical trials on 
     \item[$\bullet$] Irradiate level III for most patients. Only for clinically N0, early T-category patients, not irradiating level III could be considered. 
     \item[$\bullet$] Exclude level IV from the \gls{ctv-n} for patients with clinically negative level III. For advanced T-category patients with involvement of level III, level IV should be irradiated.
     \item[$\bullet$] Exclude level V from the \gls{ctv-n} for most patients. Only for patients with extensive involvement of levels II, III, and IV, irradiation of level V can be considered.
-    \item[$\bullet$] Exclude level I from the \gls{ctv-n} for early T-category patients with limited metastatic disease. For advanced T-category patients with extensive nodal involvement of levels II, III, and IV, level I should be irradiated (see also the limitations discussed below).
+    \item[$\bullet$] Exclude level I from the \gls{ctv-n} for early T-category patients with limited metastatic disease. For advanced T-category patients with extensive nodal involvement of levels II, III, and IV, level I should be irradiated (see also the limitations discussed in \autoref{subsec:disc:limitation}).
     \item[$\bullet$] Exclude level VII in all patients, unless it is clinically involved.
 \end{itemize}
 
 \subsection{Limitations and future work}
 \label{subsec:disc:limitation}
 
-{\it T-category dependence of level I involvement:} As shown in \autoref{fig:bg_prevalences}, the model describes the involvement of \glspl{lnl} II, III, and IV depending on T-category very well despite having only a single parameter related to T-category. \autoref{fig:IandII_prevs} shows that the model does not perfectly describe the T-category dependence of level I. It adjusts the parameters such that level I involvement is correctly described for the set of all patients combined, but it overestimates level I involvement for early T-category and underestimates it for advanced T-category. A possible explanation is that advanced T-category tumors are more likely to have grown into regions with direct lymph drainage to level I. The more severe involvement in levels II, III, IV for advanced T-category can be explained by tumors having more time to spread while keeping the spread probability rates $b_2$, $b_3$, $b_4$ constant. Regarding level I, early versus advanced T-category tumors may have different spread probability rates $b_1$.
+{\it T-category dependence of level I involvement:} As shown in \autoref{fig:bg_prevalences}, the model describes the involvement of \glspl{lnl} II, III, and IV depending on T-category very well despite having only a single parameter related to T-category. \autoref{fig:IandII_prevs} shows that the model does not perfectly describe the T-category dependence of level I. It adjusts the parameters such that level I involvement is correctly described for the set of all patients combined, but it overestimates level I involvement for early T-category and underestimates it for advanced T-category. A possible explanation is that advanced T-category tumors are more likely to have grown into regions with direct lymph drainage to level I. The more severe involvement in levels II, III, IV for advanced T-category can be explained by tumors having more time to spread while keeping the spread probability rates $b_2$, $b_3$, $b_4$ constant. Regarding level I, early versus advanced T-category tumors the model may need different spread probability rates $b_1$ to describe their involvement correctly.
 
-{\it Sensitivity and Specificity:} Estimating the risk of occult metastases depends on the assumed parameter values for sensitivity and specificity of clinical detection of lymph node metastases. For this work, we adopted literature values for sensitivity and specificity. However, different authors have estimated these values using different criteria and different methods. Consequently, these values need to be considered with caution. \autoref{fig:wg_sens_spec_risks} illustrates for one example how the risk of occult disease depends on sensitivity and specificity. Here, we consider the risk in level IV in patients with clinically detected metastases in levels II and III. For our default parameters of 81\% specificity and 76 \% sensitivity, the risk is 5\%, but it increases to around 8\% for a a sensitivity of 66\%. Future work may aim at developing new methods to model the difference between pathological and clinical lymph node involvement based on surgically treated patients in whom both is reported.  
+{\it Sensitivity and Specificity:} Estimating the risk of occult metastases depends on the assumed parameter values for sensitivity and specificity of clinical detection of lymph node metastases. For this work, we adopted literature values for sensitivity and specificity. However, different authors have estimated these values using different criteria and different methods. Consequently, these values need to be considered with caution. \autoref{fig:wg_sens_spec_risks} illustrates for one example how the risk of occult disease depends on sensitivity and specificity. Here, we consider the risk in level IV in patients with clinically detected metastases in levels II and III. For our default parameters of 81\% specificity and 76 \% sensitivity, the risk is 5\%, but it increases to around 8\% for a a sensitivity of 66\%.
+
+Also, as described in \autoref{sec:data}, we assumed the consensus of the data to represent the true state of nodal involvement. This was not strictly necessary: Instead of computing a consensus beforehand and providing that with sensitivity and specificity of 1 to the model, as if it were the ground truth, we could have provided multiple diagnostic modalities per patient to the model directly. In fact, for patients with a pathology report available, this would even yield the same results. But we also decided to consider the consensus as an observation of the true hidden state for patients without pathologically assessed involvement. We did this because the literature values for sensitivity and specificity of around 80\% do not plausibly match the observation that around 78\% of patients in the \gls{usz} cohort showed clinical \gls{lnl} II involvement. The most likely true prevalence of involvement in \gls{lnl} II would need to be close to 100\%.
+
+Discussing the possible origins for this discrepancy is beyond the scope of this work. Assuming the consensus to represent the true hidden state of a patient nonetheless allowed us to investigate if the model can describe plausible patterns of nodal involvement well. Future work may aim at developing new methods to model the difference between pathological and clinical lymph node involvement based on surgically treated patients in whom both is reported.
 
 \begin{figure}
     \script{wg_sens_spec_risks.py}
