@@ -610,25 +610,17 @@ In this section, the model corresponding to the winning graph is applied to esti
     \end{centering}
 \end{figure}
 
-{\it Level IV:} \autoref{fig:wg_IV_risks} compares the risk of occult disease in level IV for the typical clinical presentations: clinically N0 (green), metastases in level II (blue), and metastases in levels II and III (orange). The model predicts a low risk of 1-2\% in level IV for patients with clinically healthy level III. For patients with clinical involvement of level III, the risk of occult disease in level IV increases to approximately 3\% for early T-category and 5\% for advanced T-category tumors.
+{\it Level IV:} \autoref{fig:wg_IVandV_risks} (left panels) compares the risk of occult disease in level IV for the typical clinical presentations: clinically N0 (green), metastases in level II (blue), and metastases in levels II and III (orange). The model predicts a low risk of 1-2\% in level IV for patients with clinically healthy level III. For patients with clinical involvement of level III, the risk of occult disease in level IV increases to approximately 3\% for early T-category and 5\% for advanced T-category tumors.
 
-\begin{figure}
-    \script{wg_IV_risks.py}
+\begin{figure*}
+    \script{wg_IVandV_risks.py}
     \begin{centering}
-        \includegraphics[width=\linewidth]{figures/wg_IV_risks.png}
-        \caption{Distributions over the risk for microscopic involvement in \gls{lnl} IV as predicted by the winning graph model, given early (top panel) or advanced T-category (bottom panel), and three different CT-based diagnoses: 1) A clinical N0 patient (gray histogram), 2) visible metastases in \gls{lnl} II, but otherwise healthy-looking lymph nodes (blue histogram), and 3) macroscopic metastases in the \glspl{lnl} II \& III, with the rest of the neck still being clinically node negative (orange histogram).\label{fig:wg_IV_risks}}
+        \includegraphics{figures/wg_IVandV_risks.png}
+        \caption{Distributions over the risk for microscopic involvement in \gls{lnl} IV (left panels) and in \gls{lnl} V (right panels) as predicted by the winning graph model, given early (top panels) or advanced T-category (bottom panels), and different CT-based diagnoses: 1) A clinical N0 patient (green histograms), 2) visible metastases in \gls{lnl} II, but otherwise healthy-looking lymph nodes (blue histograms), 3) macroscopic metastases in the \glspl{lnl} II \& III, with the rest of the neck still being clinically node negative (orange histograms), and finally 4) extensive clinical involvement in the levels II, III, and IV (red histograms).\label{fig:wg_IVandV_risks}}
     \end{centering}
-\end{figure}
+\end{figure*}
 
-{\it Level V:} \autoref{fig:wg_V_risks} shows the risk of occult disease in level V depending on T-category and the clinical involvement of levels II-IV. For clinically N0 patients, the risk in level V is estimated to be just above 1\%. Extensive nodal involvement of levels II-IV increases the risk in level V to more than 4\% for advanced T-category tumors. 
-
-\begin{figure}
-    \script{wg_V_risks.py}
-    \begin{centering}
-        \includegraphics[width=\linewidth]{figures/wg_V_risks.png}
-        \caption{The winning graph's predictions over the risk for occult disease in \gls{lnl} V for early (top panel) and advanced T-category (bottom panel). Each of the risks is computed, given one of three diagnostic scenarios that were obtained by a CT scan: 1) A clinically healthy neck (green), 2) on CT imaging visible involvement in the \glspl{lnl} II \& III (orange) with the remaining levels still clinically negative, and 3) observed involvement in the levels II, III, and IV (red).\label{fig:wg_V_risks}}
-    \end{centering}
-\end{figure}
+{\it Level V:} The right panels in \autoref{fig:wg_IVandV_risks} shows the risk of occult disease in level V depending on T-category and the clinical involvement of levels II-IV. For clinically N0 patients, the risk in level V is estimated to be just above 1\%. Extensive nodal involvement of levels II-IV increases the risk in level V to more than 4\% for advanced T-category tumors. 
 
 {\it Level I:} \autoref{fig:wg_I_risks} shows the risk of occult disease in level I depending on T-category and the clinical involvement of levels II-IV. For clinically N0 patients, the risk in level I is estimated to be in the order of 1-2\%. Extensive nodal involvement of levels II-IV increases the risk in level I to just below 4\% for advanced T-category tumors. It is pointed out that the winning graph does not contain arcs from levels III or IV to \gls{lnl} I (and anatomically we do not assume that there is lymphatic drainage from levels III or IV to level I). Thus, the increased risk in level I is related to the time evolution: Getting diagnosed at a later time during the disease's evolution probably correlates with more advanced nodal metastasis. And involvement in the levels III and IV corresponds to a more advances state of disease that is likely diagnosed at a later time step, such that the tumor also had more time to spread to level I. The correlation between the clinical involvement pattern, the likely time of diagnosis in the tumor's time frame based on it, and from that the risk of involvement is another benefit of the formulation of the model as a \gls{hmm}.
 
