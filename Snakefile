@@ -4,7 +4,7 @@ rule get_dvc_files:
     output:
         "src/data/{filename}"
     shell:
-        "dvc update --verbose {input}"
+        "dvc update {input}"
 
 rule compute_prevalences:
     input:

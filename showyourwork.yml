@@ -123,7 +123,7 @@ run_cache_rules_on_ci: true
 # Mapping of script file extensions to instructions for executing them
 scripts:
   py: python {script}
-  dvc: dvc update --verbose {script}
+  dvc: dvc update {script}
 
 # Display of the `showyourwork` stamp on first page
 stamp:
