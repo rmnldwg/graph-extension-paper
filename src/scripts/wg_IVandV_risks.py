@@ -35,24 +35,22 @@ if __name__ == "__main__":
             Histogram.from_hdf5(
                 filename=INPUT,
                 dataname=f"{stage}/IV/N0",
-                label="given N0",
+                label="LNL IV, given N0",
                 color=USZ["green"],
             ),
             Histogram.from_hdf5(
                 filename=INPUT,
                 dataname=f"{stage}/IV/II",
-                label="given LNL II involved",
+                label="LNL IV, given LNL II involved",
                 color=USZ["blue"],
             ),
             Histogram.from_hdf5(
                 filename=INPUT,
                 dataname=f"{stage}/IV/IIandIII",
-                label="given LNL II & III involved",
+                label="LNL IV, given LNL II & III involved",
                 color=USZ["orange"],
             ),
         ]
-
-    axes[0,0].set_title("risk for LNL IV involvement", fontweight="bold")
 
     draw(axes[0,0], contents=left_panels["early"], xlims=(0., 7.), hist_kwargs={"nbins": 40})
     axes[0,0].set_ylabel("early T-cat.", fontweight="bold")
@@ -74,24 +72,22 @@ if __name__ == "__main__":
             Histogram.from_hdf5(
                 filename=INPUT,
                 dataname=f"{stage}/V/N0",
-                label="given N0",
+                label="LNL V, given N0",
                 color=USZ["green"],
             ),
             Histogram.from_hdf5(
                 filename=INPUT,
                 dataname=f"{stage}/V/IIandIII",
-                label="given LNL II & III involved",
+                label="LNL V, given LNL II & III involved",
                 color=USZ["orange"],
             ),
             Histogram.from_hdf5(
                 filename=INPUT,
                 dataname=f"{stage}/V/IIandIIIandIV",
-                label="given LNL II, III, IV involved",
+                label="LNL V, given LNL II, III, IV involved",
                 color=USZ["red"],
             ),
         ]
-
-    axes[0,1].set_title("risk for LNL V involvement", fontweight="bold")
 
     draw(axes[0,1], contents=right_panels["early"], xlims=(0., 6.), hist_kwargs={"nbins": 40})
     axes[0,1].set_yticks([])
