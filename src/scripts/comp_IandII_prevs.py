@@ -80,23 +80,20 @@ if __name__ == "__main__":
         ]
 
     draw(axes[0,0], contents=left_panels["early"], xlims=(0., 16.), hist_kwargs={"nbins": 40})
-    h, l = axes[0,0].get_legend_handles_labels()
-    handles = [*h[2:4], h[0], *h[4:6], h[1]]
-    labels = [*l[2:4], l[0], *l[4:6], l[1]]
     axes[0,0].set_ylim(bottom=0., top=1.5)
     axes[0,0].set_ylabel("early T-cat.", fontweight="bold")
     axes[0,0].set_yticks([])
-    axes[0,0].legend(handles=handles, labels=labels)
+    axes[0,0].legend()
 
     draw(axes[1,0], contents=left_panels["late"], xlims=(0., 16.), hist_kwargs={"nbins": 40})
     h, l = axes[1,0].get_legend_handles_labels()
-    handles = h[:2]
-    labels = l[:2]
+    h = h[2:6:3]
+    l = l[2:6:3]
     axes[1,0].set_ylim(bottom=0., top=1.2)
     axes[1,0].set_ylabel("late T-cat.", fontweight="bold")
     axes[1,0].set_yticks([])
     axes[1,0].set_xlabel("prevalence [%]")
-    axes[1,0].legend(handles=handles, labels=labels)
+    axes[1,0].legend(handles=h, labels=l)
 
 
     right_panels = {
@@ -150,18 +147,15 @@ if __name__ == "__main__":
         ]
 
     draw(axes[0,1], contents=right_panels["early"], xlims=(50., 90.), hist_kwargs={"nbins": 40})
-    h, l = axes[0,1].get_legend_handles_labels()
-    handles = [*h[2:4], h[0], *h[4:6], h[1]]
-    labels = [*l[2:4], l[0], *l[4:6], l[1]]
     axes[0,1].set_yticks([])
-    axes[0,1].legend(handles=handles, labels=labels)
+    axes[0,1].legend()
 
     draw(axes[1,1], contents=right_panels["late"], xlims=(50., 90.), hist_kwargs={"nbins": 40})
     h, l = axes[1,1].get_legend_handles_labels()
-    handles = h[:2]
-    labels = l[:2]
+    h = h[2:6:3]
+    l = l[2:6:3]
     axes[1,1].set_yticks([])
     axes[1,1].set_xlabel("prevalence [%]")
-    axes[1,1].legend(handles=handles, labels=labels)
+    axes[1,1].legend(handles=h, labels=l)
 
     plt.savefig(OUTPUT, dpi=300)

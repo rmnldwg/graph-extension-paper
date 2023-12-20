@@ -36,11 +36,6 @@ def draw_early_late_panels(panels, lnl, xlims, ylims=None, idx=0):
 
     draw(early_ax, contents=panels[lnl]["early"], xlims=xlims, hist_kwargs={"nbins": 80})
     draw(late_ax, contents=panels[lnl]["late"], xlims=xlims, hist_kwargs={"nbins": 80})
-    num = len(panels[lnl]["early"]) // 2
-
-    early_handles, early_labels = early_ax.get_legend_handles_labels()
-    sorted_early_handles = [early_handles[i * num + j] for j in range(num) for i in [1,0]]
-    sorted_early_labels = [early_labels[i * num + j] for j in range(num) for i in [1,0]]
 
     if ylims:
         early_ax.set_ylim(ylims)
@@ -48,18 +43,15 @@ def draw_early_late_panels(panels, lnl, xlims, ylims=None, idx=0):
     early_ax.get_xaxis().set_visible(False)
     early_ax.set_yticks([])
     early_ax.set_ylabel("early T-cat.", fontweight="bold")
-    early_ax.legend(sorted_early_handles, sorted_early_labels, labelspacing=0.3)
+    early_ax.legend(labelspacing=0.3)
 
     if ylims:
         late_ax.set_ylim(ylims)
 
-    late_handles, late_labels = late_ax.get_legend_handles_labels()
-    post_late_handles = late_handles[:num]
-    post_late_labels = late_labels[:num]
     late_ax.set_yticks([])
     late_ax.set_xlabel("prevalence [%]")
     late_ax.set_ylabel("late T-cat.", fontweight="bold")
-    late_ax.legend(post_late_handles, post_late_labels, labelspacing=0.3)
+    late_ax.legend(labelspacing=0.3)
 
 
 if __name__ == "__main__":
