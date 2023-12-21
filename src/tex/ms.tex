@@ -48,11 +48,20 @@
 
 
 % Affiliations
-\def \USZ {University Hospital Zurich, Rämistrasse 100, 8091 Zurich, Switzerland}
-\def \UZH {University of Zurich, Rämistrasse 71, 8006 Zurich, Switzerland}
-\def \ISB {Inselspital Bern, Freiburgstrasse 18, 3010 Bern, Switzerland}
-\def \CLB {Centre L\'eon B\'erard, 28 Rue Laennec, 69008 Lyon, France}
-\def \KS  {Klinikum Stuttgart, Kriegsbergstraße 60, 70174 Stuttgart, Germany}
+\def \USZ {Dep. of Radiation Oncology, University Hospital Zurich, Rämistrasse 100, 8091 Zurich (CH)}
+\def \UZH {Dep. of Physics, University of Zurich,  Rämistrasse 71, 8006 Zurich (CH)}
+
+\def \ISBrao {Dep. of Radiation Oncology, Bern University Hospital, University of Bern, Freiburgstrasse 18, 3010, Bern (CH)}
+\def \ISBsurgery {Dep. of ENT, Head \& Neck Surgery, Inselspital, Bern University Hospital, University of Bern, Freiburgstrasse 18, 3010 Bern (CH)}
+\def \ISBcancer {Head and Neck Anticancer Center, Bern University Hospital, University of Bern, Freiburgstrasse 18, 3010, Bern (CH)}
+\def \ISBpath {Institute of Tissue Medicine and Pathology, Bern University Hospital, University of Bern, Murtenstrasse 31, 3008 Bern (CH)}
+
+\def \RHNe {Dep. of ENT, Head \& Neck Surgery, R\'eseau Hospitalier Neuch\^atelois (RHNe),  Neuch\^atel (CH)}
+
+\def \CLBrao {Dep. of Radiation Oncology, Centre L\'eon B\'erard, 28 Rue Laennec, 69008 Lyon (FR)}
+\def \CLBsurgery {Dep. of Head and Neck surgery, Centre L\'eon B\'erard, 28 Rue Laennec, 69008 Lyon (FR)}
+
+\def \KS {Institute of Pathology, Klinikum Stuttgart, Kriegsbergstr. 60c, 70174 Stuttgart (GER)}
 
 
 % Author list
@@ -61,28 +70,32 @@
 \affiliation{\UZH}
 
 \author{Adrian Schubert}
-\affiliation{\ISB}
+\affiliation{\RHNe}
+\affiliation{\ISBsurgery}
+\affiliation{\ISBcancer}
 
 \author{Dorothea Barbatei}
-\affiliation{\CLB}
+\affiliation{\CLBrao}
 
 \author{Lauence Bauwens}
-\affiliation{\CLB}
+\affiliation{\CLBrao}
 
 \author[0000-0003-1193-0863]{Jean-Marc Hoffmann}
 \affiliation{\USZ}
 
 \author{Sandrine Werlen}
-\affiliation{\ISB}
+\affiliation{\ISBsurgery}
+\affiliation{\ISBcancer}
 
 \author[0000-0002-6996-0646]{Olgun Elicin}
-\affiliation{\ISB}
+\affiliation{\ISBrao}
 
 \author[0000-0003-0948-1392]{Matthias Dettmer}
 \affiliation{\KS}
+\affiliation{\ISBpath}
 
 \author[0000-0001-6223-6113]{Philippe Zrounba}
-\affiliation{\CLB}
+\affiliation{\CLBsurgery}
 
 \author[0000-0002-8060-7827]{Bertrand Pouymayou}
 \affiliation{\USZ}
@@ -91,10 +104,11 @@
 \affiliation{\USZ}
 
 \author{Vincent Grégoire}
-\affiliation{\CLB}
+\affiliation{\CLBrao}
 
 \author[0000-0002-5574-3210]{Roland Giger}
-\affiliation{\ISB}
+\affiliation{\ISBsurgery}
+\affiliation{\ISBcancer}
 
 \author[0000-0002-4275-990X]{Jan Unkelbach}
 \affiliation{\USZ}
@@ -280,7 +294,7 @@ More specifically, we use the Python implementation \texttt{emcee} \citep{forema
 For the experiments in this work, we used $W = 20 \cdot k$ walkers, where $k$ is the dimensionality of the parameter space $\boldsymbol{\Theta}$. After an initial ``burn-in'' phase, during which all drawn samples are discarded because they are not yet independent of the initial state, we continued sampling for another 200 steps of which we discarded every 10th to be left with $S = 20 \cdot W$ samples.
 
 These $S$ parameter estimates are then used to compute expectation values of estimates that depend on the parameters $\boldsymbol{\theta}$ through an integral over the parameter space $\boldsymbol{\Theta}$:
-%
+
 \begin{equation}
     \begin{aligned}
         \mathbb{E}_p \left[ f \right] &= \int_{\boldsymbol{\Theta}} p(\boldsymbol{\theta}) f(\boldsymbol{\theta}) d\boldsymbol{\theta} \\
@@ -292,12 +306,19 @@ Alternatively, the individual $\hat{f}_i = f\big( \boldsymbol{\hat{\theta}}_i \b
 
 Another relevant model parameter that needs to be set for the inference process, is the maximum number of time-steps we used for the evolution of the system. We set this value to $t_\text{max} = 10$, such that $t \in \{ 0, 1, 2, \ldots, 10 \}$. The binomial ``success probability'' used to fix the shape of the early T-category's time-prior was set to $p_\text{early} = 0.3$.
 
+\begin{figure}[t]
+    \script{thermo_int.py}
+    \centering
+    \includegraphics[width=\linewidth]{figures/thermo_int.png}
+    \caption{The expected log-accuracy under the power posterior plotted against the value of the inverse temperature $\beta$. These values were computed during a \gls{ti} run for the loosing graph model (red line), as well as the winning graph model (green line). Note that the scaling of the x-axis is chosen such that the 64 points on the temperature ladder appear evenly spaced. This is to stress how the log-accuracy develops in the range from $\beta=0$ to around $\beta=0.1$. The area under these two curves yields an approximation of the log-evidence of the respective model. It is barely visible that due to the simplicity of the loosing graph model its accuracy increases earlier and faster that the winning graph model's. However, already before $\beta=0.031$ the model based on the winning graph outperforms the loosing graph model. Ultimately, the winning graph's log-evidence is better than the loosing graph model's by a value of around \variable{output/evidence_diff.txt}(see \autoref{table:evidence}). \label{fig:thermo_int}}
+\end{figure}
+
 
 \subsection{Risk estimation}
 \label{subsec:formalism:risk}
 
 The main task for personalizing the \gls{ctv-n} definition is to predict the probability of the hidden possible states $\boldsymbol{\xi}_k$ given the diagnosis $d^\star=\boldsymbol{\zeta}_\ell$ of a new patient. Using Bayes' theorem, we get
-%
+
 \begin{equation}
     P\left( \mathbf{X}=\boldsymbol{\xi}_k \mid \mathbf{Z}=\boldsymbol{\zeta}_\ell \right) = \frac{P\left( \boldsymbol{\zeta}_\ell \mid \boldsymbol{\xi}_k \right) P\left( \boldsymbol{\xi}_k \mid \boldsymbol{\theta} \right)}{\sum_{r=1}^{2^V} P\left( \boldsymbol{\zeta}_\ell \mid \boldsymbol{\xi}_r \right) P\left( \boldsymbol{\xi}_r \mid \boldsymbol{\theta} \right) }
 \end{equation}
@@ -325,13 +346,6 @@ Subsequently, we can compute the marginalization as a dot product:
 
 \subsection{Investigating Spread Graphs}
 \label{subsec:complete_model:graphs}
-
-\begin{figure}
-    \script{thermo_int.py}
-    \centering
-    \includegraphics[width=\linewidth]{figures/thermo_int.png}
-    \caption{The expected log-accuracy under the power posterior plotted against the value of the inverse temperature $\beta$. These values were computed during a \gls{ti} run for the loosing graph model (red line), as well as the winning graph model (green line). Note that the scaling of the x-axis is chosen such that the 64 points on the temperature ladder appear evenly spaced. This is to stress how the log-accuracy develops in the range from $\beta=0$ to around $\beta=0.1$. The area under these two curves yields an approximation of the log-evidence of the respective model. It is barely visible that due to the simplicity of the loosing graph model its accuracy increases earlier and faster that the winning graph model's. However, already before $\beta=0.031$ the model based on the winning graph outperforms the loosing graph model. Ultimately, the winning graph's log-evidence is better than the loosing graph model's by a value of around \variable{output/evidence_diff.txt}(see \autoref{table:evidence}). \label{fig:thermo_int}}
-\end{figure}
 
 The \gls{dag} shown in \autoref{fig:graph_with_obs} includes the \glspl{lnl} II, III, and IV, which represent the most relevant lymph node levels for \gls{opscc}. It includes the arcs from II to III and from III to IV, representing the main direction of lymphatic drainage, which is well motivated anatomically and by the data on lymph node involvement. Previous publications  \citep{pouymayou_bayesian_2019,ludwig_hidden_2021} focused on these levels because they relied on a limited reconstructed dataset of \gls{opscc} patients \citep{sanguineti_defining_2009}. Now, with the datasets available for this work, we can extend the graph to include random variables for all \glspl{lnl} that are relevant for \gls{opscc}: I, II, III, IV, V, and VII. The main question to answer is: which arcs between \glspl{lnl} are needed to accurately model the data on lymph node involvement without increasing the model's complexity unnecessarily.
 
@@ -389,7 +403,7 @@ However, this quantity is often very hard to compute or even intractable, due to
 Below, we will briefly outline the main concept behind this algorithm. An intuitive and extensive derivation of \gls{ti} is given by \citep{aponte_introduction_2022}.
 
 We start by taking the logarithm of the model evidence $E$ and subtract a zero from it in the form of the term $0 = \ln \int p(\boldsymbol{\theta} \mid \mathcal{M}) d\boldsymbol{\theta}$. Further, we can multiply the distribution over the parameters $\boldsymbol{\theta}$ inside this integral by $1 = P \left( \boldsymbol{\mathcal{D}} \mid \boldsymbol{\theta}, \mathcal{M} \right)^{\beta=0}$. Subsequently, we can write the logarithm of the evidence as an integral over a derivative:
-%
+
 \begin{equation} \label{eq:ti}
     \begin{aligned}
         \ln E &= \ln \int P \left( \boldsymbol{\mathcal{D}} \mid \boldsymbol{\theta}, \mathcal{M} \right)^{\beta=1} p \left( \boldsymbol{\theta} \mid \mathcal{M} \right) d\boldsymbol{\theta} - \ln E_0 \\
@@ -494,7 +508,6 @@ The dataset $\boldsymbol{\mathcal{D}}$ that we used for inference is comprised o
 In total, the dataset contains \variable{output/num_patients.txt}patients with newly diagnosed \gls{opscc}. It includes patients treated with definitive (chemo)radiotherapy, adjuvant (chemo)radiotherapy following neck dissection, or neck dissection alone. Pathologically assessed \gls{lnl} involvement was available for 263 surgically treated patients, while for the remainder the nodal involvement was assessed based on available diagnostic modalities (FDG-PET-CT, CT, MRI, FNA). If multiple modalities were used to diagnose a patient's lymph node involvement, the available modalities were combined into a consensus decision. When different modalities were conflicting, the conflicts were resolved by inferring the most likely state (healthy or metastatic) for each \gls{lnl} separately. To do so, we used literature values for the sensitivity and specificity of the diagnostic modalities \citep{de_bondt_Detection_2007,kyzas_18f-fluorodeoxyglucose_2008}, which we also tabulated in \autoref{table:sens_spec}. Practically, this means that, whenever pathology after neck dissection was available, the pathology result was taken as the consensus, overruling any other clinical diagnostic modality. If, for example, PET-CT and MRI ware available and conflicting, PET-CT was taken as the consensus, overruling MRI.
 
 The dataset containing the consensus decision for the involvement of each level in every patient was then used for model parameter learning. We assumed that it represents an observation of the true hidden state $\boldsymbol{\xi}_k$. The frequencies of some of the most important combinations of involved lymph node levels are listed in \autoref{table:data_prevalence}.
-\clearpage
 
 \begin{figure*}[!ht]
     \centering
@@ -548,29 +561,19 @@ Based on these results, we consider three additional candidates for the optimal 
 
 \autoref{table:evidence} additionally shows the evidence of graphs in which the arc from level II to III or from level III to IV is removed. The low model evidence for these graphs confirms the importance of these connections and is consistent with the anatomical motivation. The connection from level III to IV is crucial for describing the observation that metastases in level IV are extremely rare without simultaneous involvement of the upstream level III. \looseness=-1
 
-\begin{deluxetable}{lrr}[t]
-    \tablecaption{Mean and standard deviation of parameters sampled for the winning graph in percent. \label{table:params}}
-    \tablehead{
-        \textbf{parameter} & \textbf{mean} & \textbf{std. dev.}
-    }
-    \startdata
-    \variable{output/means_table.tex}%
-    \enddata
-\end{deluxetable}
-
 
 \subsection{The winning graph}
 \label{subsec:results:optimal_graph}
 
 The most likely model parameters for the winning graph, corresponding to the mean of the marginals of the sampled posterior distributions, are tabulated in \autoref{table:params}. We have fixed $p_\text{early}=0.3$ for early T-category tumors (i.e., T0, T1, and T2), and $t_\text{max}=10$ time steps. The result that $t_{\text{II} \rightarrow \text{III}}$ and $t_{\text{III} \rightarrow \text{IV}}$ are relatively large compared to $b_\text{III}$ and $b_\text{IV}$ reflects the observation that skip metastases in levels III and IV without involvement of the upstream level are rare. Since level II's parent node (level I) is rarely involved, $b_\text{II}$ can approximately be related to the prevalence of involvement in level II. The probability for no involvement of level II when the patient is diagnosed after $t$ time steps is $\left(1-b_\text{II}\right)^t$. The prevalence of level II involvement for advanced T-category patients is thus
-
+%
 \begin{equation}
     \begin{aligned}
         \text{prev}_\text{late}^\text{II} &= 1-\sum_{t=0}^{10} \left(1-b_\text{II}\right)^t \cdot p_\text{late}^t \, (1-p_\text{late})^{(10-t)}\binom{10}{t} \\
         &\approx 79 \%
     \end{aligned}
 \end{equation}
-%
+
 which agrees with the second panel from the top in \autoref{fig:bg_prevalences}. 
 The large value for the parameter $t_{\text{I} \rightarrow \text{II}}$ reflects the observation that in almost all patients with level I involvement, level II is also involved. The large uncertainty in $t_{\text{I} \rightarrow \text{II}}$ is related to the fact that level I involvement is rare compared to level II.
 
@@ -589,8 +592,17 @@ We can observe that the winning graph describes the involvement of levels II, II
 
 {\it Level V:} In \autoref{fig:IIIandIVandV_prevs} we compare the base graph's and the winning graph's estimations for prevalences of involvement patterns that include \gls{lnl} V. The base graph underestimates the probability that level IV and V are simultaneously involved, and overestimates the probability that level V but not IV is involved. By introducing the arc from level IV to V, the winning graph can describe the observation that level V involvement is typically associated with severe involvement of level II-IV. In the dataset, 14 patients out of 62 patients with level IV involvement have metastases in level V (22 \%). Instead, only 40 patients out of 624 patients without level IV involvement have metastases in level V (6 \%).
 
-
 {\it Level I:} In \autoref{fig:IandII_prevs}, analogous comparisons are shown for involvement patterns that include \gls{lnl} I. The base graph overestimates the probability of level I involvement without simultaneous involvement of level II. By introducing the arc from level I to II, the winning graph can capture the correlations between levels I and II. It can also be noted that both models overestimate level I involvement for early T-category patients and underestimate level I involvement for advanced T-category patients. This is further described in the discussion section below.
+
+\begin{deluxetable}{lrr}[b]
+    \tablecaption{Mean and standard deviation of parameters sampled for the winning graph in percent. \label{table:params}}
+    \tablehead{
+        \textbf{parameter} & \textbf{mean} & \textbf{std. dev.}
+    }
+    \startdata
+    \variable{output/means_table.tex}%
+    \enddata
+\end{deluxetable}
 
 
 \subsection{Risk Prediction for Occult Disease}
@@ -600,7 +612,7 @@ In this section, the model corresponding to the winning graph is applied to esti
 
 {\it Level II:} As can be seen in \autoref{table:params}, spread from the tumor to \gls{lnl} II to be the most probable transition at any given time step. As a consequence, even for an early T-category patient that presents with a clinical N0 neck, our model predicts a \variable{output/wg_II_risks.tex}risk for microscopic metastases in \gls{lnl} II.
 
-\begin{figure}
+\begin{figure}[b]
     \script{wg_III_risks.py}
     \begin{centering}
         \includegraphics[width=\linewidth]{figures/wg_III_risks.png}
@@ -681,9 +693,13 @@ Also, as described in \autoref{sec:data}, we assumed the consensus of the data t
 Discussing the possible origins for this discrepancy is beyond the scope of this work. Assuming the consensus to represent the true hidden state of a patient nonetheless allowed us to investigate if the model can describe plausible patterns of nodal involvement well. Future work may aim at developing new methods to model the difference between pathological and clinical lymph node involvement based on surgically treated patients in whom both is reported.
 
 
-\section{Acknowledgments}
+\begin{acknowledgments}
 
 This work was supported by the Swiss Cancer Research Foundation under grant \href{https://www.krebsforschung.ch/unterstuetzen-sie-uns/stiftungen/-dl-/fileadmin/downloads/unterstuetzen-sie-uns/projekte-der-stiftung-krebsforschung-schweiz-2023.pdf}{KFS 5645-08-2022} and by the University Zürich under the Clinical Research Priority Program \href{https://www.crpp-ai-oncology.uzh.ch/en/Projects/Project-5.html}{Artificial Intelligence in Oncological Imaging}.
+
+\end{acknowledgments}
+
+\clearpage
 
 \bibliography{bib}
 
