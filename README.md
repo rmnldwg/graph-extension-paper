@@ -13,6 +13,10 @@
 <a href="https://github.com/rmnldwg/graph-extension/raw/main-pdf/ms.pdf">
 <img src="https://img.shields.io/badge/article-pdf-blue.svg?style=flat" alt="Read the article"/>
 </a>
+<br>
+<a href="https://doi.org/10.48550/arXiv.2312.11270">
+<img src="https://img.shields.io/badge/ar%CF%87iv-2312.11270-b31b1b" alt="arXiv preprint">
+</a>
 </p>
 
 # Modelling Lymphatic Metastatic Progression in HNSCC: Extending the Graph
