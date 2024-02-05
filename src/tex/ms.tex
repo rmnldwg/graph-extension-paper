@@ -696,6 +696,27 @@ Also, as described in \autoref{sec:data}, we assumed the consensus of the data t
 Discussing the possible origins for this discrepancy is beyond the scope of this work. Assuming the consensus to represent the true hidden state of a patient nonetheless allowed us to investigate if the model can describe plausible patterns of nodal involvement well. Future work may aim at developing new methods to model the difference between pathological and clinical lymph node involvement based on surgically treated patients in whom both is reported.
 
 
+\section*{Author Contributions}
+
+RL and JU wrote the main manuscript. RL created all figures and tables. AS, SW, OE, MD, and RG collected the \gls{isb} patient data. DB, LB, PZ, and VG collected the \gls{clb} datasets. JMH, BP, PB, RL, and JU collected the table of \gls{usz} patients. All authors reviewed the manuscript.
+
+
+\section*{Data Availability}
+
+The patient data detailing lymphatic involvement is publicly available in the form of CSV tables in the GitHub repository \href{https://github.com/rmnldwg/lydata}{\texttt{rmnldwg/lydata}}.
+
+In another GitHub repository, \href{https://github.com/rmnldwg/lynference}{\texttt{rmnldwg/lynference}}, we define the experiments based on different graph structures. These experiments are reproducible via the tool \href{https://dvc.org}{DVC} and their locally computed results are uploaded to an Azure blob storage container.
+
+Lastly, the \LaTeX\ source code, all Python scripts to generate the figures and tables in this work, and the pipeline definition to build the document (using \showyourwork) are made public in the GitHub repository \href{https://github.com/rmnldwg/graph-extension-paper}{\texttt{rmnldwg/graph-extension-paper}}. To rebuild it, the \showyourwork tool pulls the patient data from the \href{https://github.com/rmnldwg/lynference}{\texttt{rmnldwg/lynference}} repository and the trained models in the form of \gls{mcmc} samples from the Azure blob storage container, then runs the Python scripts and compiles the \LaTeX\ article.
+
+Detailed instructions on how to reproduce the entire pipeline, including the individual experiments, are gladly given upon request. They may also be found in the respective repository's \texttt{README.md} file.
+
+
+\section*{Competing Interests}
+
+The authors declare no competing interests.
+
+
 \begin{acknowledgments}
 
 This work was supported by the Swiss Cancer Research Foundation under grant \href{https://www.krebsforschung.ch/unterstuetzen-sie-uns/stiftungen/-dl-/fileadmin/downloads/unterstuetzen-sie-uns/projekte-der-stiftung-krebsforschung-schweiz-2023.pdf}{KFS 5645-08-2022} and by the University Zürich under the Clinical Research Priority Program \href{https://www.crpp-ai-oncology.uzh.ch/en/Projects/Project-5.html}{Artificial Intelligence in Oncological Imaging}.
