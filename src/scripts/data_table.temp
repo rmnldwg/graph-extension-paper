@@ -1,4 +1,4 @@
 {% for early, late in scenarios.early | zip(scenarios.late) %}{{ early.pattern | get_lnl("I") }} & {{ early.pattern | get_lnl("II") }} & {{ early.pattern | get_lnl("III") }} & {{ early.pattern | get_lnl("IV") }} & {{ early.pattern | get_lnl("V") }} & {{ early.pattern | get_lnl("VII") }} & {{ early.num_success }} & ({{ early | prev }}) & {{ late.num_success }} & ({{ late | prev }}) \\
 {% endfor %}
 \hline
-\multicolumn{6}{c}{total} & {{ scenarios.early.0.num_total }} & & {{ scenarios.late.0.num_total }} &
+\multicolumn{6}{|c}{total} & {{ scenarios.early.0.num_total }} & & {{ scenarios.late.0.num_total }} &
