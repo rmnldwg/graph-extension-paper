@@ -491,15 +491,6 @@ An approximation to the evidence that also attempts to balance accuracy and comp
 %
 Here, $\hat{\mathcal{L}} = \max_{\boldsymbol{\theta}}{\left( \ln P \left( \boldsymbol{\mathcal{D}} \mid \boldsymbol{\theta} \right)\right)}$ is the maximum log-likelihood. The approximation is good, when the posterior distribution over the parameters $p\left( \boldsymbol{\theta} \mid \boldsymbol{\mathcal{D}} \right)$ is single-modal and falls quickly to zero from the maximum. Also, the number of data points $N$ needs to be much larger than the number of parameters $k$. We will see that for the models we consider here, the \gls{bic} is generally a good approximation and the conclusions drawn from comparing models using this metric can be reproduced reliably using the true model evidence computed with \gls{ti}.
 
-\vspace{5mm}
-
-\subsection{Reproducibility}
-\label{subsec:complete_model:reproducibility}
-
-The entire methodology used in this work is publicly available in the GitHub repository \href{https://github.com/rmnldwg/lynference}{\texttt{rmnldwg/lynference}}. Tagged references to specific versions of an inference pipeline allow reproducing the inferred parameters of the models described here. Every parameter necessary to reproduce such a pipeline is specified there in designated configuration files. It also defines the sequences of computations that constitute the pipeline that are mostly calls to commands of the \href{https://pypi.org/project/lyscripts/}{\texttt{lyscripts}} we published.
-
-All figures in this work, like the risk predictions and prevalences we show histograms of, can be reproduced following the instructions of the GitHub repository underlying this publication \href{https://github.com/rmnldwg/graph-extension-paper}{\texttt{rmnldwg/graph-extension-paper}}. It is based off of the \href{https://show-your.work}{showyourwork} project that aims to make scientific papers easily and fully reproducible.
-
 
 \section{Multicentric Dataset}
 \label{sec:data}
@@ -638,8 +629,6 @@ In this section, the model corresponding to the winning graph is applied to esti
 {\it Level I:} \autoref{fig:wg_I_risks} shows the risk of occult disease in level I depending on T-category and the clinical involvement of levels II-IV. For clinically N0 patients, the risk in level I is estimated to be in the order of 1-2\%. Extensive nodal involvement of levels II-IV increases the risk in level I to just below 4\% for advanced T-category tumors. It is pointed out that the winning graph does not contain arcs from levels III or IV to \gls{lnl} I (and anatomically we do not assume that there is lymphatic drainage from levels III or IV to level I). Thus, the increased risk in level I is related to the time evolution: Getting diagnosed at a later time during the disease's evolution probably correlates with more advanced nodal metastasis. And involvement in the levels III and IV corresponds to a more advances state of disease that is likely diagnosed at a later time step, such that the tumor also had more time to spread to level I. The correlation between the clinical involvement pattern, the likely time of diagnosis in the tumor's time frame based on it, and from that the risk of involvement is another benefit of the formulation of the model as a \gls{hmm}.
 
 To illustrate the flexibility of the model in predicting various risks, we have plotted the risk for occult disease in \textit{any} of the \glspl{lnl} I, IV, and/or V, given different clinical diagnoses in \autoref{fig:wg_any_risks}. Similar to this, we may compute the risk for an arbitrary combination of involved levels, given a similarly arbitrary clinical diagnosis. For the base graph (\href{https://lyprox.org/riskpredictor/9}{\texttt{base-graph-v2}}) and the winning graph (\href{https://lyprox.org/riskpredictor/8}{\texttt{win-graph-v3}}), one may also interactively explore these risks in our web-based interface \href{https://lyprox.org/riskpredictor/list}{LyProX}, similar to how it is possible to explore the underlying data in an interactive way.
-
-\clearpage
 
 \begin{figure}
     \script{wg_I_risks.py}
