@@ -318,7 +318,7 @@ Subsequently, we can compute the marginalization as a dot product:
 \end{equation}
 
 
-\section{Complete Model\\ of Ipsilateral Spread in OPSCC}
+\section{Complete Model\\of Ipsilateral Spread in OPSCC}
 \label{sec:complete_model}
 
 \subsection{Investigating Spread Graphs}
@@ -445,7 +445,7 @@ For the \glspl{ti} that were performed in this work we used such a fifth order p
 \label{table:data_prevalence}
 \end{table}
 
-\begin{figure*}[!h]
+\begin{figure*}
     \script{bg_core_prevs.py}
     \begin{centering}
         \includegraphics[width=\textwidth]{figures/bg_core_prevs.png}
@@ -463,7 +463,7 @@ And then computed the mean and standard deviation of all the integrated $\ln \ha
 
 Without derivation or insight, we would like to mention that the model evidence naturally balances a model's accuracy against its complexity. The value of $\ln E$ will generally be larger (i.e., less negative) if a model fits the data better than another while being similarly complex. On the other hand, if e.g. additional parameters are introduced without sufficiently improving how well the model explains the data, the evidence will penalize the increase in complexity.
 
-An approximation to the evidence that also attempts to balance accuracy and complexity against each other is the heuristic called \gls{bic}. The negative one half of the \gls{bic} approximates the $\ln E$ via Lagrange's method \cite{bhat_Derivation_2010} and yields an easy to compute estimate that may also be used to compare models, as long as its underlying assumptions are valid:
+An approximation to the evidence that also attempts to balance accuracy and complexity against each other is the heuristic called \gls{bic}. The negative one half of the \gls{bic} approximates the $\ln E$ via Lagrange's method \cite{bhat_derivation_2010} and yields an easy to compute estimate that may also be used to compare models, as long as its underlying assumptions are valid:
 %
 \begin{equation} \label{eq:bic}
     - \text{BIC} / 2 = \ln{\hat{\mathcal{L}}} - \frac{k}{2} \ln{N} \approx \ln{E}
@@ -477,7 +477,7 @@ Here, $\hat{\mathcal{L}} = \max_{\boldsymbol{\theta}}{\left( \ln P \left( \bolds
 
 The dataset $\boldsymbol{\mathcal{D}}$ that we used for inference is comprised of the detailed reports on lymph node involvement patterns in \gls{opscc} patients treated at three different institutions in France and Switzerland: The \gls{clb} in Lyon (France), the \gls{isb} in Bern (Switzerland), and the \gls{usz} in Zürich (Switzerland). We have previously published the patterns of nodal involvement for the \gls{usz} cohort (287 patients) \cite{ludwig_dataset_2022,ludwig_lydata_2023} and described its characteristics in detail \cite{ludwig_detailed_2022}. The first \gls{clb} dataset (263 patients) \cite{ludwig_lydata_2022} underlies a publication on \gls{hpv} status in \gls{opscc} \cite{bauwens_prevalence_2021} and is made available in a separate ``Data in Brief'' article alongside the second dataset from France \cite{ludwig_lydata_2023-2} and the lymphatic progression patterns from the \gls{isb} \cite{ludwig_lydata_2023-1,ludwig_multi-centric_2023}. All datasets may be explored online in our web-based interface \href{https://lyprox.org}{LyProX}.
 
-In total, the dataset contains \variable{output/num_patients.txt}patients with newly diagnosed \gls{opscc}. It includes patients treated with definitive (chemo)radiotherapy, adjuvant (chemo)radiotherapy following neck dissection, or neck dissection alone. Pathologically assessed \gls{lnl} involvement was available for 263 surgically treated patients, while for the remainder the nodal involvement was assessed based on available diagnostic modalities (FDG-PET-CT, CT, MRI, FNA). If multiple modalities were used to diagnose a patient's lymph node involvement, the available modalities were combined into a consensus decision. When different modalities were conflicting, the conflicts were resolved by inferring the most likely state (healthy or metastatic) for each \gls{lnl} separately. To do so, we used literature values for the sensitivity and specificity of the diagnostic modalities \cite{de_bondt_Detection_2007,kyzas_18f-fluorodeoxyglucose_2008}, which we also tabulated in \cref{table:sens_spec}. Practically, this means that, whenever pathology after neck dissection was available, the pathology result was taken as the consensus, overruling any other clinical diagnostic modality. If, for example, PET-CT and MRI ware available and conflicting, PET-CT was taken as the consensus, overruling MRI.
+In total, the dataset contains \variable{output/num_patients.txt}patients with newly diagnosed \gls{opscc}. It includes patients treated with definitive (chemo)radiotherapy, adjuvant (chemo)radiotherapy following neck dissection, or neck dissection alone. Pathologically assessed \gls{lnl} involvement was available for 263 surgically treated patients, while for the remainder the nodal involvement was assessed based on available diagnostic modalities (FDG-PET-CT, CT, MRI, FNA). If multiple modalities were used to diagnose a patient's lymph node involvement, the available modalities were combined into a consensus decision. When different modalities were conflicting, the conflicts were resolved by inferring the most likely state (healthy or metastatic) for each \gls{lnl} separately. To do so, we used literature values for the sensitivity and specificity of the diagnostic modalities \cite{de_bondt_detection_2007,kyzas_18f-fluorodeoxyglucose_2008}, which we also tabulated in \cref{table:sens_spec}. Practically, this means that, whenever pathology after neck dissection was available, the pathology result was taken as the consensus, overruling any other clinical diagnostic modality. If, for example, PET-CT and MRI ware available and conflicting, PET-CT was taken as the consensus, overruling MRI.
 
 The dataset containing the consensus decision for the involvement of each level in every patient was then used for model parameter learning. We assumed that it represents an observation of the true hidden state $\boldsymbol{\xi}_k$. The frequencies of some of the most important combinations of involved lymph node levels are listed in \cref{table:data_prevalence}.
 
