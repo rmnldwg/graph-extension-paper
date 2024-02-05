@@ -22,7 +22,7 @@
 # Modelling Lymphatic Metastatic Progression in HNSCC: Extending the Graph
 
 **Authors:** 
-_Roman Ludwig_[^USZ], _Adrian Schubert_[^ISB], _Dorothea Barbatei_[^CLB], _Jean-Marc Hoffmann_[^USZ], _Sandrine Werlen_[^ISB], _Olgun Elicin_[^ISB], _Matthias Dettmer_[^ISB], _Philippe Zrounba_[^CLB], _Bertrand Pouymayou_[^USZ], _Panagiotis Balermpas_[^USZ], _Lauence Bauwens_[^CLB], _Vincent Grégoire_[^CLB], _Roland Giger_[^ISB], _Jan Unkelbach_[^USZ],
+_Roman Ludwig_[^USZ], _Adrian Schubert_[^ISB], _Dorothea Barbatei_[^CLB], _Lauence Bauwens_[^CLB], _Jean-Marc Hoffmann_[^USZ], _Sandrine Werlen_[^ISB], _Olgun Elicin_[^ISB], _Matthias Dettmer_[^ISB], _Philippe Zrounba_[^CLB], _Bertrand Pouymayou_[^USZ], _Panagiotis Balermpas_[^USZ], _Vincent Grégoire_[^CLB], _Roland Giger_[^ISB], and _Jan Unkelbach_[^USZ]
 
 This publications presents an extension of our earlier work on modelling how head and neck cancer spreads through the lymphatic system [^@ludwig_2021] to include a larger dataset for training and more modelled lymph node levels.
 
