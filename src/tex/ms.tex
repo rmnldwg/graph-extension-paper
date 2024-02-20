@@ -148,7 +148,7 @@ We previously developed a model of lymphatic metastatic progression for estimati
 We have introduced a probabilistic model for lymph node involvement based on \glspl{bn} in \cite{pouymayou_bayesian_2019}. The model was extended using \glspl{hmm} in \cite{ludwig_hidden_2021}. We will briefly recap the \acrlong{hmm} to introduce the notation used throughout the work.
 
 A patient's state of (hidden) lymphatic involvement at time $t$ is described as a collection of binary \glspl{rv}, one for each of the $V$ \glspl{lnl}:
-%
+
 \begin{equation}
     \mathbf{X}[t] = \left( X_v[t] \right) \qquad v \in \left\{ 1,2, \ldots, V \right\}
 \end{equation}
@@ -530,7 +530,7 @@ It is interesting to note that not all involvement patterns become more prevalen
 \label{table:evidence}
 \end{table}
 
-The model evidences of all candidate graphs are reported in \cref{table:evidence}. A visual ranking is provided in \cref{fig:ranking}. Let us first consider the six models in which one of the candidate arcs is added to the base graph. Evidently, adding a connection from \gls{lnl} I to II is strongly supported given this dataset, and is slightly superior to the reverse connection from \gls{lnl} II to I. In addition, there is strong evidence for introducing an arc from \gls{lnl} IV to V. Furthermore, there is substantial evidence for an arc from \gls{lnl} III to V. All other investigated additions lead to improvements that are barely worth a mention or do not justify the additional complexity at all, indicated by a lower evidence. 
+The model evidences of all candidate graphs are reported in \cref{table:evidence}. For the graph with the highest and lowest model evidence, the expected log-accuracy is plotted against the inverse temperature in \cref{fig:thermo_int}. A visual ranking is provided in \cref{fig:ranking}. Let us first consider the six models in which one of the candidate arcs is added to the base graph. Evidently, adding a connection from \gls{lnl} I to II is strongly supported given this dataset, and is slightly superior to the reverse connection from \gls{lnl} II to I. In addition, there is strong evidence for introducing an arc from \gls{lnl} IV to V. Furthermore, there is substantial evidence for an arc from \gls{lnl} III to V. All other investigated additions lead to improvements that are barely worth a mention or do not justify the additional complexity at all, indicated by a lower evidence. 
 
 Based on these results, we consider three additional candidates for the optimal graph that combine the added arc from \gls{lnl} I to II with the arc(s) $\text{III} \rightarrow \text{V}$ and/or $\text{IV} \rightarrow \text{V}$. The model evidence for these three graphs is also reported in \cref{table:evidence}. The best performing graph with decisive evidence over the base graph turned out to be the one which combines the arcs from \gls{lnl} I to II and IV to V. Interestingly, the evidence gain of this ``winning graph'' is roughly the sum of the gains seen in the two candidates where only one of these connections was added, respectively. This indicates that the two additional parameters are largely independent of each other and manage to describe different aspects of the data.
 
