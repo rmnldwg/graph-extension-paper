@@ -37,7 +37,7 @@ NSTEP = 11
 MAX_T = 10
 TIME_STEPS = np.arange(MAX_T + 1)
 CMAP = LinearSegmentedColormap.from_list(
-    "usz_cmap", [USZ["green"], USZ["gray"], USZ["red"]]
+    "usz_cmap", [USZ["blue"], USZ["gray"], USZ["red"]]
 )
 
 
