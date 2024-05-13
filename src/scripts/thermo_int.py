@@ -51,26 +51,30 @@ if __name__ == "__main__":
         y="win",
         ax=axes[0],
         color=USZ["blue"],
-        label="win graph",
     )
     accuracies.plot(
         x="β",
         y="diff",
         ax=axes[1],
         color=USZ["red"],
-        label="win graph - base graph",
     )
     axes[1].axhline(0., color="black", linestyle="--")
+
+    axes[0].legend().remove()
+    axes[1].legend().remove()
 
     xticks = np.linspace(0., 1., 7)
     xticklabels = [f"{x**POWER:.2g}" for x in xticks]
 
+    axes[0].set_title("Accuracy of the winning graph", fontsize="small", pad=3)
     axes[0].set_yscale("symlog",)
     axes[0].get_yaxis().set_major_locator(matplotlib.ticker.MultipleLocator(900))
     axes[0].get_yaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
     axes[0].ticklabel_format(axis="y", style="sci", scilimits=(3,3))
     axes[0].set_ylabel(r"$\ln \mathcal{A}_{MC}(\beta)$")
+    axes[0].tick_params(axis="x", which="both", top=False, bottom=False)
 
+    axes[1].set_title("Difference btw. base and winning graph", fontsize="small", pad=3)
     axes[1].set_yscale("symlog",)
     axes[1].set_yticks([-100, -10, 0, 10, 100])
     axes[1].get_yaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
@@ -81,6 +85,7 @@ if __name__ == "__main__":
     axes[1].set_xticklabels(xticklabels)
     axes[1].set_xlim(left=0., right=1.)
     axes[1].set_xlabel(r"inverse temperature $\beta$")
+    
 
     fig.align_ylabels(axes)
     fig.savefig(OUTPUT, dpi=400)
