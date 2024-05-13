@@ -14,8 +14,8 @@ import paths
 
 
 ACCURACY_PATHS = {
-    "lose": paths.data / "loose_accuracies.csv",
-    "win" : paths.data / "win_accuracies.csv",
+    "base": paths.data / "bg_accuracies.csv",
+    "win" : paths.data / "wg_accuracies.csv",
 }
 OUTPUT = (paths.figures / Path(__file__).name).with_suffix(".png")
 POWER = 3
@@ -28,14 +28,14 @@ if __name__ == "__main__":
     fig, axes = plt.subplots(nrows=2, ncols=1, sharex=True)
 
     accuracies = pd.read_csv(
-        ACCURACY_PATHS["lose"]
+        ACCURACY_PATHS["base"]
     ).rename(
-        columns={"accuracy": "lose graph"}
+        columns={"accuracy": "base"}
     ).join(
         pd.read_csv(
             ACCURACY_PATHS["win"]
         ).rename(
-            columns={"accuracy": "win graph"}
+            columns={"accuracy": "win"}
         ).drop(
             columns="β"
         ),
@@ -44,21 +44,21 @@ if __name__ == "__main__":
 
     accuracies = accuracies.drop(columns=["std_", "std"])
     accuracies["β"] = accuracies["β"] ** (1./POWER)
-    accuracies["diff"] = accuracies["win graph"] - accuracies["lose graph"]
+    accuracies["diff"] = accuracies["win"] - accuracies["base"]
 
     accuracies.plot(
         x="β",
-        y="win graph",
+        y="win",
         ax=axes[0],
         color=USZ["blue"],
-        label="winning graph",
+        label="win graph",
     )
     accuracies.plot(
         x="β",
         y="diff",
         ax=axes[1],
         color=USZ["red"],
-        label="winning - losing graph",
+        label="win graph - base graph",
     )
     axes[1].axhline(0., color="black", linestyle="--")
 
@@ -71,6 +71,11 @@ if __name__ == "__main__":
     axes[0].ticklabel_format(axis="y", style="sci", scilimits=(3,3))
     axes[0].set_ylabel(r"$\ln \mathcal{A}_{MC}(\beta)$")
 
+    axes[1].set_yscale("symlog",)
+    axes[1].set_yticks([-100, -10, 0, 10, 100])
+    axes[1].get_yaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
+    axes[1].ticklabel_format(axis="y", style="sci", scilimits=(2,2))
+    axes[1].tick_params(axis="y", which="minor", left=False, right=False)
     axes[1].set_ylabel(r"$\Delta \ln \mathcal{A}_{MC}(\beta)$")
     axes[1].set_xticks(xticks)
     axes[1].set_xticklabels(xticklabels)
