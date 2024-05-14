@@ -37,7 +37,7 @@ NSTEP = 11
 MAX_T = 10
 TIME_STEPS = np.arange(MAX_T + 1)
 CMAP = LinearSegmentedColormap.from_list(
-    "usz_cmap", [USZ["green"], USZ["gray"], USZ["red"]]
+    "usz_cmap", [USZ["blue"], USZ["gray"], USZ["red"]]
 )
 
 
@@ -80,7 +80,7 @@ if __name__ == "__main__":
         extent=(47.5, 102.5, 47.5, 102.5),
         cmap=CMAP,
     )
-    axes.set_title("LNL IV, given LNL II, III involved", fontweight="bold")
+    axes.set_title("Predicted risk of involvement in LNL IV\ngiven LNL II and III are diagnosed", fontweight="bold")
 
     labels = [f"{100*v:.0f}" for v in np.linspace(0.5, 1., 6)]
 

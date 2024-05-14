@@ -1,0 +1,14 @@
+wdir: ../data
+frozen: true
+deps:
+- path: ./plots/ti/accuracies.csv
+  repo:
+    url: https://github.com/rmnldwg/lynference
+    rev: base-graph-v2
+    rev_lock: 10070802eb993b258130e11c80861a1294e28493
+outs:
+- hash: md5
+  path: bg_accuracies.csv
+  md5: 34d6bd9783a2c8c5e889fb3b3f4f180f
+  size: 3725
+md5: cafe9156d1d9e657c46e1ead7033df64
