@@ -39,7 +39,7 @@ if __name__ == "__main__":
             Histogram.from_hdf5(
                 filename=WIN_GRAPH_INPUT,
                 dataname=f"I/{stage}",
-                label="LNL I overall",
+                label="winning graph",
                 color=USZ["blue"],
             ),
             Histogram.from_hdf5(
@@ -60,7 +60,7 @@ if __name__ == "__main__":
             Histogram.from_hdf5(
                 filename=WIN_GRAPH_INPUT,
                 dataname=f"InotII/{stage}",
-                label="LNL I without II",
+                label="winning graph",
                 color=USZ["green"],
             ),
             Histogram.from_hdf5(
@@ -79,21 +79,61 @@ if __name__ == "__main__":
             ),
         ]
 
+    for stage in ["early", "late"]:
+        for content in left_panels[stage]:
+            if isinstance(content, Posterior):
+                content.kwargs["label"] = f"{content.num_success} / {content.num_total} patients"
+
     draw(axes[0,0], contents=left_panels["early"], xlims=(0., 16.), hist_kwargs={"nbins": 40})
+    h, l = axes[0,0].get_legend_handles_labels()
+    legend = axes[0,0].legend(
+        h[:3], l[:3],
+        loc="upper right",
+        bbox_to_anchor=(0.99, 0.99),
+        title="LNL I overall",
+        title_fontsize="x-small",
+    )
+    axes[0,0].add_artist(legend)
+    legend = axes[0,0].legend(
+        h[3:6], l[3:6],
+        loc="upper left",
+        bbox_to_anchor=(0.15, 0.99),
+        title="LNL I without II",
+        title_fontsize="x-small",
+    )
+    axes[0,0].add_artist(legend)
     axes[0,0].set_ylim(bottom=0., top=1.5)
-    axes[0,0].set_ylabel("early T-cat.", fontweight="bold")
-    axes[0,0].set_yticks([])
-    axes[0,0].legend()
+    axes[0,0].set_yticks([0., 0.5, 1.0, 1.5])
+    axes[0,0].set_ylabel("density")
+    _ax = axes[0,0].secondary_yaxis("left")
+    _ax.tick_params(axis="y", left=False, labelleft=False)
+    _ax.set_ylabel("early T-cat.", fontweight="bold", labelpad=30)
 
     draw(axes[1,0], contents=left_panels["late"], xlims=(0., 16.), hist_kwargs={"nbins": 40})
     h, l = axes[1,0].get_legend_handles_labels()
-    h = h[2:6:3]
-    l = l[2:6:3]
-    axes[1,0].set_ylim(bottom=0., top=1.2)
-    axes[1,0].set_ylabel("late T-cat.", fontweight="bold")
-    axes[1,0].set_yticks([])
+    legend = axes[1,0].legend(
+        h[:3], l[:3],
+        loc="upper right",
+        bbox_to_anchor=(0.99, 0.99),
+        title="LNL I overall",
+        title_fontsize="x-small",
+    )
+    axes[1,0].add_artist(legend)
+    legend = axes[1,0].legend(
+        h[3:6], l[3:6],
+        loc="upper left",
+        bbox_to_anchor=(0.15, 0.99),
+        title="LNL I without II",
+        title_fontsize="x-small",
+    )
+    axes[1,0].add_artist(legend)
+    axes[1,0].set_ylabel("density")
     axes[1,0].set_xlabel("prevalence [%]")
-    axes[1,0].legend(handles=h, labels=l)
+    _ax = axes[1,0].secondary_yaxis("left")
+    _ax.tick_params(axis="y", left=False, labelleft=False)
+    _ax.set_ylabel("early T-cat.", fontweight="bold", labelpad=30)
+
+    fig.align_labels(axes[:,0])
 
 
     right_panels = {
@@ -106,7 +146,7 @@ if __name__ == "__main__":
             Histogram.from_hdf5(
                 filename=WIN_GRAPH_INPUT,
                 dataname=f"II/{stage}",
-                label="LNL II overall",
+                label="winning graph",
                 color=USZ["red"],
             ),
             Histogram.from_hdf5(
@@ -127,7 +167,7 @@ if __name__ == "__main__":
             Histogram.from_hdf5(
                 filename=WIN_GRAPH_INPUT,
                 dataname=f"IInotI/{stage}",
-                label="LNL II without I",
+                label="winning graph",
                 color=USZ["orange"],
             ),
             Histogram.from_hdf5(
@@ -146,16 +186,59 @@ if __name__ == "__main__":
             ),
         ]
 
-    draw(axes[0,1], contents=right_panels["early"], xlims=(50., 90.), hist_kwargs={"nbins": 40})
-    axes[0,1].set_yticks([])
-    axes[0,1].legend()
+    for stage in ["early", "late"]:
+        for content in right_panels[stage]:
+            if isinstance(content, Posterior):
+                content.kwargs["label"] = f"{content.num_success} / {content.num_total} patients"
 
-    draw(axes[1,1], contents=right_panels["late"], xlims=(50., 90.), hist_kwargs={"nbins": 40})
-    h, l = axes[1,1].get_legend_handles_labels()
-    h = h[2:6:3]
-    l = l[2:6:3]
-    axes[1,1].set_yticks([])
+    draw(axes[0,1], contents=right_panels["early"], xlims=(45., 100.), hist_kwargs={"nbins": 50})
+    axes[0,1].set_ylabel("density")
+    axes[0,1].set_yticks([0., 0.1, 0.2, 0.3])
+    h, l = axes[0,1].get_legend_handles_labels()
+    legend = axes[0,1].legend(
+        h[:3], l[:3],
+        loc="upper right",
+        bbox_to_anchor=(0.99, 0.99),
+        title="LNL II overall",
+        title_fontsize="x-small",
+        labelspacing=0.3,
+    )
+    axes[0,1].add_artist(legend)
+    legend = axes[0,1].legend(
+        h[3:6], l[3:6],
+        loc="upper left",
+        bbox_to_anchor=(0.01, 0.99),
+        title="LNL II without I",
+        title_fontsize="x-small",
+        labelspacing=0.3,
+    )
+    axes[0,1].add_artist(legend)
+    axes[0,1].set_ylim(bottom=0., top=0.3)
+
+    draw(axes[1,1], contents=right_panels["late"], xlims=(45., 100.), hist_kwargs={"nbins": 50})
+    axes[1,1].set_ylabel("density")
+    axes[1,1].set_yticks([0., 0.1, 0.2, 0.3])
     axes[1,1].set_xlabel("prevalence [%]")
-    axes[1,1].legend(handles=h, labels=l)
+    h, l = axes[1,1].get_legend_handles_labels()
+    legend = axes[1,1].legend(
+        h[:3], l[:3],
+        loc="upper right",
+        bbox_to_anchor=(0.99, 0.99),
+        title="LNL II overall",
+        title_fontsize="x-small",
+        labelspacing=0.3,
+    )
+    axes[1,1].add_artist(legend)
+    legend = axes[1,1].legend(
+        h[3:6], l[3:6],
+        loc="upper left",
+        bbox_to_anchor=(0.01, 0.99),
+        title="LNL II without I",
+        title_fontsize="x-small",
+        labelspacing=0.3,
+    )
+    axes[1,1].add_artist(legend)
+    axes[1,1].set_ylim(bottom=0., top=0.3)
 
+    fig.suptitle("Base and winning graph's prevalence predictions", fontweight="bold")
     plt.savefig(OUTPUT, dpi=300)

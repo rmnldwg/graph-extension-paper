@@ -85,7 +85,6 @@ if __name__ == "__main__":
     axes[1].set_xticklabels(xticklabels)
     axes[1].set_xlim(left=0., right=1.)
     axes[1].set_xlabel(r"inverse temperature $\beta$")
-    
 
     fig.align_ylabels(axes)
     fig.savefig(OUTPUT, dpi=400)
