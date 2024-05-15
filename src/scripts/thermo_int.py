@@ -18,7 +18,7 @@ ACCURACY_PATHS = {
     "win" : paths.data / "wg_accuracies.csv",
 }
 OUTPUT = (paths.figures / Path(__file__).name).with_suffix(".png")
-POWER = 3
+POWER = 5
 
 
 if __name__ == "__main__":
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     xticks = np.linspace(0., 1., 7)
     xticklabels = [f"{x**POWER:.2g}" for x in xticks]
 
-    axes[0].set_title("Accuracy of the winning graph", fontsize="small", pad=3)
+    axes[0].set_title("Accuracy of the winning graph", fontsize="small", fontweight="bold", pad=3)
     axes[0].set_yscale("symlog",)
     axes[0].get_yaxis().set_major_locator(matplotlib.ticker.MultipleLocator(900))
     axes[0].get_yaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     axes[0].set_ylabel(r"$\ln \mathcal{A}_{MC}(\beta)$")
     axes[0].tick_params(axis="x", which="both", top=False, bottom=False)
 
-    axes[1].set_title("Difference btw. base and winning graph", fontsize="small", pad=3)
+    axes[1].set_title("Difference btw. base and winning graph", fontsize="small", fontweight="bold", pad=3)
     axes[1].set_yscale("symlog",)
     axes[1].set_yticks([-100, -10, 0, 10, 100])
     axes[1].get_yaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
