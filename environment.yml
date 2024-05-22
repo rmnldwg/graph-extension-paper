@@ -3,7 +3,7 @@ dependencies:
   - pip
   - pip:
       - matplotlib==3.7.1
-      - dvc==3.43.1
+      - dvc==3.50.2
       - emcee==3.1.4
       - corner==2.2.1
       - lymph-model==0.4.3
