@@ -20,7 +20,7 @@ OUTPUT = (paths.figures / Path(__file__).name).with_suffix(".png")
 NROWS, NCOLS = 6, 1
 LNLS_COMBOS = list(product(["II", "III", "IV"], ["and", "not"], ["II", "III", "IV"]))
 LNLS_COMBOS = [*LNLS_COMBOS, "II", "III", "IV"]
-COMBOS_TO_SKIP = ["IVandII", "IIInotIV"]
+COMBOS_TO_SKIP = ["IVandII"]
 
 
 def get_lnl_label(match):
@@ -29,6 +29,26 @@ def get_lnl_label(match):
         return f"LNL {match[1]} {filler} {match[3]}"
 
     return f"LNL {match[1]} overall"
+
+
+def get_color(match) -> str:
+    if match[0] == "IVnotII":
+        return "black"
+
+    if match[2] is None:
+        return COLORS["red"]
+
+    if match[2] == "and":
+        return COLORS["blue"]
+
+    if match[2] == "not":
+        if (
+            (match[1] == "II" and match[3] == "III")
+            or (match[1] == "III" and match[3] == "IV")
+        ):
+            return COLORS["orange"]
+
+    return COLORS["green"]
 
 
 def draw_early_late_panels(panels, lnl, xlims, ylims=None, idx=0):
@@ -84,7 +104,7 @@ def create_legends(ax, positions):
         ax.add_artist(legend)
 
 
-if __name__ == "__main__":
+def main():
     plt.rcParams.update(figsizes.icml2022_full(
         nrows=NROWS,
         ncols=NCOLS,
@@ -94,12 +114,6 @@ if __name__ == "__main__":
     fig = plt.figure()
 
     panels = {lnl: {"early": [], "late": []} for lnl in ["II", "III", "IV"]}
-    colors = {
-        lnl: {
-            "early": cycle(COLORS.values()),
-            "late": cycle(COLORS.values()),
-        } for lnl in ["II", "III", "IV"]
-    }
     for lnl_combo in LNLS_COMBOS:
         lnl_combo = "".join(lnl_combo)
 
@@ -119,29 +133,47 @@ if __name__ == "__main__":
                     filename=INPUT,
                     dataname=f"{lnl_combo}/{stage}",
                 )
-                color = next(colors[lnl_block][stage])
+                color = get_color(match)
                 _histo.kwargs["color"] = color
                 _post.kwargs["color"] = color
                 _post.kwargs["label"] = f"{_post.num_success} of {_post.num_total} patients"
                 panels[lnl_block][stage].append(_histo)
                 panels[lnl_block][stage].append(_post)
 
-            except KeyError as key_err:
+            except KeyError:
                 pass
 
-    early_ax, late_ax = draw_early_late_panels(panels, "II", xlims=(20., 85.), idx=0)
-    early_ax.set_title("Observed vs predicted prevalences related to LNL II", fontweight="bold")
-    create_legends(early_ax, positions=[(0.1, 0.7), (0.47, 0.7), (0.82, 0.7),])
+    early_ax, late_ax = draw_early_late_panels(
+        panels, "II",
+        xlims=(20., 85.),
+        ylims=(0., 0.3),
+        idx=0,
+    )
+    early_ax.set_title(
+        "Observed vs predicted prevalences related to LNL II",
+        fontweight="bold",
+    )
+    create_legends(early_ax, positions=[(0.1, 0.7), (0.46, 0.7), (0.81, 0.7),])
     create_legends(late_ax, positions=[(0.02, 0.7), (0.46, 0.7), (0.68, 0.7),])
 
     early_ax, late_ax = draw_early_late_panels(panels, "III", xlims=(0., 45.), idx=1)
-    early_ax.set_title("Observed vs predicted prevalences related to LNL III", fontweight="bold")
-    create_legends(early_ax, positions=[(0.2, 0.4), (0.18, 0.7), (0.52, 0.7),])
-    create_legends(late_ax, positions=[(0.25, 0.4), (0.12, 0.7), (0.75, 0.7),])
+    early_ax.set_title(
+        "Observed vs predicted prevalences related to LNL III",
+        fontweight="bold",
+    )
+    create_legends(early_ax, positions=[(0.2, 0.4), (0.18, 0.7), (0.42, 0.7), (0.7, 0.4),])
+    create_legends(late_ax, positions=[(0.25, 0.4), (0.12, 0.7), (0.52, 0.7), (0.73, 0.7),])
 
     early_ax, late_ax = draw_early_late_panels(panels, "IV", xlims=(0., 16.), idx=2)
-    early_ax.set_title("Observed vs predicted prevalences related to LNL IV", fontweight="bold")
+    early_ax.set_title(
+        "Observed vs predicted prevalences related to LNL IV",
+        fontweight="bold",
+    )
     create_legends(early_ax, positions=[(0.12, 0.7), (0.2, 0.4), (0.4, 0.7),])
     create_legends(late_ax, positions=[(0.12, 0.7), (0.2, 0.4), (0.65, 0.7),])
 
     plt.savefig(OUTPUT, dpi=300)
+
+
+if __name__ == "__main__":
+    main()
