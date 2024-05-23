@@ -55,7 +55,7 @@ if __name__ == "__main__":
         x="β",
         y=["lose graph", "win graph"],
         ax=axes,
-        color=[USZ["red"], USZ["green"]],
+        color=[USZ["red"], USZ["blue"]],
         label=["remove II → III & III → IV", "add I → II & IV → V"],
     )
 
