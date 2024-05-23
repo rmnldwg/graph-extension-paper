@@ -36,6 +36,14 @@ VISUAL_OUTPUT = paths.figures / "visual_ranking_guide.svg"
 if __name__ == "__main__":
     results = []
 
+    dvc_filesystem = DVCFileSystem(
+        url="https://github.com/rmnldwg/lynference",
+        rev="base-graph-v2",
+    )
+    with dvc_filesystem.open("metrics.json") as f:
+        metrics = json.load(f)
+    baseline = metrics["evidence"]
+
     for revision, graph in REVISIONS.items():
         dvc_filesystem = DVCFileSystem(
             url="https://github.com/rmnldwg/lynference",
@@ -47,7 +55,7 @@ if __name__ == "__main__":
 
         results.append({
             "graph": graph,
-            "evidence": metrics["evidence"],
+            "evidence": metrics["evidence"] - baseline,
         })
 
     sorted_results = sorted(results, key=lambda x: x["evidence"], reverse=True)
