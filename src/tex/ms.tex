@@ -294,7 +294,7 @@ Another relevant model parameter that needs to be set for the inference process,
     \script{thermo_int.py}
     \centering
     \includegraphics[width=\linewidth]{figures/thermo_int.png}
-    \caption{The expected log-accuracy under the power posterior plotted against the value of the inverse temperature $\beta$ for the winning graph, computed during thermodynamic integration (top panel). The are under this curve yields the winning graph's model evidence. Also shown is the difference of the winning graph's accuracy over the base graph's (bottom panel). The scaling of the x-axis is chosen such that the 64 points on the temperature ladder appear evenly spaced. This is to stress how the log-accuracy develops in the range from $\beta=0$ to around $\beta=0.1$. Note how the winning graph's advantage begins to show already shortly after $\beta=0.031$.
+    \caption{The expected log-accuracy under the power posterior plotted against the value of the inverse temperature $\beta$ for the graph with the best (blue) and worst (red) log-evidence. The are under this curve yields the respective graph's model evidence. The scaling of the x-axis is chosen such that the 64 points on the temperature ladder appear evenly spaced. This is to stress how the log-accuracy develops in the range from $\beta=0$ to around $\beta=0.1$. Note how the winning graph's advantage begins to show already shortly after $\beta=0.031$.
     \label{fig:thermo_int}}
 \end{figure}
 
@@ -457,7 +457,7 @@ For the \glspl{ti} that were performed in this work we used such a fifth order p
     \script{bg_core_prevs.py}
     \begin{centering}
         \includegraphics[width=\textwidth]{figures/bg_core_prevs.png}
-        \caption{Prevalence of involvement as predicted by the base graph model for different scenarios involving the most commonly metastatic \glspl{lnl} II, III, and IV (shaded histograms). The model's predictions are compared to Beta posteriors over the prevalence based on the frequency of the same scenarios in the data assuming a uniform prior (solid lines). E.g., out 423 early T-category patients, 100 (23.6\%) presented with involvement of the \glspl{lnl} II and III, as shown by the blue line in the uppermost panel. The top panels of each of the three subfigures shows some selected scenarios with early T-category tumors and the bottom panel the same scenarios for advanced T-category. These figures show that for the most important \glspl{lnl} II, III, and IV the base graph model already fits the data well. \label{fig:bg_prevalences}}
+        \caption{Prevalence of involvement as predicted by the base graph model for different scenarios involving the most commonly metastatic \glspl{lnl} II, III, and IV (shaded histograms). The model's predictions are compared to Beta posteriors over the prevalence based on the frequency of the same scenarios in the data assuming a uniform prior (solid lines). E.g., out 423 early T-category patients, 100 (23.6\%) presented with involvement of the \glspl{lnl} II and III, as shown by the blue line in the uppermost panel. The top panels of each of the three subfigures show some selected scenarios with early T-category tumors and the bottom panel the same scenarios for advanced T-category. Similar scenarios are color-coded: Blue for joint involvement with downstream \gls{lnl}, orange for a level's involvement without the downstream \gls{lnl}, red for an \gls{lnl}'s overall involvement prevalence, and green for involvement without direct upstream metastases. The black scenario in the bottom subfigures only appears once and did not fit into these categories. This figure shows that for the most important \glspl{lnl} II, III, and IV the base graph model already fits the data well. \label{fig:bg_prevalences}}
     \end{centering}
 \end{figure*}
 
@@ -521,12 +521,12 @@ It is interesting to note that not all involvement patterns become more prevalen
 \centering
 \begin{tabular}{|lr|}
     \hline
-    \textbf{graph}  & \textbf{log-evidence} \\
+    \textbf{graph}  & $\Delta$ \textbf{log-evidence} \\
     \hline
     \variable{output/metrics_table.tex} \\
     \hline
 \end{tabular}
-\caption{Model comparison results from the base graph and the extended graph we chose as the ``winning'' model. For both \glspl{dag} we show the log-evidence, computed via thermodynamic integration, the negative one half of the \gls{bic}, as well as the maximum log-likelihood that was encountered during the final \gls{mcmc} sampling round.}
+\caption{Model comparison results for all compared graph structures. For all \glspl{dag} we show the difference of the log-evidence to the base graph, as in \cref{fig:ranking}, computed via thermodynamic integration.}
 \label{table:evidence}
 \end{table}
 
